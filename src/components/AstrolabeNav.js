@@ -1,35 +1,35 @@
 /**
- * ASTRANUMERICS - SACRED ASTROLABE DIAL NAVIGATION COMPONENT
+ * ASTRANUMERICS - CYBERPUNK HUD COMMAND WHEEL NAVIGATION
  */
 
-import { playChime } from '../utils/soundEngine.js';
+import { playHoverSound, playClickSound } from '../utils/soundEngine.js';
 
 export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   const realms = [
-    { id: 'reading', label: 'Core Reading', icon: '🔮', freq: 528 },
-    { id: 'loshu', label: 'Lo Shu Matrix', icon: '📐', freq: 639 },
-    { id: 'synastry', label: 'Synastry Match', icon: '💕', freq: 741 },
-    { id: 'namelab', label: 'Name Lab', icon: '🧪', freq: 852 },
-    { id: 'forecast', label: 'Daily Vibe', icon: '📅', freq: 432 },
-    { id: 'address', label: 'Address & Phone', icon: '🏠', freq: 396 },
-    { id: 'vault', label: 'Profile Vault', icon: '💾', freq: 963 }
+    { id: 'reading', label: 'CORE_READING', icon: '🔮' },
+    { id: 'loshu', label: 'LOSHU_MATRIX', icon: '📐' },
+    { id: 'synastry', label: 'SYNASTRY_RADAR', icon: '💕' },
+    { id: 'namelab', label: 'NAME_LAB', icon: '🧪' },
+    { id: 'forecast', label: 'DAILY_VIBE', icon: '📅' },
+    { id: 'address', label: 'ADDRESS_FREQ', icon: '🏠' },
+    { id: 'vault', label: 'CODEX_VAULT', icon: '💾' }
   ];
 
   container.innerHTML = `
     <div class="astrolabe-dial-wrapper">
       <div class="astrolabe-ring-outer">
         <div class="astrolabe-ring-inner">
-          <div class="astrolabe-center-core">
-            <span class="core-symbol">✦</span>
+          <div class="astrolabe-center-core" title="Cyberpunk Command Core">
+            <span>[SYS]</span>
           </div>
 
           ${realms.map((r) => {
             const isActive = r.id === activeTab;
             return `
-              <button class="astrolabe-node ${isActive ? 'active' : ''}" data-tab="${r.id}" data-freq="${r.freq}" title="${r.label}">
+              <button class="astrolabe-node ${isActive ? 'active' : ''}" data-tab="${r.id}" title="${r.label}">
                 <span class="node-icon">${r.icon}</span>
                 <span class="node-label">${r.label}</span>
               </button>
@@ -40,16 +40,17 @@ export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
     </div>
   `;
 
-  // Bind click listeners & audio feedback
+  // Bind hover & click SFX listeners
   container.querySelectorAll('.astrolabe-node').forEach(node => {
+    node.addEventListener('mouseenter', () => {
+      playHoverSound();
+    });
+
     node.addEventListener('click', () => {
       const tab = node.getAttribute('data-tab');
-      const freq = parseInt(node.getAttribute('data-freq') || '528', 10);
 
-      // Play audio chime
-      playChime(freq);
+      playClickSound();
 
-      // Trigger haptic vibration if supported on mobile
       if (navigator.vibrate) {
         try { navigator.vibrate(15); } catch(e) {}
       }

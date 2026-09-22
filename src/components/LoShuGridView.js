@@ -1,10 +1,8 @@
 /**
- * ASTRANUMERICS - LO SHU SQUARE MATRIX & SACRED GRID COMPONENT
+ * ASTRANUMERICS - LO SHU SQUARE & SACRED GRID COMPONENT
  */
 
 import { calculateLoShuGrid } from '../utils/numerologyEngine.js';
-import { addXP, unlockBadge } from '../utils/gamificationEngine.js';
-import { playChime } from '../utils/soundEngine.js';
 
 export function renderLoShuGridView(containerId, profile) {
   const container = document.getElementById(containerId);
@@ -21,6 +19,11 @@ export function renderLoShuGridView(containerId, profile) {
   }
 
   const { counts, arrows, planes } = calculateLoShuGrid(profile.dob);
+
+  // Traditional Lo Shu 3x3 layout position mapping
+  // Row 1: 4, 9, 2
+  // Row 2: 3, 5, 7
+  // Row 3: 8, 1, 6
   const gridPositions = [4, 9, 2, 3, 5, 7, 8, 1, 6];
 
   let gridCellsHtml = '';
@@ -29,7 +32,7 @@ export function renderLoShuGridView(containerId, profile) {
     const isPresent = freq > 0;
 
     gridCellsHtml += `
-      <div class="loshu-cell ${isPresent ? 'present' : ''}" data-num="${num}" data-freq="${freq}" title="Number ${num} (${freq}x present)">
+      <div class="loshu-cell ${isPresent ? 'present' : ''}">
         ${isPresent ? `<span class="loshu-count-badge">${freq}x</span>` : ''}
         <span class="loshu-cell-num">${isPresent ? String(num).repeat(Math.min(freq, 3)) : num}</span>
       </div>
@@ -45,7 +48,7 @@ export function renderLoShuGridView(containerId, profile) {
       <div class="loshu-square">
         <h2 class="font-serif text-gold">Sacred Lo Shu Square</h2>
         <p class="text-secondary" style="font-size:0.85rem; text-align:center;">
-          Tap any cell to tune frequency • DOB: <strong>${profile.dob}</strong>
+          Ancient Chinese 3x3 Magic Square derived from DOB: <strong>${profile.dob}</strong>
         </p>
 
         <div class="loshu-grid-matrix">
@@ -97,21 +100,4 @@ export function renderLoShuGridView(containerId, profile) {
       </div>
     </div>
   `;
-
-  // Bind interactive cell tap
-  container.querySelectorAll('.loshu-cell').forEach(cell => {
-    cell.addEventListener('click', () => {
-      const num = parseInt(cell.getAttribute('data-num'), 10);
-      const freq = parseInt(cell.getAttribute('data-freq'), 10);
-
-      playChime(300 + num * 60);
-
-      if (navigator.vibrate) {
-        try { navigator.vibrate(20); } catch(e) {}
-      }
-
-      addXP(10, `Tuned Lo Shu Cell ${num}`);
-      unlockBadge('loshu_master');
-    });
-  });
 }

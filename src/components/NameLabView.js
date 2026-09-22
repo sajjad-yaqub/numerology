@@ -4,7 +4,6 @@
 
 import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
-import { addXP, unlockBadge } from '../utils/gamificationEngine.js';
 
 export function renderNameLabView(containerId, initialName = '', system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -28,8 +27,6 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
 
   const input = container.querySelector('#lab-name-input');
   const resultsDiv = container.querySelector('#lab-results');
-
-  let hasAwardedXp = false;
 
   const updateLab = () => {
     const text = input.value.trim();
@@ -87,12 +84,6 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
         </div>
       </div>
     `;
-
-    if (!hasAwardedXp && text.length > 3) {
-      hasAwardedXp = true;
-      addXP(15, 'Tested Name Vibration');
-      unlockBadge('name_alchemist');
-    }
   };
 
   input.addEventListener('input', updateLab);

@@ -1,5 +1,5 @@
 /**
- * ASTRANUMERICS - SACRED OBSERVATORY MAIN CONTROLLER
+ * ASTRANUMERICS - CYBERPUNK GAME HUD MAIN ORCHESTRATOR
  */
 
 import { initCosmicCanvas } from './components/CosmicBackground.js';
@@ -14,6 +14,7 @@ import { renderNameLabView } from './components/NameLabView.js';
 import { renderDailyForecastView } from './components/DailyForecastView.js';
 import { renderAddressPhoneView } from './components/AddressPhoneView.js';
 import { renderProfileVaultView } from './components/ProfileVaultView.js';
+import { playHoverSound, playClickSound, playTabSound } from './utils/soundEngine.js';
 
 // Application State
 const state = {
@@ -45,6 +46,19 @@ function registerServiceWorker() {
         .catch((err) => console.warn('[PWA] Service Worker registration failed:', err));
     });
   }
+}
+
+/**
+ * Attach global game audio hover & click SFX to dynamic DOM elements
+ */
+function attachGameAudioTriggers() {
+  document.querySelectorAll('button, input, select, .number-card, .loshu-cell, .vault-card').forEach(el => {
+    if (!el.dataset.audioBound) {
+      el.dataset.audioBound = 'true';
+      el.addEventListener('mouseenter', () => playHoverSound());
+      el.addEventListener('click', () => playClickSound());
+    }
+  });
 }
 
 /**
@@ -88,6 +102,7 @@ function renderTabContent() {
         (profileToLoad) => {
           state.activeProfile = { ...profileToLoad };
           state.activeTab = 'reading';
+          playTabSound();
           renderAll();
         },
         (idxToDelete) => {
@@ -115,11 +130,16 @@ function renderTabContent() {
       break;
   }
 
-  // Update Astrolabe Navigation UI
+  // Render Command Wheel Bottom Dial
   renderAstrolabeNav('astrolabe-nav-container', state.activeTab, (selectedTab) => {
-    state.activeTab = selectedTab;
-    renderTabContent();
+    if (selectedTab !== state.activeTab) {
+      playTabSound();
+      state.activeTab = selectedTab;
+      renderTabContent();
+    }
   });
+
+  attachGameAudioTriggers();
 }
 
 /**
@@ -137,6 +157,7 @@ function renderAll() {
     state.savedProfiles.length,
     () => {
       state.activeTab = 'vault';
+      playTabSound();
       renderTabContent();
     }
   );
@@ -147,6 +168,7 @@ function renderAll() {
     (updatedProfile) => {
       state.activeProfile = { ...updatedProfile };
       state.activeTab = 'reading';
+      playTabSound();
       renderTabContent();
     },
     (profileToSave) => {
@@ -155,9 +177,9 @@ function renderAll() {
         state.savedProfiles.push(profileToSave);
         saveVaultToStorage();
         renderAll();
-        alert(`Profile "${profileToSave.name}" saved to Vault!`);
+        alert(`Profile "${profileToSave.name}" saved to Codex Vault!`);
       } else {
-        alert(`Profile "${profileToSave.name}" is already in your Vault.`);
+        alert(`Profile "${profileToSave.name}" is already in your Codex Vault.`);
       }
     }
   );

@@ -1,61 +1,58 @@
-# Design System (`3_DESIGN_SYSTEM.md`) - The Sacred Cosmic Observatory
+# Design System (`3_DESIGN_SYSTEM.md`) - Cyberpunk / Destiny 2 HUD
 
-## 1. Aesthetic Vision: The Sacred Astrolabe
+## 1. Aesthetic Vision: Tactical Cyber-HUD
 
-A state-of-the-art, high-density, touch-first cosmic instrument utilizing deep void obsidian surfaces, golden wireframe astrolabe rings, glassmorphism, and subtle Web Audio Solfeggio sound feedback.
+A high-tech, responsive video game interface inspired by *Destiny 2* and *Cyberpunk 2077*. Features chamfered cut-corner geometry, HUD bracket reticles `[ ]`, tactical metadata subtext (`SYS_VER 1.0.4`, `CORE_NODE // LP_07`), exotic gear rarity borders, and responsive mobile/tablet layout.
 
-## 2. Color Palette & Observatory Tokens
+## 2. Color Palette & Cyberpunk Tokens
 
 ```css
 :root {
-  /* Cosmic Observatory Void */
+  /* Tactical Void Palette */
   --bg-obsidian: #050608;
-  --bg-deep-space: #0b0d16;
-  --bg-card-glass: rgba(15, 18, 30, 0.78);
-  --bg-card-glass-hover: rgba(24, 30, 50, 0.88);
-  --bg-glass-input: rgba(10, 12, 22, 0.85);
+  --bg-deep-space: #0a0c14;
+  --bg-card-hud: rgba(12, 15, 26, 0.85);
+  --bg-card-hud-hover: rgba(20, 26, 44, 0.92);
+  --bg-glass-input: rgba(8, 10, 18, 0.9);
 
-  /* Sacred Metallic & Bioluminescent Tokens */
-  --accent-gold: #f3ce6d;
-  --accent-gold-bright: #ffe596;
-  --accent-gold-dark: #aa7c11;
-  --accent-gold-gradient: linear-gradient(135deg, #ffe596 0%, #d4af37 50%, #8a6500 100%);
-  --accent-gold-wireframe: rgba(212, 175, 55, 0.35);
-
-  --accent-cyan: #4cc9f0;
-  --accent-amethyst: #9d4edd;
-  --accent-emerald: #06d6a0;
-  --accent-rose: #f72585;
+  /* Cyber Bioluminescent Accents */
+  --accent-cyber-gold: #f3ce6d;
+  --accent-cyber-gold-bright: #ffe596;
+  --accent-neon-cyan: #00f0ff;
+  --accent-exotic-amethyst: #9d4edd;
+  --accent-rare-emerald: #06d6a0;
+  --accent-warning-rose: #ff0055;
   --accent-starlight: #e2e8ff;
+
+  --border-hud-cyan: rgba(0, 240, 255, 0.35);
+  --border-hud-gold: rgba(243, 206, 109, 0.4);
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-gold: #f3ce6d;
+  --text-cyan: #00f0ff;
 
   /* Typography */
   --font-serif: 'Cinzel', serif;
   --font-sans: 'Outfit', sans-serif;
-  --font-accent: 'Playfair Display', serif;
+  --font-mono: 'Courier New', monospace;
 
-  /* Astrolabe Geometry & Layout Tokens */
-  --radius-lg: 24px;
-  --radius-md: 14px;
-  --radius-sm: 8px;
-  --radius-full: 9999px;
+  /* Geometry & Chamfer Clip Paths */
+  --clip-chamfer-lg: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  --clip-chamfer-md: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  --clip-chamfer-sm: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 
-  --shadow-gold-glow: 0 0 30px rgba(212, 175, 55, 0.22);
-  --shadow-amethyst-glow: 0 0 30px rgba(157, 78, 221, 0.3);
-  --shadow-card: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-hud-gold: 0 0 25px rgba(243, 206, 109, 0.25);
+  --shadow-hud-cyan: 0 0 25px rgba(0, 240, 255, 0.25);
 
-  --blur-glass: blur(20px);
   --touch-target-min: 48px;
 }
 ```
 
-## 3. Astrolabe Navigation Mechanics
-- **Location**: Fixed interactive astronomical dial ring anchored at bottom center of viewport.
-- **Micro-Interactions**: Drag/scroll wheel rotation with radial snap points, haptic vibration pulse, and soft 432Hz celestial chime tone.
-- **Node Highlights**: Active realm node glows with a golden halo and projects orbital light rays.
+## 3. Responsive Game Layout Architecture
+- **Desktop (>1024px)**: 3-column HUD layout (Left Player Codex, Central Active Display, Right Inspector).
+- **Tablet (600px - 1024px)**: 2-column HUD layout with collapsible inspector drawers.
+- **Mobile (<600px)**: 1-column touch-optimized game HUD with bottom Command Wheel navigation.
 
 ---
 *Assigned Lead Persona: 🎨 UI/UX Designer*

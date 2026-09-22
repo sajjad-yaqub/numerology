@@ -3,7 +3,6 @@
  */
 
 import { calculateSynastry } from '../utils/numerologyEngine.js';
-import { addXP, unlockBadge } from '../utils/gamificationEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -72,9 +71,6 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
         </p>
       </div>
     `;
-
-    addXP(25, 'Synastry Compatibility Chart Calculated');
-    unlockBadge('synastry_soul');
   };
 
   form.addEventListener('submit', (e) => {

@@ -1,9 +1,8 @@
 /**
- * ASTRANUMERICS - OBSERVATORY NAVBAR COMPONENT WITH GAMIFICATION
+ * ASTRANUMERICS - CYBERPUNK HUD NAVBAR COMPONENT
  */
 
 import { toggleAudio, getAudioState } from '../utils/soundEngine.js';
-import { renderGamificationBanner } from './GamificationBanner.js';
 
 export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault) {
   const container = document.getElementById(containerId);
@@ -12,35 +11,35 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
   const isAudioActive = getAudioState();
 
   container.innerHTML = `
-    <a href="#" class="header-brand" title="AstraNumerics Sacred Observatory">
+    <a href="#" class="header-brand" title="AstraNumerics Cyberpunk HUD">
       <img src="/icons/icon.svg" alt="AstraNumerics" class="brand-icon" />
       <span class="brand-title">AstraNumerics</span>
     </a>
 
     <div class="header-actions">
-      <!-- Gamification Rank Pill -->
-      <div id="gamification-banner-container"></div>
+      <!-- Tactical System Status Badge -->
+      <div class="sys-status-badge" title="System Status: Online">
+        <span class="status-dot"></span>
+        <span>SYS_ONLINE // V1.0</span>
+      </div>
 
-      <!-- 432Hz Sound Drone Ambient Toggler -->
+      <!-- 432Hz Audio Drone Toggler -->
       <button id="nav-audio-btn" class="audio-toggle-btn ${isAudioActive ? 'active' : ''}" title="Toggle 432Hz Solfeggio Audio Drone">
-        <span>${isAudioActive ? '🔊 432Hz On' : '🔇 Audio Off'}</span>
+        <span>${isAudioActive ? '🔊 AUDIO // ON' : '🔇 AUDIO // OFF'}</span>
       </button>
 
       <!-- System Selector Toggle -->
-      <div class="system-toggle" title="Switch Calculation System">
+      <div class="system-toggle" title="Switch Calculation Engine">
         <button class="system-btn ${activeSystem === 'pythagorean' ? 'active' : ''}" data-system="pythagorean">Pythagorean</button>
         <button class="system-btn ${activeSystem === 'chaldean' ? 'active' : ''}" data-system="chaldean">Chaldean</button>
       </div>
 
       <!-- Vault Quick Launcher -->
-      <button id="nav-vault-btn" class="btn-ghost btn-sm" title="Saved Profiles Vault">
+      <button id="nav-vault-btn" class="btn-ghost btn-sm" title="Saved Profiles Codex">
         💾 <span class="vault-badge-count">${savedCount}</span>
       </button>
     </div>
   `;
-
-  // Render Gamification Pill
-  renderGamificationBanner('gamification-banner-container');
 
   // Bind Audio toggle
   const audioBtn = container.querySelector('#nav-audio-btn');
@@ -48,7 +47,7 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
     audioBtn.addEventListener('click', () => {
       const active = toggleAudio();
       audioBtn.classList.toggle('active', active);
-      audioBtn.querySelector('span').textContent = active ? '🔊 432Hz On' : '🔇 Audio Off';
+      audioBtn.querySelector('span').textContent = active ? '🔊 AUDIO // ON' : '🔇 AUDIO // OFF';
     });
   }
 
