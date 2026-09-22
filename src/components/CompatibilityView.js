@@ -73,21 +73,10 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
             Reveal deep relationship compatibility status, soul urge clashes, karmic synergy, and export downloadable PDF report.
           </p>
           <div id="pay-btn-synastry" style="display: flex; justify-content: center; margin-top: 16px;"></div>
-          <p style="font-size:0.85rem; margin-top:16px;" class="text-secondary">
-            Already completed payment? <a href="#" id="restore-synastry" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
-          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-synastry');
       injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9', 'synastry', (feat) => unlockSpecificFeature(feat));
-
-      const restoreBtn = resultsDiv.querySelector('#restore-synastry');
-      if (restoreBtn) {
-        restoreBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          unlockSpecificFeature('synastry');
-        });
-      }
       return;
     }
 
