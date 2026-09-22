@@ -73,24 +73,34 @@ export function unlockSpecificFeature(feature) {
  * Handle redirect back from Razorpay Payment Button
  */
 function checkPaymentRedirect() {
-  const urlParams = new URLSearchParams(window.location.search);
+  // Normalize double question marks in URL (e.g. ?status=paid?payment_id=pay_123 -> ?status=paid&payment_id=pay_123)
+  const rawSearch = window.location.search;
+  const normalizedSearch = rawSearch.replace(/\?/g, (match, offset) => offset === 0 ? '?' : '&');
+  const urlParams = new URLSearchParams(normalizedSearch);
+  const fullSearch = rawSearch + normalizedSearch;
+  const currentPath = window.location.pathname.toLowerCase();
+
   const statusParam = urlParams.get('status');
   const featureParam = urlParams.get('feature');
-  const rzpPaymentId = urlParams.get('razorpay_payment_id');
+  const rzpPaymentId = urlParams.get('payment_id') || urlParams.get('razorpay_payment_id');
   const rzpLinkStatus = urlParams.get('razorpay_payment_link_status');
   const rzpPaymentLinkId = urlParams.get('razorpay_payment_link_id');
-  const fullSearch = window.location.search;
 
-  // ONLY execute if explicitly returning from a payment with query parameters
+  // ONLY execute if explicitly returning from a payment
   const isPaymentReturn = 
     !!featureParam || 
     !!rzpPaymentId || 
     rzpLinkStatus === 'paid' || 
     !!rzpPaymentLinkId || 
+    statusParam === 'paid' || 
     statusParam === 'success' || 
     statusParam === '1' ||
     fullSearch.includes('razorpay') ||
-    fullSearch.includes('paid');
+    fullSearch.includes('paid') ||
+    fullSearch.includes('payment_id') ||
+    (currentPath.includes('namelab') && fullSearch.length > 1) ||
+    (currentPath.includes('address') && fullSearch.length > 1) ||
+    (currentPath.includes('synastry') && fullSearch.length > 1);
 
   if (!isPaymentReturn) {
     return;
@@ -107,33 +117,41 @@ function checkPaymentRedirect() {
   }
 
   // Determine ONLY the exact single feature that was paid for:
-  // 1. Precise Razorpay Payment Link / Button ID match in URL
   let targetFeature = null;
-  if (fullSearch.includes('Tf9QgdupaiZRzc') || rzpPaymentLinkId?.includes('Tf9QgdupaiZRzc')) {
-    targetFeature = 'namelab';
-  } else if (fullSearch.includes('Tf9gZgt7fSf8FR') || rzpPaymentLinkId?.includes('Tf9gZgt7fSf8FR')) {
-    targetFeature = 'address';
-  } else if (fullSearch.includes('Tf9iPpPjF9mZD9') || rzpPaymentLinkId?.includes('Tf9iPpPjF9mZD9')) {
-    targetFeature = 'synastry';
+
+  // 1. Direct route path match (/namelab, /address, /synastry)
+  if (currentPath.includes('namelab')) targetFeature = 'namelab';
+  else if (currentPath.includes('address')) targetFeature = 'address';
+  else if (currentPath.includes('synastry')) targetFeature = 'synastry';
+
+  // 2. Razorpay Link / Button ID match in URL
+  if (!targetFeature) {
+    if (fullSearch.includes('Tf9QgdupaiZRzc') || rzpPaymentLinkId?.includes('Tf9QgdupaiZRzc')) {
+      targetFeature = 'namelab';
+    } else if (fullSearch.includes('Tf9gZgt7fSf8FR') || rzpPaymentLinkId?.includes('Tf9gZgt7fSf8FR')) {
+      targetFeature = 'address';
+    } else if (fullSearch.includes('Tf9iPpPjF9mZD9') || rzpPaymentLinkId?.includes('Tf9iPpPjF9mZD9')) {
+      targetFeature = 'synastry';
+    }
   }
 
-  // 2. Explicit query param ?feature=...
+  // 3. Explicit query param ?feature=...
   if (!targetFeature && featureParam && ['namelab', 'address', 'synastry'].includes(featureParam)) {
     targetFeature = featureParam;
   }
 
-  // 3. Pending localStorage feature
+  // 4. Pending localStorage feature
   if (!targetFeature && pending && pending.feature) {
     targetFeature = pending.feature;
   }
 
-  // 4. Current activeTab if paid feature
+  // 5. Current activeTab if paid feature
   if (!targetFeature && ['namelab', 'address', 'synastry'].includes(state.activeTab)) {
     targetFeature = state.activeTab;
   }
 
   if (targetFeature && ['namelab', 'address', 'synastry'].includes(targetFeature)) {
-    // STRICTLY UNLOCK ONLY THIS SPECIFIC FEATURE - DO NOT UNLOCK ALL PAID CHAMBERS
+    // STRICTLY UNLOCK ONLY THIS SPECIFIC FEATURE
     state.unlockedFeatures = {
       ...state.unlockedFeatures,
       [targetFeature]: true
