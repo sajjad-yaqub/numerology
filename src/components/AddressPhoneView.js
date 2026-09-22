@@ -55,7 +55,9 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean', acti
       playConfirmChime();
       const addrVal = addrInput ? addrInput.value.trim() : '';
       const phoneVal = phoneInput ? phoneInput.value.trim() : '';
-      saveStateAndRedirectToRazorpay('address', activeProfile, { addrVal, phoneVal });
+      saveStateAndRedirectToRazorpay('address', activeProfile, { addrVal, phoneVal }, () => {
+        renderAddressPhoneView(containerId, system, activeProfile);
+      });
     });
   }
 

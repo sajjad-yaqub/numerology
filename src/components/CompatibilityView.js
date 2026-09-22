@@ -114,7 +114,9 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
     if (unlockBtn) {
       unlockBtn.addEventListener('click', () => {
         playConfirmChime();
-        saveStateAndRedirectToRazorpay('synastry', primaryProfile, { p1, p2 });
+        saveStateAndRedirectToRazorpay('synastry', primaryProfile, { p1, p2 }, () => {
+          renderCompatibilityView(containerId, primaryProfile, system);
+        });
       });
     }
   };

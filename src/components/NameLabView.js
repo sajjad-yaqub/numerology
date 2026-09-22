@@ -47,7 +47,9 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
     unlockBtn.addEventListener('click', () => {
       playConfirmChime();
       const currentInput = input ? input.value.trim() : initialName;
-      saveStateAndRedirectToRazorpay('namelab', activeProfile || { name: currentInput }, { currentInput });
+      saveStateAndRedirectToRazorpay('namelab', activeProfile || { name: currentInput }, { currentInput }, () => {
+        renderNameLabView(containerId, initialName, system, activeProfile);
+      });
     });
   }
 
