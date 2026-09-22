@@ -1,0 +1,32 @@
+{
+  "brand": "ASTRANUMERICS",
+  "subtitle": "Sacred Numerology & Cosmic Chart",
+  "instructions": "Enter your birth credentials to generate your complete core reading, Lo Shu matrix, & synastry chart.",
+  "form": {
+    "fullName": "FULL BIRTH NAME",
+    "dob": "DATE OF BIRTH",
+    "alias": "CURRENT NAME / PREFERRED ALIAS (OPTIONAL)",
+    "generate": "✨ GENERATE COSMIC READING",
+    "save": "💾 SAVE TO PROFILE VAULT"
+  },
+  "chambers": {
+    "codex": "CODEX",
+    "matrix": "MATRIX",
+    "synastry": "SYNASTRY",
+    "nameLab": "NAME LAB",
+    "dailyVibe": "DAILY VIBE",
+    "address": "ADDRESS",
+    "vault": "VAULT"
+  },
+  "system": {
+    "pythagorean": "Pythagorean",
+    "chaldean": "Chaldean (Vedic)"
+  },
+  "audio": {
+    "on": "🔔 CHIME SOUND",
+    "off": "🔕 SOUND OFF"
+  },
+  "navagraha": {
+    "title": "VEDIC NAVAGRAHA RULER"
+  }
+}

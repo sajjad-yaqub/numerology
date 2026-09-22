@@ -210,3 +210,19 @@ export const COMBINATORIAL_RULES = {
   }
 };
 
+export const NAVAGRAHA_MAP = {
+  1: { deity: "Surya (सूर्य / Sun)", quality: "Sovereignty & Soul Vitality", mantra: "Om Suryaya Namaha", gemstone: "Ruby (Manikya)" },
+  2: { deity: "Chandra (चंद्र / Moon)", quality: "Empathy & Intuitive Mind", mantra: "Om Chandraya Namaha", gemstone: "Pearl (Moti)" },
+  3: { deity: "Guru / Brihaspati (गुरु / Jupiter)", quality: "Wisdom & Cosmic Guidance", mantra: "Om Brim Brihaspataye Namaha", gemstone: "Yellow Sapphire (Pukhraj)" },
+  4: { deity: "Rahu (राहु / North Node)", quality: "Unconventional Drive & Innovation", mantra: "Om Rahave Namaha", gemstone: "Hessonite Garnet (Gomed)" },
+  5: { deity: "Budh (बुध / Mercury)", quality: "Intellect, Trade & Speech", mantra: "Om Budhaya Namaha", gemstone: "Emerald (Panna)" },
+  6: { deity: "Shukra (शुक्र / Venus)", quality: "Beauty, Love & Material Abundance", mantra: "Om Shukraya Namaha", gemstone: "Diamond (Heera)" },
+  7: { deity: "Ketu (केतु / South Node)", quality: "Spiritual Liberation & Discernment", mantra: "Om Ketave Namaha", gemstone: "Cat's Eye (Lehsuniya)" },
+  8: { deity: "Shani (शनि / Saturn)", quality: "Karma, Discipline & Endurance", mantra: "Om Sham Shanaishcharaya Namaha", gemstone: "Blue Sapphire (Neelam)" },
+  9: { deity: "Mangal (मंगल / Mars)", quality: "Courage, Passion & Warrior Force", mantra: "Om Angarakaya Namaha", gemstone: "Red Coral (Moonga)" },
+  11: { deity: "Uchcha Chandra / Rahu", quality: "High Psychic Intuition", mantra: "Om Chandraya Namaha", gemstone: "Moonstone" },
+  22: { deity: "Uchcha Guru / Shani", quality: "Universal Master Builder", mantra: "Om Brihaspataye Namaha", gemstone: "Diamond" },
+  33: { deity: "Uchcha Shukra", quality: "Cosmic Healing Love", mantra: "Om Shukraya Namaha", gemstone: "White Sapphire" }
+};
+
+

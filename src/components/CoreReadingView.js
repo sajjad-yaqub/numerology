@@ -9,8 +9,9 @@ import {
   calculateMaturityNumber,
   composeCombinatorialSynthesis
 } from '../utils/numerologyEngine.js';
-import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS } from '../data/numerologyData.js';
+import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS, NAVAGRAHA_MAP } from '../data/numerologyData.js';
 import { playChimeTap, playConfirmChime } from '../utils/soundEngine.js';
+import { t } from '../utils/i18n.js';
 
 export function renderCoreReadingView(containerId, profile, system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -123,11 +124,11 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
 
   html += `<div class="reading-grid">`;
 
-
   cardsData.forEach((card, idx) => {
     const isMaster = card.meta.isMaster;
     const debt = card.meta.karmicDebt;
     const statPct = Math.min(100, Math.max(20, (card.number / 9) * 100));
+    const navagraha = NAVAGRAHA_MAP[card.number];
 
     html += `
       <div class="number-card" id="card-${idx}">
@@ -140,6 +141,15 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
 
         <h2 class="card-title">${card.title}</h2>
         <div class="card-archetype">${card.interp.archetype || ''} • ${card.interp.element || ''}</div>
+
+        ${navagraha ? `
+          <div class="arrow-item active-strength mb-3" style="background: rgba(156, 107, 31, 0.08); border-color: var(--accent-brass); padding: 8px 12px;">
+            <strong style="color: var(--accent-brass);">🔱 VEDIC NAVAGRAHA: ${navagraha.deity}</strong>
+            <p style="font-size:0.82rem; margin-top:2px;">
+              ${navagraha.quality} • <em>Mantra: ${navagraha.mantra}</em>
+            </p>
+          </div>
+        ` : ''}
 
         <p class="card-summary">${card.interp.summary}</p>
 

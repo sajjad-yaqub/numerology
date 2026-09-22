@@ -14,6 +14,7 @@ import { renderNameLabView } from './components/NameLabView.js';
 import { renderDailyForecastView } from './components/DailyForecastView.js';
 import { renderAddressPhoneView } from './components/AddressPhoneView.js';
 import { renderProfileVaultView } from './components/ProfileVaultView.js';
+import { onLanguageChange } from './utils/i18n.js';
 import {
   playChimeTap,
   playConfirmChime,
@@ -35,6 +36,15 @@ const state = {
   activeTab: 'reading',
   savedProfiles: JSON.parse(localStorage.getItem('astranumerics_vault') || '[]')
 };
+
+// Subscribe to language change events
+onLanguageChange(() => {
+  renderHeaderNav();
+  renderCalculatorFormView();
+  renderAstrolabeNavView();
+  renderTabContent();
+});
+
 
 /**
  * Save vault state to LocalStorage
