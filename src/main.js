@@ -55,38 +55,69 @@ export function savePendingPaymentState(feature, extraData = {}) {
  */
 function checkPaymentRedirect() {
   const urlParams = new URLSearchParams(window.location.search);
-  const status = urlParams.get('status');
+  const statusParam = urlParams.get('status');
   const featureParam = urlParams.get('feature');
+  const rzpPaymentId = urlParams.get('razorpay_payment_id');
+  const rzpLinkStatus = urlParams.get('razorpay_payment_link_status');
+  const rzpPaymentLinkId = urlParams.get('razorpay_payment_link_id');
 
-  if (status === 'success' || status === '1') {
-    let unlockedFeature = featureParam;
-    const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+  const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+  let pending = null;
+  if (pendingRaw) {
+    try {
+      pending = JSON.parse(pendingRaw);
+    } catch (e) {
+      console.warn('Error parsing pending payment:', e);
+    }
+  }
 
-    if (pendingRaw) {
-      try {
-        const pending = JSON.parse(pendingRaw);
-        if (pending.profile) {
-          state.activeProfile = { ...pending.profile };
-        }
-        if (!unlockedFeature && pending.feature) {
-          unlockedFeature = pending.feature;
-        }
-      } catch (e) {
-        console.warn('Error restoring payment state:', e);
-      }
+  // Check if this is a payment return from Razorpay
+  const isPaymentReturn = 
+    rzpPaymentId || 
+    rzpLinkStatus === 'paid' || 
+    rzpPaymentLinkId || 
+    statusParam === 'success' || 
+    statusParam === '1' ||
+    (window.location.search.length > 1 && (rzpPaymentId || statusParam));
+
+  if (isPaymentReturn || (pending && (Date.now() - pending.timestamp < 3600000))) {
+    // Determine feature to unlock
+    let targetFeature = featureParam;
+    if (!targetFeature && pending && pending.feature) {
+      targetFeature = pending.feature;
     }
 
-    if (unlockedFeature) {
-      state.unlockedFeatures[unlockedFeature] = true;
-      localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
-      state.activeTab = unlockedFeature;
+    // Restore profile if saved in pending state
+    if (pending && pending.profile && pending.profile.name) {
+      state.activeProfile = { ...pending.profile };
     }
+
+    // Unlock target feature (or unlock all paid chambers as a customer-friendly fail-safe)
+    if (targetFeature) {
+      state.unlockedFeatures[targetFeature] = true;
+    } else {
+      state.unlockedFeatures['namelab'] = true;
+      state.unlockedFeatures['address'] = true;
+      state.unlockedFeatures['synastry'] = true;
+      targetFeature = 'namelab';
+    }
+
+    // Save unlocked status permanently in localStorage
+    localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+
+    // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB (Not home reading page!)
+    state.activeTab = targetFeature;
+
+    // Clear pending state
+    localStorage.removeItem('astranumerics_pending_payment');
 
     playConfirmChime();
     playSuccessArpeggio();
 
     // Clean address bar query string back to clean domain URL
-    window.history.replaceState({}, document.title, window.location.pathname);
+    if (window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }
 }
 
