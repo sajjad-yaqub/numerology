@@ -1,6 +1,6 @@
 import { calculateAddressNumerology } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
-import { savePendingPaymentState } from '../main.js';
+import { savePendingPaymentState, unlockAllFeatures } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderAddressPhoneView(containerId, system = 'pythagorean', isUnlocked = false) {
@@ -46,16 +46,28 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean', isUn
             <span class="card-tag">🔒 SACRED LOCK // CHAMBER 6</span>
           </div>
           <h3 class="font-serif-carved text-brass" style="font-size: 1.6rem; margin-bottom: 8px;">ADDRESS, PHONE & VEHICLE NUMEROLOGY (₹101)</h3>
-          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
+          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 16px auto; line-height: 1.5;">
             Decode structural space energy, vehicle luck ratings, and ancient Shubh/Ashubh remedies.
           </p>
           <div id="pay-btn-address" style="display: flex; justify-content: center; margin-top: 16px;"></div>
+          <p style="font-size:0.8rem; margin-top:16px;" class="text-secondary">
+            Already completed payment? <a href="#" id="restore-address" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
+          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-address');
       injectRazorpayButton(btnContainer, 'pl_Tf9gZgt7fSf8FR');
+
+      const restoreBtn = resultsDiv.querySelector('#restore-address');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          unlockAllFeatures();
+        });
+      }
       return;
     }
+
 
 
     if (!addrVal && !phoneVal) {

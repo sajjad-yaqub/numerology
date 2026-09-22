@@ -1,6 +1,6 @@
 import { calculateSynastry } from '../utils/numerologyEngine.js';
 import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
-import { savePendingPaymentState } from '../main.js';
+import { savePendingPaymentState, unlockAllFeatures } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean', isUnlocked = false) {
@@ -69,16 +69,28 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
             <span class="card-tag">🔒 SACRED LOCK // CHAMBER 3</span>
           </div>
           <h3 class="font-serif-carved text-brass" style="font-size: 1.6rem; margin-bottom: 8px;">FULL SYNASTRY MATCHMAKING REPORT (₹151)</h3>
-          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
+          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 16px auto; line-height: 1.5;">
             Reveal deep relationship compatibility status, soul urge clashes, karmic synergy, and export downloadable PDF report.
           </p>
           <div id="pay-btn-synastry" style="display: flex; justify-content: center; margin-top: 16px;"></div>
+          <p style="font-size:0.8rem; margin-top:16px;" class="text-secondary">
+            Already completed payment? <a href="#" id="restore-synastry" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
+          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-synastry');
       injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9');
+
+      const restoreBtn = resultsDiv.querySelector('#restore-synastry');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          unlockAllFeatures();
+        });
+      }
       return;
     }
+
 
 
     if (!p1.name || !p1.dob || !p2.name || !p2.dob) {

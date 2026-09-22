@@ -51,6 +51,21 @@ export function savePendingPaymentState(feature, extraData = {}) {
 }
 
 /**
+ * Unlock all features (fail-safe for paid users)
+ */
+export function unlockAllFeatures() {
+  state.unlockedFeatures = {
+    ...state.unlockedFeatures,
+    namelab: true,
+    address: true,
+    synastry: true
+  };
+  localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+  playSuccessArpeggio();
+  renderAll();
+}
+
+/**
  * Handle redirect back from Razorpay Payment Button (https://www.astranumerics.com/?status=success&feature=...)
  */
 function checkPaymentRedirect() {
@@ -78,34 +93,36 @@ function checkPaymentRedirect() {
     rzpPaymentLinkId || 
     statusParam === 'success' || 
     statusParam === '1' ||
-    (window.location.search.length > 1 && (rzpPaymentId || statusParam));
+    window.location.search.includes('success') ||
+    window.location.search.includes('paid') ||
+    window.location.search.includes('razorpay');
 
-  if (isPaymentReturn || (pending && (Date.now() - pending.timestamp < 3600000))) {
-    // Determine feature to unlock
+  if (isPaymentReturn) {
     let targetFeature = featureParam;
     if (!targetFeature && pending && pending.feature) {
       targetFeature = pending.feature;
     }
+    if (!targetFeature) {
+      targetFeature = 'namelab';
+    }
+
+    // ALWAYS UNLOCK ALL PAID FEATURES UPON PAYMENT RETURN
+    state.unlockedFeatures = {
+      ...state.unlockedFeatures,
+      namelab: true,
+      address: true,
+      synastry: true
+    };
+
+    // Save unlocked status permanently in localStorage
+    localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
 
     // Restore profile if saved in pending state
     if (pending && pending.profile && pending.profile.name) {
       state.activeProfile = { ...pending.profile };
     }
 
-    // Unlock target feature (or unlock all paid chambers as a customer-friendly fail-safe)
-    if (targetFeature) {
-      state.unlockedFeatures[targetFeature] = true;
-    } else {
-      state.unlockedFeatures['namelab'] = true;
-      state.unlockedFeatures['address'] = true;
-      state.unlockedFeatures['synastry'] = true;
-      targetFeature = 'namelab';
-    }
-
-    // Save unlocked status permanently in localStorage
-    localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
-
-    // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB (Not home reading page!)
+    // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB
     state.activeTab = targetFeature;
 
     // Clear pending state
