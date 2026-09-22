@@ -268,20 +268,25 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 18px;
   margin-bottom: 20px;
+  align-items: end;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 6px;
 }
 
 .form-label {
   font-family: var(--font-serif-carved);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--accent-brass);
   letter-spacing: 0.5px;
+  min-height: 2.4rem;
+  display: flex;
+  align-items: flex-end;
 }
 
 .form-input {
@@ -383,14 +388,14 @@ html, body {
 .astrolabe-ring-outer {
   pointer-events: auto;
   width: 100%;
-  max-width: 880px;
-  height: 90px;
+  max-width: 900px;
+  height: 94px;
   background: var(--bg-card-parchment);
   border-top: 4px solid var(--border-charcoal);
   border-left: var(--border-width) solid var(--border-charcoal);
   border-right: var(--border-width) solid var(--border-charcoal);
   box-shadow: 0 -6px 0px var(--border-charcoal);
-  padding: 10px 16px;
+  padding: 8px 12px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -402,34 +407,41 @@ html, body {
 .astrolabe-ring-inner {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   gap: 10px;
-  min-width: 660px;
+  min-width: max-content;
   height: 100%;
 }
 
 .astrolabe-center-core {
-  font-family: var(--font-serif-carved);
-  font-size: 1.3rem;
-  font-weight: 900;
+  font-family: var(--font-header);
+  font-size: 0.82rem;
+  font-weight: 700;
   color: var(--accent-brass);
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
+  padding: 6px 10px;
+  box-shadow: 2px 2px 0px var(--border-charcoal);
+  flex-shrink: 0;
 }
 
 .astrolabe-node {
   background: var(--bg-input-parchment);
   border: var(--border-width) solid var(--border-charcoal);
   box-shadow: 3px 3px 0px var(--border-charcoal);
-  padding: 6px 14px;
+  padding: 6px 12px;
   color: var(--text-charcoal);
-  font-family: var(--font-serif-carved);
-  font-size: 0.95rem;
+  font-family: var(--font-header);
+  font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2px;
-  min-width: 88px;
+  min-width: 94px;
+  flex-shrink: 0;
   transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
@@ -447,10 +459,16 @@ html, body {
 
 .node-icon {
   font-size: 1.2rem;
+  line-height: 1;
 }
 
 .node-label {
+  font-family: var(--font-header);
+  font-size: 0.78rem;
+  font-weight: 700;
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 /* HARD DIRECTIONAL SLOT-REEL TRANSITION WIPES (150ms - 250ms MAX) */

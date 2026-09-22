@@ -9,13 +9,13 @@ export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
   if (!container) return;
 
   const realms = [
-    { id: 'reading', label: 'CHAMBER 1: CODEX', icon: '🔮' },
-    { id: 'loshu', label: 'CHAMBER 2: MATRIX', icon: '📐' },
-    { id: 'synastry', label: 'CHAMBER 3: SYNASTRY', icon: '💕' },
-    { id: 'namelab', label: 'CHAMBER 4: NAME LAB', icon: '🧪' },
-    { id: 'forecast', label: 'CHAMBER 5: VIBE CYCLE', icon: '📅' },
-    { id: 'address', label: 'CHAMBER 6: ADDRESS', icon: '🏠' },
-    { id: 'vault', label: 'CHAMBER 7: SAVE VAULT', icon: '💾' }
+    { id: 'reading', label: '1. CODEX', icon: '🔮' },
+    { id: 'loshu', label: '2. MATRIX', icon: '📐' },
+    { id: 'synastry', label: '3. SYNASTRY', icon: '💕' },
+    { id: 'namelab', label: '4. NAME LAB', icon: '🧪' },
+    { id: 'forecast', label: '5. DAILY VIBE', icon: '📅' },
+    { id: 'address', label: '6. ADDRESS', icon: '🏠' },
+    { id: 'vault', label: '7. VAULT', icon: '💾' }
   ];
 
   container.innerHTML = `
