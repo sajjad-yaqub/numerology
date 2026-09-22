@@ -24,6 +24,8 @@ import {
   stopIdleHum
 } from './utils/soundEngine.js';
 
+import { initRouter, navigateTo, getPathFromTab, getRouteFromPath } from './utils/router.js';
+
 // Application State
 const state = {
   activeProfile: {
@@ -32,7 +34,7 @@ const state = {
     alias: 'Alex'
   },
   activeSystem: localStorage.getItem('astranumerics_system') || 'pythagorean',
-  activeTab: 'reading',
+  activeTab: getRouteFromPath(window.location.pathname),
   savedProfiles: JSON.parse(localStorage.getItem('astranumerics_vault') || '[]'),
   unlockedFeatures: JSON.parse(localStorage.getItem('astranumerics_unlocked_features') || '{}')
 };
@@ -61,6 +63,7 @@ export function unlockSpecificFeature(feature) {
   };
   localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
   state.activeTab = feature;
+  navigateTo(getPathFromTab(feature));
   playConfirmChime();
   playSuccessArpeggio();
   renderAll();
@@ -144,8 +147,9 @@ function checkPaymentRedirect() {
       state.activeProfile = { ...pending.profile };
     }
 
-    // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB
+    // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER PATH
     state.activeTab = targetFeature;
+    navigateTo(getPathFromTab(targetFeature));
 
     // Clear pending state
     localStorage.removeItem('astranumerics_pending_payment');
@@ -153,9 +157,9 @@ function checkPaymentRedirect() {
     playConfirmChime();
     playSuccessArpeggio();
 
-    // Clean address bar query string back to clean domain URL
+    // Clean address bar query string back to clean route path
     if (window.location.search) {
-      window.history.replaceState({}, document.title, window.location.pathname);
+      window.history.replaceState({}, document.title, getPathFromTab(targetFeature));
     }
 
     // IMMEDIATELY RE-RENDER DOM SO PAGE UNLOCKS AUTOMATICALLY WITHOUT REFRESH!
@@ -304,6 +308,7 @@ function renderTabContent() {
         (profileToLoad) => {
           state.activeProfile = { ...profileToLoad };
           state.activeTab = 'reading';
+          navigateTo(getPathFromTab('reading'));
           playMilestoneGong();
           renderAll();
         },
@@ -345,6 +350,7 @@ function renderTabContent() {
     state.savedProfiles.length,
     () => {
       state.activeTab = 'vault';
+      navigateTo(getPathFromTab('vault'));
       playConfirmChime();
       renderTabContent();
     },
@@ -356,6 +362,7 @@ function renderTabContent() {
     if (selectedTab !== state.activeTab) {
       playConfirmChime();
       state.activeTab = selectedTab;
+      navigateTo(getPathFromTab(selectedTab));
       renderTabContent();
     }
   });
@@ -378,6 +385,7 @@ function renderAll() {
     state.savedProfiles.length,
     () => {
       state.activeTab = 'vault';
+      navigateTo(getPathFromTab('vault'));
       playConfirmChime();
       renderTabContent();
     },
@@ -390,6 +398,7 @@ function renderAll() {
     (updatedProfile) => {
       state.activeProfile = { ...updatedProfile };
       state.activeTab = 'reading';
+      navigateTo(getPathFromTab('reading'));
       playSuccessArpeggio();
       renderTabContent();
     },
@@ -419,8 +428,14 @@ function init() {
   initCosmicCanvas('cosmic-canvas');
   initPWAInstallBanner();
   initPaymentAutoUnlockListeners();
-  checkPaymentRedirect();
 
+  // Initialize router popstate listener
+  initRouter((newTab) => {
+    state.activeTab = newTab;
+    renderAll();
+  });
+
+  checkPaymentRedirect();
   renderAll();
 }
 

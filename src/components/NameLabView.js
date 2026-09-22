@@ -42,10 +42,21 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
             Transmute letter frequencies, balance planetary vibrations, and unlock lucky Chaldean name spelling adjustments.
           </p>
           <div id="pay-btn-namelab" style="display: flex; justify-content: center; margin-top: 16px;"></div>
+          <p style="font-size:0.85rem; margin-top:16px;" class="text-secondary">
+            Already completed payment? <a href="#" id="restore-namelab" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
+          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-namelab');
       injectRazorpayButton(btnContainer, 'pl_Tf9QgdupaiZRzc', 'namelab', (feat) => unlockSpecificFeature(feat));
+
+      const restoreBtn = resultsDiv.querySelector('#restore-namelab');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          unlockSpecificFeature('namelab');
+        });
+      }
       return;
     }
 
