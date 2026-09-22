@@ -1,11 +1,8 @@
-/**
- * ASTRANUMERICS - SACRED ARTIFACT SYNASTRY ALIGNMENT CHAMBER
- */
-
 import { calculateSynastry } from '../utils/numerologyEngine.js';
 import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
+import { savePendingPaymentState } from '../main.js';
 
-export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean') {
+export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
@@ -31,31 +28,62 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
 
             <div class="form-group">
               <label class="form-label">SEEKER 2 NAME</label>
-              <input type="text" id="syn-p2-name" class="form-input" placeholder="e.g. Elena Vance" required />
+              <input type="text" id="syn-p2-name" class="form-input" value="Elena Vance" placeholder="e.g. Elena Vance" required />
             </div>
             <div class="form-group">
               <label class="form-label">SEEKER 2 DOB</label>
               <input type="date" id="syn-p2-dob" class="form-input" value="1993-11-12" required />
             </div>
           </div>
-
-          <div style="text-align:center; margin-top:16px;">
-            <button type="submit" class="btn-primary">
-              <span>⚔️ CALCULATE SYNASTRY MATCH</span>
-            </button>
-          </div>
         </form>
       </div>
 
       <!-- Match Results -->
-      <div id="synastry-results"></div>
+      <div id="synastry-results" style="margin-top:24px;"></div>
     </div>
   `;
 
   const form = container.querySelector('#synastry-form');
   const resultsDiv = container.querySelector('#synastry-results');
 
-  const runCalculation = (p1, p2) => {
+  const getInputs = () => ({
+    p1: {
+      name: form.querySelector('#syn-p1-name').value.trim(),
+      dob: form.querySelector('#syn-p1-dob').value
+    },
+    p2: {
+      name: form.querySelector('#syn-p2-name').value.trim(),
+      dob: form.querySelector('#syn-p2-dob').value
+    }
+  });
+
+  const updateView = () => {
+    const { p1, p2 } = getInputs();
+    savePendingPaymentState('synastry', { p1, p2 });
+
+    if (!isUnlocked) {
+      resultsDiv.innerHTML = `
+        <div class="number-card synthesis-nexus-card" style="text-align: center; border-color: var(--accent-brass); background: rgba(156, 107, 31, 0.04); padding: 32px 20px; max-width: 600px; margin: 0 auto;">
+          <div class="card-header-badge" style="justify-content: center; margin-bottom: 12px;">
+            <span class="card-tag">🔒 SACRED LOCK // CHAMBER 3</span>
+          </div>
+          <h3 class="font-serif-carved text-brass" style="font-size: 1.6rem; margin-bottom: 8px;">FULL SYNASTRY MATCHMAKING REPORT (₹151)</h3>
+          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
+            Reveal deep relationship compatibility status, soul urge clashes, karmic synergy, and export downloadable PDF report.
+          </p>
+          <div class="pay-button-container" style="display: flex; justify-content: center;">
+            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9iPpPjF9mZD9" async> </script> </form>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    if (!p1.name || !p1.dob || !p2.name || !p2.dob) {
+      resultsDiv.innerHTML = `<p class="text-secondary" style="text-align:center;">Enter both seeker profiles above to compute alignment.</p>`;
+      return;
+    }
+
     const res = calculateSynastry(p1, p2, system);
 
     resultsDiv.innerHTML = `
@@ -77,39 +105,35 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
           </div>
         </div>
 
-        <p class="text-secondary" style="font-size:0.95rem; max-width:540px; margin: 12px auto 0 auto;">
+        <p class="text-secondary mb-4" style="font-size:0.95rem; max-width:540px; margin: 12px auto 0 auto;">
           ${p1.name}'s Life Path <strong>${res.profileA.lp}</strong> links with ${p2.name}'s Life Path <strong>${res.profileB.lp}</strong>.
           Soul Urge vibration (${res.profileA.soul} & ${res.profileB.soul}) creates an engaging party synergy dynamic.
         </p>
+
+        <div style="text-align:center; margin-top:16px;">
+          <button id="download-syn-pdf" class="btn-primary">
+            <span>📜 DOWNLOAD HIGH-RES SYNASTRY REPORT (PDF)</span>
+          </button>
+        </div>
       </div>
     `;
+
+    const pdfBtn = resultsDiv.querySelector('#download-syn-pdf');
+    if (pdfBtn) {
+      pdfBtn.addEventListener('click', () => {
+        playSuccessArpeggio();
+        window.print();
+      });
+    }
   };
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    playSuccessArpeggio();
-    const p1 = {
-      name: form.querySelector('#syn-p1-name').value.trim(),
-      dob: form.querySelector('#syn-p1-dob').value
-    };
-    const p2 = {
-      name: form.querySelector('#syn-p2-name').value.trim(),
-      dob: form.querySelector('#syn-p2-dob').value
-    };
-    if (p1.name && p1.dob && p2.name && p2.dob) {
-      runCalculation(p1, p2);
-    }
+  form.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => {
+      playChimeTap();
+      updateView();
+    });
   });
 
-  // Sound triggers
-  container.querySelectorAll('button, input').forEach(el => {
-    el.addEventListener('mouseenter', () => playChimeTap());
-  });
-
-  if (primaryProfile.name && primaryProfile.dob) {
-    runCalculation(
-      { name: primaryProfile.name, dob: primaryProfile.dob },
-      { name: "Sample Companion", dob: "1993-11-12" }
-    );
-  }
+  updateView();
 }
+

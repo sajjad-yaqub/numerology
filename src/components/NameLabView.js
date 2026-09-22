@@ -1,12 +1,9 @@
-/**
- * ASTRANUMERICS - SACRED ARTIFACT NAME TRANSMUTER LAB COMPONENT
- */
-
 import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
 import { playChimeTap } from '../utils/soundEngine.js';
+import { savePendingPaymentState } from '../main.js';
 
-export function renderNameLabView(containerId, initialName = '', system = 'pythagorean') {
+export function renderNameLabView(containerId, initialName = '', system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
@@ -31,6 +28,26 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
 
   const updateLab = () => {
     const text = input.value.trim();
+    savePendingPaymentState('namelab', { text });
+
+    if (!isUnlocked) {
+      resultsDiv.innerHTML = `
+        <div class="number-card synthesis-nexus-card" style="text-align: center; border-color: var(--accent-brass); background: rgba(156, 107, 31, 0.04); padding: 32px 20px; max-width: 600px; margin: 0 auto;">
+          <div class="card-header-badge" style="justify-content: center; margin-bottom: 12px;">
+            <span class="card-tag">🔒 SACRED LOCK // CHAMBER 4</span>
+          </div>
+          <h3 class="font-serif-carved text-brass" style="font-size: 1.6rem; margin-bottom: 8px;">NAME TRANSMUTER LAB (₹51)</h3>
+          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
+            Transmute letter frequencies, balance planetary vibrations, and unlock lucky Chaldean name spelling adjustments.
+          </p>
+          <div class="pay-button-container" style="display: flex; justify-content: center;">
+            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9QgdupaiZRzc" async> </script> </form>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     if (!text) {
       resultsDiv.innerHTML = `<p class="text-secondary" style="text-align:center;">Type a phrase above to begin energy analysis.</p>`;
       return;
@@ -92,3 +109,4 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
 
   updateLab();
 }
+

@@ -33,8 +33,62 @@ const state = {
   },
   activeSystem: localStorage.getItem('astranumerics_system') || 'pythagorean',
   activeTab: 'reading',
-  savedProfiles: JSON.parse(localStorage.getItem('astranumerics_vault') || '[]')
+  savedProfiles: JSON.parse(localStorage.getItem('astranumerics_vault') || '[]'),
+  unlockedFeatures: JSON.parse(localStorage.getItem('astranumerics_unlocked_features') || '{}')
 };
+
+/**
+ * Save pending payment state before redirecting
+ */
+export function savePendingPaymentState(feature, extraData = {}) {
+  const pending = {
+    feature,
+    profile: state.activeProfile,
+    extraData,
+    timestamp: Date.now()
+  };
+  localStorage.setItem('astranumerics_pending_payment', JSON.stringify(pending));
+}
+
+/**
+ * Handle redirect back from Razorpay Payment Button (https://www.astranumerics.com/?status=success&feature=...)
+ */
+function checkPaymentRedirect() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get('status');
+  const featureParam = urlParams.get('feature');
+
+  if (status === 'success' || status === '1') {
+    let unlockedFeature = featureParam;
+    const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+
+    if (pendingRaw) {
+      try {
+        const pending = JSON.parse(pendingRaw);
+        if (pending.profile) {
+          state.activeProfile = { ...pending.profile };
+        }
+        if (!unlockedFeature && pending.feature) {
+          unlockedFeature = pending.feature;
+        }
+      } catch (e) {
+        console.warn('Error restoring payment state:', e);
+      }
+    }
+
+    if (unlockedFeature) {
+      state.unlockedFeatures[unlockedFeature] = true;
+      localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+      state.activeTab = unlockedFeature;
+    }
+
+    playConfirmChime();
+    playSuccessArpeggio();
+
+    // Clean address bar query string back to clean domain URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}
 
 /**
  * Save vault state to LocalStorage
@@ -87,7 +141,7 @@ function attachGameAudioTriggers() {
  * Render Active Tab View (Ritual Chambers)
  */
 function renderTabContent() {
-  const { activeTab, activeProfile, activeSystem, savedProfiles } = state;
+  const { activeTab, activeProfile, activeSystem, savedProfiles, unlockedFeatures } = state;
 
   // Manage Idle Hum (hum ONLY on idle/home state, NOT during active reading screens)
   if (activeTab === 'reading' && (!activeProfile.name || !activeProfile.dob)) {
@@ -113,17 +167,18 @@ function renderTabContent() {
       renderLoShuGridView('pane-loshu', activeProfile);
       break;
     case 'synastry':
-      renderCompatibilityView('pane-synastry', activeProfile, activeSystem);
+      renderCompatibilityView('pane-synastry', activeProfile, activeSystem, !!unlockedFeatures.synastry);
       break;
     case 'namelab':
-      renderNameLabView('pane-namelab', activeProfile.name, activeSystem);
+      renderNameLabView('pane-namelab', activeProfile.name, activeSystem, !!unlockedFeatures.namelab);
       break;
     case 'forecast':
       renderDailyForecastView('pane-forecast', activeProfile);
       break;
     case 'address':
-      renderAddressPhoneView('pane-address', activeSystem);
+      renderAddressPhoneView('pane-address', activeSystem, !!unlockedFeatures.address);
       break;
+
     case 'vault':
       renderProfileVaultView(
         'pane-vault',
@@ -245,6 +300,7 @@ function init() {
   registerServiceWorker();
   initCosmicCanvas('cosmic-canvas');
   initPWAInstallBanner();
+  checkPaymentRedirect();
 
   renderAll();
 }

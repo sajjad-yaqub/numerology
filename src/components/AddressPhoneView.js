@@ -1,18 +1,15 @@
-/**
- * ASTRANUMERICS - ADDRESS, PHONE & VEHICLE NUMEROLOGY COMPONENT
- */
-
 import { calculateAddressNumerology } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
+import { savePendingPaymentState } from '../main.js';
 
-export function renderAddressPhoneView(containerId, system = 'pythagorean') {
+export function renderAddressPhoneView(containerId, system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   container.innerHTML = `
     <div class="namelab-container">
-      <h2 class="font-serif text-gold mb-4" style="text-align:center;">🏠 Address, Phone & Vehicle Numerology</h2>
-      <p class="text-secondary" style="text-align:center; font-size:0.9rem; margin-bottom:24px;">
+      <h2 class="font-serif-carved text-oxblood mb-4" style="text-align:center;">🏠 CHAMBER 6: ADDRESS, PHONE & VEHICLE NUMEROLOGY</h2>
+      <p class="text-secondary" style="text-align:center; font-size:0.95rem; margin-bottom:24px;">
         Discover the subconscious environmental vibration of your home address, phone number, or vehicle plate.
       </p>
 
@@ -38,6 +35,26 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean') {
   const updateResults = () => {
     const addrVal = addrInput.value.trim();
     const phoneVal = phoneInput.value.trim();
+
+    savePendingPaymentState('address', { addrVal, phoneVal });
+
+    if (!isUnlocked) {
+      resultsDiv.innerHTML = `
+        <div class="number-card synthesis-nexus-card" style="grid-column: 1/-1; text-align: center; border-color: var(--accent-brass); background: rgba(156, 107, 31, 0.04); padding: 32px 20px; max-width: 600px; margin: 0 auto;">
+          <div class="card-header-badge" style="justify-content: center; margin-bottom: 12px;">
+            <span class="card-tag">🔒 SACRED LOCK // CHAMBER 6</span>
+          </div>
+          <h3 class="font-serif-carved text-brass" style="font-size: 1.6rem; margin-bottom: 8px;">ADDRESS, PHONE & VEHICLE NUMEROLOGY (₹101)</h3>
+          <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
+            Decode structural space energy, vehicle luck ratings, and ancient Shubh/Ashubh remedies.
+          </p>
+          <div class="pay-button-container" style="display: flex; justify-content: center;">
+            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9gZgt7fSf8FR" async> </script> </form>
+          </div>
+        </div>
+      `;
+      return;
+    }
 
     if (!addrVal && !phoneVal) {
       resultsDiv.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align:center;">Enter an address or phone number above to calculate vibration.</p>`;
@@ -91,3 +108,4 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean') {
   phoneInput.addEventListener('input', updateResults);
   updateResults();
 }
+
