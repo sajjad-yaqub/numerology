@@ -1,9 +1,10 @@
 /**
- * ASTRANUMERICS - DAILY PERSONAL FORECAST COMPONENT
+ * ASTRANUMERICS - DAILY FORECAST VIEW WITH ORACLE WHEEL MINI-GAME
  */
 
 import { calculatePersonalCycles } from '../utils/numerologyEngine.js';
 import { DAILY_THEMES, CORE_INTERPRETATIONS } from '../data/numerologyData.js';
+import { renderOracleWheelGame } from './OracleWheelGame.js';
 
 export function renderDailyForecastView(containerId, profile) {
   const container = document.getElementById(containerId);
@@ -36,6 +37,9 @@ export function renderDailyForecastView(containerId, profile) {
         <h2 class="font-serif text-gold" style="margin-top:8px;">${formattedDate}</h2>
         <p class="text-secondary" style="font-size:0.9rem;">Synced to DOB: <strong>${profile.dob}</strong></p>
       </div>
+
+      <!-- Interactive Daily Oracle Fortune Wheel Mini-Game -->
+      <div id="oracle-game-container"></div>
 
       <!-- Cycle Badges Grid -->
       <div class="reading-grid">
@@ -73,4 +77,7 @@ export function renderDailyForecastView(containerId, profile) {
       </div>
     </div>
   `;
+
+  // Render Oracle Wheel Game
+  renderOracleWheelGame('oracle-game-container');
 }

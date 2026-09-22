@@ -9,6 +9,7 @@ import {
   calculateMaturityNumber
 } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS } from '../data/numerologyData.js';
+import { unlockBadge } from '../utils/gamificationEngine.js';
 
 export function renderCoreReadingView(containerId, profile, system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -28,6 +29,11 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
   const nameNums = calculateNameNumbers(profile.name, system);
   const attitude = calculateAttitudeNumber(profile.dob);
   const maturity = calculateMaturityNumber(lifePath.reduced, nameNums.expression.reduced);
+
+  // Check for Master Numbers
+  if (lifePath.isMaster || nameNums.expression.isMaster || nameNums.soulUrge.isMaster) {
+    unlockBadge('master_found');
+  }
 
   const cardsData = [
     {

@@ -1,8 +1,9 @@
 /**
- * ASTRANUMERICS - OBSERVATORY NAVBAR COMPONENT
+ * ASTRANUMERICS - OBSERVATORY NAVBAR COMPONENT WITH GAMIFICATION
  */
 
 import { toggleAudio, getAudioState } from '../utils/soundEngine.js';
+import { renderGamificationBanner } from './GamificationBanner.js';
 
 export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault) {
   const container = document.getElementById(containerId);
@@ -17,6 +18,9 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
     </a>
 
     <div class="header-actions">
+      <!-- Gamification Rank Pill -->
+      <div id="gamification-banner-container"></div>
+
       <!-- 432Hz Sound Drone Ambient Toggler -->
       <button id="nav-audio-btn" class="audio-toggle-btn ${isAudioActive ? 'active' : ''}" title="Toggle 432Hz Solfeggio Audio Drone">
         <span>${isAudioActive ? '🔊 432Hz On' : '🔇 Audio Off'}</span>
@@ -34,6 +38,9 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
       </button>
     </div>
   `;
+
+  // Render Gamification Pill
+  renderGamificationBanner('gamification-banner-container');
 
   // Bind Audio toggle
   const audioBtn = container.querySelector('#nav-audio-btn');
