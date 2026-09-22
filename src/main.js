@@ -36,7 +36,7 @@ const state = {
   activeSystem: localStorage.getItem('astranumerics_system') || 'pythagorean',
   activeTab: getRouteFromPath(window.location.pathname),
   savedProfiles: JSON.parse(localStorage.getItem('astranumerics_vault') || '[]'),
-  unlockedFeatures: JSON.parse(localStorage.getItem('astranumerics_unlocked_features') || '{}')
+  unlockedFeatures: JSON.parse(sessionStorage.getItem('astranumerics_unlocked_features') || '{}')
 };
 
 /**
@@ -49,7 +49,7 @@ export function savePendingPaymentState(feature, extraData = {}) {
     extraData,
     timestamp: Date.now()
   };
-  localStorage.setItem('astranumerics_pending_payment', JSON.stringify(pending));
+  sessionStorage.setItem('astranumerics_pending_payment', JSON.stringify(pending));
 }
 
 /**
@@ -61,7 +61,7 @@ export function unlockSpecificFeature(feature) {
     ...state.unlockedFeatures,
     [feature]: true
   };
-  localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+  sessionStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
   state.activeTab = feature;
   navigateTo(getPathFromTab(feature));
   playConfirmChime();
@@ -106,7 +106,7 @@ function checkPaymentRedirect() {
     return;
   }
 
-  const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+  const pendingRaw = sessionStorage.getItem('astranumerics_pending_payment');
   let pending = null;
   if (pendingRaw) {
     try {
@@ -140,7 +140,7 @@ function checkPaymentRedirect() {
     targetFeature = featureParam;
   }
 
-  // 4. Pending localStorage feature
+  // 4. Pending sessionStorage feature
   if (!targetFeature && pending && pending.feature) {
     targetFeature = pending.feature;
   }
@@ -151,14 +151,14 @@ function checkPaymentRedirect() {
   }
 
   if (targetFeature && ['namelab', 'address', 'synastry'].includes(targetFeature)) {
-    // STRICTLY UNLOCK ONLY THIS SPECIFIC FEATURE
+    // STRICTLY UNLOCK ONLY THIS SPECIFIC FEATURE FOR ACTIVE SESSION
     state.unlockedFeatures = {
       ...state.unlockedFeatures,
       [targetFeature]: true
     };
 
-    // Save unlocked status permanently in localStorage
-    localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+    // Save unlocked status for active browser session (expires on tab closure)
+    sessionStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
 
     // Restore profile if saved in pending state
     if (pending && pending.profile && pending.profile.name) {
@@ -170,7 +170,7 @@ function checkPaymentRedirect() {
     navigateTo(getPathFromTab(targetFeature));
 
     // Clear pending state
-    localStorage.removeItem('astranumerics_pending_payment');
+    sessionStorage.removeItem('astranumerics_pending_payment');
 
     playConfirmChime();
     playSuccessArpeggio();
@@ -197,7 +197,7 @@ function initPaymentAutoUnlockListeners() {
         data = JSON.parse(data);
       }
       if (data && (data.razorpay_payment_id || data.event === 'payment.success' || data.status === 'paid')) {
-        const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+        const pendingRaw = sessionStorage.getItem('astranumerics_pending_payment');
         if (pendingRaw) {
           const pending = JSON.parse(pendingRaw);
           if (pending && pending.feature) {
