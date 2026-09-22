@@ -1,29 +1,29 @@
 /**
- * ASTRANUMERICS - CYBERPUNK HUD COMMAND WHEEL NAVIGATION
+ * ASTRANUMERICS - ARCADE COMMAND REEL / STAGE SELECTOR NAVIGATION
  */
 
-import { playHoverSound, playClickSound } from '../utils/soundEngine.js';
+import { playBlipSound, playConfirmSound } from '../utils/soundEngine.js';
 
 export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   const realms = [
-    { id: 'reading', label: 'CORE_READING', icon: '🔮' },
-    { id: 'loshu', label: 'LOSHU_MATRIX', icon: '📐' },
-    { id: 'synastry', label: 'SYNASTRY_RADAR', icon: '💕' },
-    { id: 'namelab', label: 'NAME_LAB', icon: '🧪' },
-    { id: 'forecast', label: 'DAILY_VIBE', icon: '📅' },
-    { id: 'address', label: 'ADDRESS_FREQ', icon: '🏠' },
-    { id: 'vault', label: 'CODEX_VAULT', icon: '💾' }
+    { id: 'reading', label: 'STAGE 1: CODEX', icon: '🔮' },
+    { id: 'loshu', label: 'STAGE 2: MATRIX', icon: '📐' },
+    { id: 'synastry', label: 'STAGE 3: VS MATCH', icon: '💕' },
+    { id: 'namelab', label: 'STAGE 4: NAME LAB', icon: '🧪' },
+    { id: 'forecast', label: 'STAGE 5: VIBE CYCLE', icon: '📅' },
+    { id: 'address', label: 'STAGE 6: ADDRESS', icon: '🏠' },
+    { id: 'vault', label: 'STAGE 7: SAVE VAULT', icon: '💾' }
   ];
 
   container.innerHTML = `
     <div class="astrolabe-dial-wrapper">
       <div class="astrolabe-ring-outer">
         <div class="astrolabe-ring-inner">
-          <div class="astrolabe-center-core" title="Cyberpunk Command Core">
-            <span>[SYS]</span>
+          <div class="astrolabe-center-core" title="Arcade Stage Selector">
+            <span>[STAGE]</span>
           </div>
 
           ${realms.map((r) => {
@@ -40,16 +40,14 @@ export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
     </div>
   `;
 
-  // Bind hover & click SFX listeners
+  // Bind 8-Bit hover & click sound triggers
   container.querySelectorAll('.astrolabe-node').forEach(node => {
-    node.addEventListener('mouseenter', () => {
-      playHoverSound();
-    });
+    node.addEventListener('mouseenter', () => playBlipSound());
 
     node.addEventListener('click', () => {
       const tab = node.getAttribute('data-tab');
 
-      playClickSound();
+      playConfirmSound();
 
       if (navigator.vibrate) {
         try { navigator.vibrate(15); } catch(e) {}

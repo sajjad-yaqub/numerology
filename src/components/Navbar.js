@@ -1,8 +1,8 @@
 /**
- * ASTRANUMERICS - CYBERPUNK HUD NAVBAR COMPONENT
+ * ASTRANUMERICS - ARCADE CABINET NAVBAR COMPONENT
  */
 
-import { toggleAudio, getAudioState } from '../utils/soundEngine.js';
+import { toggleAudio, getAudioState, playConfirmSound, playBlipSound } from '../utils/soundEngine.js';
 
 export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault) {
   const container = document.getElementById(containerId);
@@ -11,21 +11,21 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
   const isAudioActive = getAudioState();
 
   container.innerHTML = `
-    <a href="#" class="header-brand" title="AstraNumerics Cyberpunk HUD">
+    <a href="#" class="header-brand" title="AstraNumerics Arcade">
       <img src="/icons/icon.svg" alt="AstraNumerics" class="brand-icon" />
-      <span class="brand-title">AstraNumerics</span>
+      <span class="brand-title">ASTRANUMERICS</span>
     </a>
 
     <div class="header-actions">
-      <!-- Tactical System Status Badge -->
-      <div class="sys-status-badge" title="System Status: Online">
+      <!-- Arcade Coin-Op Credit Badge -->
+      <div class="sys-status-badge" title="Coin-Op Arcade Mode">
         <span class="status-dot"></span>
-        <span>SYS_ONLINE // V1.0</span>
+        <span>CREDITS: 99</span>
       </div>
 
-      <!-- 432Hz Audio Drone Toggler -->
-      <button id="nav-audio-btn" class="audio-toggle-btn ${isAudioActive ? 'active' : ''}" title="Toggle 432Hz Solfeggio Audio Drone">
-        <span>${isAudioActive ? '🔊 AUDIO // ON' : '🔇 AUDIO // OFF'}</span>
+      <!-- 8-Bit Audio SFX Toggler -->
+      <button id="nav-audio-btn" class="audio-toggle-btn ${isAudioActive ? 'active' : ''}" title="Toggle 8-Bit Sound FX">
+        <span>${isAudioActive ? '🔊 8-BIT SOUND' : '🔇 SOUND OFF'}</span>
       </button>
 
       <!-- System Selector Toggle -->
@@ -44,16 +44,19 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
   // Bind Audio toggle
   const audioBtn = container.querySelector('#nav-audio-btn');
   if (audioBtn) {
+    audioBtn.addEventListener('mouseenter', () => playBlipSound());
     audioBtn.addEventListener('click', () => {
       const active = toggleAudio();
       audioBtn.classList.toggle('active', active);
-      audioBtn.querySelector('span').textContent = active ? '🔊 AUDIO // ON' : '🔇 AUDIO // OFF';
+      audioBtn.querySelector('span').textContent = active ? '🔊 8-BIT SOUND' : '🔇 SOUND OFF';
     });
   }
 
   // Bind system switcher
   container.querySelectorAll('.system-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => playBlipSound());
     btn.addEventListener('click', (e) => {
+      playConfirmSound();
       const system = e.target.getAttribute('data-system');
       if (system && system !== activeSystem) {
         onSystemChange(system);
@@ -64,6 +67,10 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
   // Bind vault launcher
   const vaultBtn = container.querySelector('#nav-vault-btn');
   if (vaultBtn) {
-    vaultBtn.addEventListener('click', onOpenVault);
+    vaultBtn.addEventListener('mouseenter', () => playBlipSound());
+    vaultBtn.addEventListener('click', () => {
+      playConfirmSound();
+      onOpenVault();
+    });
   }
 }

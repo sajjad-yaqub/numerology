@@ -1,49 +1,36 @@
 /* ==========================================================================
-   ASTRANUMERICS - CYBERPUNK / DESTINY 2 GAME HUD DESIGN SYSTEM
+   ASTRANUMERICS - ARCADE CABINET RETRO-FUTURIST DESIGN SYSTEM (OPTION 2)
    ========================================================================== */
 
 :root {
-  /* Tactical Void Palette */
-  --bg-obsidian: #050608;
-  --bg-deep-space: #0a0c14;
-  --bg-card-hud: rgba(12, 15, 26, 0.88);
-  --bg-card-hud-hover: rgba(20, 26, 44, 0.95);
-  --bg-glass-input: rgba(8, 10, 18, 0.92);
+  /* Option 2: Arcade Cabinet Color Palette */
+  --bg-navy-black: #12121a;
+  --bg-card-arcade: #1b1b26;
+  --bg-input-arcade: #0d0d14;
 
-  /* Cyber Bioluminescent Accents */
-  --accent-cyber-gold: #f3ce6d;
-  --accent-cyber-gold-bright: #ffe596;
-  --accent-neon-cyan: #00f0ff;
-  --accent-exotic-amethyst: #9d4edd;
-  --accent-rare-emerald: #06d6a0;
-  --accent-warning-rose: #ff0055;
-  --accent-starlight: #e2e8ff;
+  --accent-hot-coral: #ff3b3b;
+  --accent-mustard-yellow: #f2c230;
+  --accent-electric-cyan: #00f0ff;
+  --accent-lime-green: #39ff6a;
 
-  --border-hud-cyan: rgba(0, 240, 255, 0.35);
-  --border-hud-gold: rgba(243, 206, 109, 0.4);
-  --border-hud-amethyst: rgba(157, 78, 221, 0.5);
+  --border-arcade-black: #000000;
+  --border-arcade-width: 3px;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-gold: #f3ce6d;
+  --shadow-offset: 4px 4px 0px #000000;
+  --shadow-pressed: 0px 0px 0px #000000;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-yellow: #f2c230;
+  --text-coral: #ff3b3b;
   --text-cyan: #00f0ff;
 
   /* Typography */
-  --font-serif: 'Cinzel', Georgia, serif;
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Courier New', Courier, monospace;
+  --font-arcade-display: 'VT323', monospace;
+  --font-header: 'Chakra Petch', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
 
-  /* Geometry & Chamfer Clip Paths */
-  --clip-chamfer-lg: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-  --clip-chamfer-md: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  --clip-chamfer-sm: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
-
-  --shadow-hud-gold: 0 0 25px rgba(243, 206, 109, 0.25);
-  --shadow-hud-cyan: 0 0 25px rgba(0, 240, 255, 0.25);
-  --shadow-hud-amethyst: 0 0 30px rgba(157, 78, 221, 0.35);
-
-  --blur-glass: blur(20px);
   --touch-target-min: 48px;
 }
 
@@ -56,17 +43,17 @@
 html, body {
   width: 100%;
   min-height: 100%;
-  background-color: var(--bg-obsidian);
+  background-color: var(--bg-navy-black);
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* CRT Scanlines & Cyber Grid Floor */
+/* Background Canvas */
 #cosmic-canvas {
   position: fixed;
   top: 0;
@@ -77,21 +64,6 @@ html, body {
   pointer-events: none;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.6;
-}
-
 /* PWA Install Banner */
 .pwa-banner {
   position: fixed;
@@ -100,18 +72,16 @@ body::after {
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 640px;
-  background: var(--bg-card-hud-hover);
-  border: 1px solid var(--accent-neon-cyan);
-  clip-path: var(--clip-chamfer-md);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
+  background: var(--accent-mustard-yellow);
+  color: #000000;
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   z-index: 1000;
-  box-shadow: var(--shadow-hud-cyan);
 }
 
 .pwa-banner.hidden {
@@ -131,29 +101,30 @@ body::after {
 
 .pwa-banner-text strong {
   display: block;
-  font-family: var(--font-mono);
-  color: var(--accent-neon-cyan);
+  font-family: var(--font-arcade-display);
+  font-size: 1.3rem;
+  color: #000000;
   letter-spacing: 1px;
 }
 
 .pwa-banner-text span {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #12121a;
 }
 
-/* Header HUD Bar */
+/* Header Arcade Bar */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 900;
-  background: rgba(5, 6, 8, 0.92);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
-  border-bottom: 1px solid var(--border-hud-cyan);
+  background: #1b1b26;
+  border-bottom: 3px solid #000000;
   padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 0px #000000;
 }
 
 .header-brand {
@@ -166,17 +137,15 @@ body::after {
 .brand-icon {
   width: 40px;
   height: 40px;
-  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.6));
 }
 
 .brand-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-family: var(--font-arcade-display);
+  font-size: 2.2rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  background: linear-gradient(135deg, #00f0ff 0%, #f3ce6d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  color: var(--accent-mustard-yellow);
+  text-shadow: 2px 2px 0px #000000;
 }
 
 .header-actions {
@@ -185,84 +154,74 @@ body::after {
   gap: 12px;
 }
 
-/* Technical HUD Status Badge */
+/* Arcade Coin-Op Badge */
 .sys-status-badge {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--accent-neon-cyan);
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid var(--border-hud-cyan);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  font-family: var(--font-arcade-display);
+  font-size: 1.1rem;
+  color: var(--accent-lime-green);
+  background: #0d0d14;
+  border: 2px solid #000000;
+  padding: 3px 10px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: var(--radius-full);
-  background: var(--accent-neon-cyan);
-  box-shadow: 0 0 8px var(--accent-neon-cyan);
-  animation: pulse 2s infinite;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-lime-green);
+  box-shadow: 0 0 6px var(--accent-lime-green);
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* Audio Toggle Button */
+/* Audio SFX Toggle Button */
 .audio-toggle-btn {
-  background: rgba(12, 15, 26, 0.85);
-  border: 1px solid var(--border-hud-gold);
-  color: var(--accent-cyber-gold);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  min-height: 38px;
-  padding: 6px 14px;
+  background: var(--bg-card-arcade);
+  border: 2px solid #000000;
+  color: var(--accent-mustard-yellow);
+  font-family: var(--font-arcade-display);
+  font-size: 1.1rem;
+  padding: 4px 14px;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
+  box-shadow: 2px 2px 0px #000000;
+  transition: transform 0.05s ease;
+}
+
+.audio-toggle-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
 }
 
 .audio-toggle-btn.active {
-  border-color: var(--accent-neon-cyan);
-  color: var(--accent-neon-cyan);
-  background: rgba(0, 240, 255, 0.15);
-  box-shadow: var(--shadow-hud-cyan);
+  background: var(--accent-mustard-yellow);
+  color: #000000;
 }
 
-/* System Mode Switcher */
+/* System Selector Toggle Switches */
 .system-toggle {
   display: inline-flex;
-  background: rgba(8, 10, 18, 0.9);
-  border: 1px solid var(--border-hud-cyan);
+  background: #0d0d14;
+  border: 2px solid #000000;
   padding: 2px;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .system-btn {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-family: var(--font-header);
+  font-size: 0.85rem;
+  font-weight: 700;
   padding: 6px 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  text-transform: uppercase;
 }
 
 .system-btn.active {
-  background: var(--accent-neon-cyan);
-  color: #050608;
-  font-weight: 700;
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+  background: var(--accent-hot-coral);
+  color: #ffffff;
 }
 
 /* Container & Layout */
@@ -272,50 +231,35 @@ body::after {
   padding: 24px 16px 140px 16px;
 }
 
-/* Hero HUD Section */
+/* Hero Player Creation Section */
 .hero-section {
-  background: var(--bg-card-hud);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-lg);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 32px 28px;
   margin-bottom: 32px;
-  box-shadow: var(--shadow-hud-cyan);
   position: relative;
-}
-
-.hero-section::before {
-  content: '[ SYS_TERMINAL // USER_CREDENTIALS ]';
-  position: absolute;
-  top: 8px;
-  left: 16px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent-neon-cyan);
-  letter-spacing: 1px;
 }
 
 .hero-header {
   text-align: center;
-  margin-top: 10px;
   margin-bottom: 24px;
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 2.1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  background: linear-gradient(135deg, #00f0ff 0%, #f3ce6d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: var(--font-arcade-display);
+  font-size: 2.6rem;
+  letter-spacing: 2px;
+  color: var(--accent-hot-coral);
+  text-shadow: 3px 3px 0px #000000;
+  margin-bottom: 4px;
 }
 
 .hero-subtitle {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+  color: var(--accent-mustard-yellow);
+  font-family: var(--font-header);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .form-grid {
@@ -332,31 +276,28 @@ body::after {
 }
 
 .form-label {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--accent-neon-cyan);
+  font-family: var(--font-arcade-display);
+  font-size: 1.15rem;
+  color: var(--accent-mustard-yellow);
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .form-input {
   width: 100%;
   min-height: var(--touch-target-min);
-  background: var(--bg-glass-input);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-sm);
+  background: var(--bg-input-arcade);
+  border: 3px solid #000000;
   padding: 12px 16px;
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 1rem;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
   outline: none;
-  transition: all 0.25s ease;
+  box-shadow: inset 2px 2px 0px #000000;
 }
 
 .form-input:focus {
-  border-color: var(--accent-cyber-gold);
-  box-shadow: 0 0 16px rgba(243, 206, 109, 0.3);
+  border-color: var(--accent-hot-coral);
+  background: #151522;
 }
 
 .form-actions {
@@ -366,62 +307,62 @@ body::after {
   flex-wrap: wrap;
 }
 
-/* Buttons */
+/* BUTTONS — VISIBLE RECTANGULAR PRESS & SPRING BACK */
 .btn-primary {
   min-height: var(--touch-target-min);
-  background: linear-gradient(135deg, #00f0ff 0%, #00a8ff 100%);
-  color: #050608;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.95rem;
+  background: var(--accent-hot-coral);
+  color: #ffffff;
+  font-family: var(--font-arcade-display);
+  font-size: 1.35rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: none;
-  clip-path: var(--clip-chamfer-sm);
-  padding: 12px 28px;
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
+  padding: 10px 28px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-hud-cyan);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  transform: translate(4px, 4px) scale(0.96);
+  box-shadow: var(--shadow-pressed);
 }
 
 .btn-ghost {
   min-height: var(--touch-target-min);
-  background: transparent;
-  border: 1px solid var(--border-hud-gold);
-  color: var(--accent-cyber-gold);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 0.9rem;
-  clip-path: var(--clip-chamfer-sm);
-  padding: 12px 20px;
+  background: var(--accent-mustard-yellow);
+  color: #000000;
+  font-family: var(--font-arcade-display);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
+  padding: 10px 20px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
-.btn-ghost:hover {
-  background: rgba(243, 206, 109, 0.12);
-  border-color: var(--accent-cyber-gold);
+.btn-ghost:active {
+  transform: translate(4px, 4px) scale(0.96);
+  box-shadow: var(--shadow-pressed);
 }
 
 .btn-sm {
   min-height: 38px;
   padding: 6px 14px;
-  font-size: 0.82rem;
+  font-size: 1.05rem;
 }
 
-/* ASTROLABE / COMMAND WHEEL BOTTOM HUD DIAL */
+/* ASTROLABE / COMMAND REEL STAGE SELECTOR */
 .astrolabe-dial-wrapper {
   position: fixed;
   bottom: 0;
@@ -438,14 +379,13 @@ body::after {
 .astrolabe-ring-outer {
   pointer-events: auto;
   width: 100%;
-  max-width: 840px;
+  max-width: 860px;
   height: 90px;
-  background: rgba(8, 10, 18, 0.95);
-  border-top: 2px solid var(--accent-neon-cyan);
-  clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%, 0 20px);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.9), var(--shadow-hud-cyan);
+  background: #1b1b26;
+  border-top: 4px solid #000000;
+  border-left: 3px solid #000000;
+  border-right: 3px solid #000000;
+  box-shadow: 0 -6px 0px #000000;
   padding: 10px 16px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -460,47 +400,44 @@ body::after {
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-  min-width: 640px;
+  min-width: 660px;
   height: 100%;
 }
 
 .astrolabe-center-core {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  color: var(--accent-neon-cyan);
-  text-shadow: 0 0 10px var(--accent-neon-cyan);
+  font-family: var(--font-arcade-display);
+  font-size: 1.4rem;
+  color: var(--accent-mustard-yellow);
 }
 
 .astrolabe-node {
-  background: transparent;
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-sm);
-  padding: 8px 14px;
+  background: #0d0d14;
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  padding: 6px 14px;
   color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-family: var(--font-arcade-display);
+  font-size: 1.05rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  min-width: 84px;
-  transition: all 0.25s ease;
+  min-width: 88px;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
-.astrolabe-node:hover {
-  border-color: var(--accent-neon-cyan);
-  color: var(--text-primary);
-  transform: translateY(-2px);
+.astrolabe-node:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px #000000;
 }
 
 .astrolabe-node.active {
-  background: rgba(0, 240, 255, 0.18);
-  border-color: var(--accent-neon-cyan);
-  color: var(--accent-neon-cyan);
-  box-shadow: var(--shadow-hud-cyan);
+  background: var(--accent-hot-coral);
+  color: #ffffff;
+  border-color: #000000;
   transform: translateY(-4px);
+  box-shadow: 4px 4px 0px #000000;
 }
 
 .node-icon {
@@ -508,27 +445,25 @@ body::after {
 }
 
 .node-label {
-  font-size: 0.72rem;
   white-space: nowrap;
-  letter-spacing: 0.5px;
 }
 
-/* Tab Panes Animation */
+/* HARD DIRECTIONAL SLOT-REEL TRANSITION WIPES (150ms - 250ms max) */
 .tab-pane {
   display: none;
-  animation: hudFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tab-pane.active {
   display: block;
+  animation: slotReelWipe 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes hudFadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes slotReelWipe {
+  from { opacity: 1; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-/* EXOTIC RELIC CARDS (Core Reading) */
+/* RELIC CODEX CARDS (Core Reading) */
 .reading-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -536,33 +471,13 @@ body::after {
 }
 
 .number-card {
-  background: var(--bg-card-hud);
-  border: 1px solid var(--border-hud-gold);
-  clip-path: var(--clip-chamfer-lg);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
-  padding: 26px;
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
+  padding: 24px;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.number-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--accent-cyber-gold);
-}
-
-.number-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-cyber-gold);
-  box-shadow: var(--shadow-hud-gold);
 }
 
 .card-header-badge {
@@ -573,75 +488,104 @@ body::after {
 }
 
 .card-tag {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-family: var(--font-arcade-display);
+  font-size: 1.05rem;
   letter-spacing: 1px;
-  color: var(--accent-cyber-gold);
-  background: rgba(243, 206, 109, 0.12);
-  padding: 4px 10px;
-  border: 1px solid var(--border-hud-gold);
+  color: #000000;
+  background: var(--accent-mustard-yellow);
+  padding: 3px 10px;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .number-badge-glow {
   width: 68px;
   height: 68px;
-  border-radius: var(--radius-full);
-  background: radial-gradient(circle, rgba(243, 206, 109, 0.3) 0%, rgba(5, 6, 8, 0) 70%);
-  border: 2px solid var(--accent-cyber-gold);
+  background: var(--accent-hot-coral);
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
-  font-size: 1.9rem;
-  font-weight: 900;
-  color: var(--accent-cyber-gold);
-  box-shadow: var(--shadow-hud-gold);
+  font-family: var(--font-arcade-display);
+  font-size: 2.4rem;
+  color: #ffffff;
 }
 
 .master-badge-glow {
-  border-color: var(--accent-exotic-amethyst);
-  color: #c77dff;
-  background: radial-gradient(circle, rgba(157, 78, 221, 0.35) 0%, rgba(5, 6, 8, 0) 70%);
-  box-shadow: var(--shadow-hud-amethyst);
+  background: var(--accent-mustard-yellow);
+  color: #000000;
 }
 
 .card-title {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
+  font-family: var(--font-header);
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .card-archetype {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--accent-neon-cyan);
+  font-family: var(--font-arcade-display);
+  font-size: 1.1rem;
+  color: var(--accent-mustard-yellow);
   margin-bottom: 12px;
 }
 
 .card-summary {
   color: var(--text-secondary);
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.5;
   margin-bottom: 18px;
   flex: 1;
 }
 
+/* HP / XP METERS */
+.hp-meter-box {
+  background: #0d0d14;
+  border: 2px solid #000000;
+  padding: 6px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.hp-meter-label {
+  font-family: var(--font-arcade-display);
+  font-size: 0.95rem;
+  color: var(--accent-mustard-yellow);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.hp-meter-track {
+  width: 100%;
+  height: 16px;
+  background: #252535;
+  border: 2px solid #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+.hp-meter-fill {
+  height: 100%;
+  background: var(--accent-hot-coral);
+  transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .card-details-accordion {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid #000000;
   padding-top: 12px;
   margin-top: auto;
 }
 
 .accordion-toggle {
-  background: transparent;
-  border: none;
-  color: var(--accent-cyber-gold);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 600;
+  background: var(--bg-input-arcade);
+  border: 2px solid #000000;
+  color: var(--accent-mustard-yellow);
+  font-family: var(--font-arcade-display);
+  font-size: 1.1rem;
+  padding: 6px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -652,7 +596,7 @@ body::after {
 .accordion-content {
   display: none;
   padding-top: 12px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
@@ -668,15 +612,15 @@ body::after {
 }
 
 .trait-pill {
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid var(--border-hud-cyan);
+  background: #0d0d14;
+  border: 2px solid #000000;
   padding: 3px 8px;
-  font-size: 0.78rem;
   font-family: var(--font-mono);
-  color: var(--accent-neon-cyan);
+  font-size: 0.8rem;
+  color: var(--accent-mustard-yellow);
 }
 
-/* Lo Shu Tactical Hologram Matrix */
+/* Lo Shu 3x3 Power Grid */
 .loshu-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -690,11 +634,10 @@ body::after {
 }
 
 .loshu-square {
-  background: var(--bg-card-hud);
-  border: 2px solid var(--accent-cyber-gold);
-  clip-path: var(--clip-chamfer-lg);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 24px;
-  box-shadow: var(--shadow-hud-gold);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -711,77 +654,69 @@ body::after {
 }
 
 .loshu-cell {
-  background: rgba(8, 10, 18, 0.92);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-sm);
+  background: #0d0d14;
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: all 0.25s ease;
 }
 
 .loshu-cell.present {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--accent-neon-cyan);
-  box-shadow: inset 0 0 16px rgba(0, 240, 255, 0.3);
+  background: var(--accent-mustard-yellow);
+  color: #000000;
 }
 
 .loshu-cell-num {
-  font-family: var(--font-serif);
-  font-size: 1.7rem;
-  font-weight: 700;
+  font-family: var(--font-arcade-display);
+  font-size: 2.2rem;
   color: var(--text-muted);
 }
 
 .loshu-cell.present .loshu-cell-num {
-  color: var(--accent-neon-cyan);
+  color: #000000;
 }
 
 .loshu-count-badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 4px;
+  right: 4px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  background: var(--accent-exotic-amethyst);
-  color: #fff;
-  border-radius: var(--radius-full);
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--accent-hot-coral);
+  color: #ffffff;
+  border: 2px solid #000000;
+  padding: 1px 5px;
 }
 
 .loshu-planes-card {
-  background: var(--bg-card-hud);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-lg);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 24px;
 }
 
 .arrow-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 12px 16px;
+  background: #0d0d14;
+  border: 2px solid #000000;
+  padding: 12px;
   margin-bottom: 12px;
-  font-family: var(--font-sans);
 }
 
 .arrow-item.active-strength {
-  border-color: var(--accent-rare-emerald);
-  background: rgba(6, 214, 160, 0.1);
+  border-color: var(--accent-lime-green);
+  background: rgba(57, 255, 106, 0.15);
 }
 
 .arrow-item.active-weakness {
-  border-color: var(--accent-warning-rose);
-  background: rgba(255, 0, 85, 0.1);
+  border-color: var(--accent-hot-coral);
+  background: rgba(255, 59, 59, 0.15);
 }
 
-/* Synastry Frequency Radar */
+/* VERSUS MODE / SYNASTRY SCREEN */
 .synastry-layout {
   display: flex;
   flex-direction: column;
@@ -789,47 +724,44 @@ body::after {
 }
 
 .synastry-score-box {
-  background: var(--bg-card-hud);
-  border: 2px solid var(--accent-neon-cyan);
-  clip-path: var(--clip-chamfer-lg);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 36px 24px;
   text-align: center;
-  box-shadow: var(--shadow-hud-cyan);
 }
 
 .synastry-score-ring {
   width: 150px;
   height: 150px;
-  border-radius: var(--radius-full);
-  border: 6px solid var(--accent-neon-cyan);
+  background: var(--accent-hot-coral);
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
   margin: 18px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 0%, transparent 70%);
-  box-shadow: var(--shadow-hud-cyan);
 }
 
 .score-value {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--accent-neon-cyan);
+  font-family: var(--font-arcade-display);
+  font-size: 3.4rem;
+  color: #ffffff;
   line-height: 1;
 }
 
 .score-percent {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: #ffffff;
 }
 
 /* Name Lab Energy Transmuter */
 .namelab-container {
-  background: var(--bg-card-hud);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-lg);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 28px;
 }
 
@@ -844,33 +776,30 @@ body::after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(8, 10, 18, 0.9);
-  border: 1px solid var(--border-hud-gold);
-  clip-path: var(--clip-chamfer-sm);
+  background: #0d0d14;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
   padding: 8px 12px;
   min-width: 44px;
 }
 
 .letter-tag.vowel {
-  border-color: var(--accent-neon-cyan);
-  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--accent-mustard-yellow);
+  background: var(--accent-mustard-yellow);
+  color: #000000;
 }
 
 .letter-char {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-family: var(--font-arcade-display);
+  font-size: 1.5rem;
 }
 
 .letter-val {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--accent-cyber-gold);
 }
 
-/* Profile Codex Vault */
+/* Codex Vault Save Slots */
 .vault-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -879,28 +808,40 @@ body::after {
 }
 
 .vault-card {
-  background: var(--bg-card-hud);
-  border: 1px solid var(--border-hud-cyan);
-  clip-path: var(--clip-chamfer-md);
+  background: var(--bg-card-arcade);
+  border: 3px solid #000000;
+  box-shadow: var(--shadow-offset);
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
-.vault-card:hover {
-  border-color: var(--accent-neon-cyan);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hud-cyan);
+.vault-card:active {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-pressed);
+}
+
+/* SCREEN SHAKE ANIMATION ON ERROR */
+.arcade-shake {
+  animation: arcadeShake 0.25s ease-in-out;
+}
+
+@keyframes arcadeShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
 }
 
 .app-footer {
   text-align: center;
   padding: 24px 16px;
   color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-arcade-display);
+  font-size: 1.1rem;
+  border-top: 3px solid #000000;
 }

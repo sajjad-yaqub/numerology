@@ -1,58 +1,52 @@
-# Design System (`3_DESIGN_SYSTEM.md`) - Cyberpunk / Destiny 2 HUD
+# Design System (`3_DESIGN_SYSTEM.md`) - Arcade Cabinet Retro-Futurist
 
-## 1. Aesthetic Vision: Tactical Cyber-HUD
+## 1. Aesthetic Vision: Option 2 — Arcade Cabinet
 
-A high-tech, responsive video game interface inspired by *Destiny 2* and *Cyberpunk 2077*. Features chamfered cut-corner geometry, HUD bracket reticles `[ ]`, tactical metadata subtext (`SYS_VER 1.0.4`, `CORE_NODE // LP_07`), exotic gear rarity borders, and responsive mobile/tablet layout.
+A high-octane, retro-futurist arcade game interface. Reads like a coin-op game menu ("SELECT STAGE", "VERSUS MODE", "PLAYER CODEX"). Utilizes flat color fills, chunky 3px solid black outlines, offset pressed shadows (`box-shadow: 4px 4px 0px #000`), arcade display typography (*VT323* & *Chakra Petch*), 8-bit chiptune sound cues, HP/XP style progress meters, and zero soft-UI or glassmorphism.
 
-## 2. Color Palette & Cyberpunk Tokens
+## 2. Color System Tokens (Committed to Option 2)
 
 ```css
 :root {
-  /* Tactical Void Palette */
-  --bg-obsidian: #050608;
-  --bg-deep-space: #0a0c14;
-  --bg-card-hud: rgba(12, 15, 26, 0.85);
-  --bg-card-hud-hover: rgba(20, 26, 44, 0.92);
-  --bg-glass-input: rgba(8, 10, 18, 0.9);
+  /* Arcade Cabinet Colors */
+  --bg-navy-black: #12121a;
+  --bg-card-arcade: #1b1b26;
+  --bg-input-arcade: #0d0d14;
 
-  /* Cyber Bioluminescent Accents */
-  --accent-cyber-gold: #f3ce6d;
-  --accent-cyber-gold-bright: #ffe596;
-  --accent-neon-cyan: #00f0ff;
-  --accent-exotic-amethyst: #9d4edd;
-  --accent-rare-emerald: #06d6a0;
-  --accent-warning-rose: #ff0055;
-  --accent-starlight: #e2e8ff;
+  --accent-hot-coral: #ff3b3b;
+  --accent-mustard-yellow: #f2c230;
+  --accent-electric-cyan: #00f0ff;
+  --accent-lime-green: #39ff6a;
 
-  --border-hud-cyan: rgba(0, 240, 255, 0.35);
-  --border-hud-gold: rgba(243, 206, 109, 0.4);
+  --border-arcade-black: #000000;
+  --border-arcade-width: 3px;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-gold: #f3ce6d;
+  --shadow-pressed-offset: 4px 4px 0px #000000;
+  --shadow-pressed-active: 0px 0px 0px #000000;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-yellow: #f2c230;
+  --text-coral: #ff3b3b;
   --text-cyan: #00f0ff;
 
   /* Typography */
-  --font-serif: 'Cinzel', serif;
-  --font-sans: 'Outfit', sans-serif;
-  --font-mono: 'Courier New', monospace;
-
-  /* Geometry & Chamfer Clip Paths */
-  --clip-chamfer-lg: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-  --clip-chamfer-md: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-  --clip-chamfer-sm: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-
-  --shadow-hud-gold: 0 0 25px rgba(243, 206, 109, 0.25);
-  --shadow-hud-cyan: 0 0 25px rgba(0, 240, 255, 0.25);
+  --font-arcade-display: 'VT323', monospace;
+  --font-header: 'Chakra Petch', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
 
   --touch-target-min: 48px;
 }
 ```
 
-## 3. Responsive Game Layout Architecture
-- **Desktop (>1024px)**: 3-column HUD layout (Left Player Codex, Central Active Display, Right Inspector).
-- **Tablet (600px - 1024px)**: 2-column HUD layout with collapsible inspector drawers.
-- **Mobile (<600px)**: 1-column touch-optimized game HUD with bottom Command Wheel navigation.
+## 3. Strict Anti-Patterns (Forbidden)
+- ❌ No purple/violet as primary color.
+- ❌ No glassmorphism / frosted blur panels (`backdrop-filter` deleted).
+- ❌ No soft, evenly rounded corners on every element (mix sharp + offset hard cut corners).
+- ❌ No generic AI product gradient backgrounds (flat color blocks or hard 2-tone fills only).
+- ❌ No Inter, Roboto, or system-default fonts for headers.
+- ❌ No plain opacity cross-fades for primary screen navigation.
 
 ---
 *Assigned Lead Persona: 🎨 UI/UX Designer*

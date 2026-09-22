@@ -1,14 +1,11 @@
 /**
- * ASTRANUMERICS - GAME AUDIO SFX & SOLFEGGIO SYNTHESIZER
- * Pure Web Audio API engine providing game sound FX (hover blips, mechanical locks, cyber sweeps)
- * and 432Hz ambient Solfeggio drones.
+ * ASTRANUMERICS - 8-BIT ARCADE SYNTHESIZER SOUND ENGINE
+ * Pure Web Audio API engine providing distinct 8-bit chiptune sound cues.
+ * NO constant background drone loops!
  */
 
 let audioCtx = null;
-let droneOsc1 = null;
-let droneOsc2 = null;
-let droneGain = null;
-let isAudioEnabled = false;
+let isAudioEnabled = true;
 
 function getAudioContext() {
   if (!audioCtx) {
@@ -24,18 +21,11 @@ function getAudioContext() {
 }
 
 export function toggleAudio() {
-  const ctx = getAudioContext();
-  if (!ctx) return false;
-
+  getAudioContext();
   isAudioEnabled = !isAudioEnabled;
-
   if (isAudioEnabled) {
-    startAmbientDrone();
-    playClickSound();
-  } else {
-    stopAmbientDrone();
+    playConfirmSound();
   }
-
   return isAudioEnabled;
 }
 
@@ -44,9 +34,9 @@ export function getAudioState() {
 }
 
 /**
- * Play sci-fi hover ping sound on UI hover
+ * 8-Bit Menu Blip (80ms) on hover or light interaction
  */
-export function playHoverSound() {
+export function playBlipSound() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -55,66 +45,25 @@ export function playHoverSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(1200, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.05);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.setValueAtTime(1760, ctx.currentTime + 0.04);
 
-    gain.gain.setValueAtTime(0.015, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.03, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start();
-    osc.stop(ctx.currentTime + 0.05);
+    osc.stop(ctx.currentTime + 0.08);
   } catch (err) {}
 }
 
 /**
- * Play satisfying mechanical lock + bass impact sound on button click
+ * Rising 2-note confirm chime (100ms) on button action / selection
  */
-export function playClickSound() {
-  if (!isAudioEnabled) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-
-  try {
-    // Mechanical click transient
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.type = 'square';
-    osc1.frequency.setValueAtTime(800, ctx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.08);
-
-    gain1.gain.setValueAtTime(0.06, ctx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
-
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.start();
-    osc1.stop(ctx.currentTime + 0.08);
-
-    // Sub bass impact
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(120, ctx.currentTime);
-    osc2.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.15);
-
-    gain2.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15);
-
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.start();
-    osc2.stop(ctx.currentTime + 0.15);
-  } catch (err) {}
-}
-
-/**
- * Play cybernetic sweep sound on tab switch
- */
-export function playTabSound() {
+export function playConfirmSound() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -123,11 +72,11 @@ export function playTabSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(400, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.12);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.05); // E5
 
-    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+    gain.gain.setValueAtTime(0.05, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
 
     osc.connect(gain);
@@ -138,47 +87,93 @@ export function playTabSound() {
   } catch (err) {}
 }
 
-export function startAmbientDrone() {
+/**
+ * Short low square buzz (120ms) on error or invalid input
+ */
+export function playErrorSound() {
+  if (!isAudioEnabled) return;
   const ctx = getAudioContext();
-  if (!ctx || !isAudioEnabled) return;
-  if (droneGain) return;
+  if (!ctx) return;
 
   try {
-    droneGain = ctx.createGain();
-    droneGain.gain.setValueAtTime(0.001, ctx.currentTime);
-    droneGain.gain.exponentialRampToValueAtTime(0.03, ctx.currentTime + 2.5);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
 
-    droneOsc1 = ctx.createOscillator();
-    droneOsc1.type = 'sine';
-    droneOsc1.frequency.setValueAtTime(216, ctx.currentTime);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(140, ctx.currentTime);
+    osc.frequency.setValueAtTime(90, ctx.currentTime + 0.06);
 
-    droneOsc2 = ctx.createOscillator();
-    droneOsc2.type = 'triangle';
-    droneOsc2.frequency.setValueAtTime(432, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.14);
 
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(550, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
 
-    droneOsc1.connect(filter);
-    droneOsc2.connect(filter);
-    filter.connect(droneGain);
-    droneGain.connect(ctx.destination);
-
-    droneOsc1.start();
-    droneOsc2.start();
+    osc.start();
+    osc.stop(ctx.currentTime + 0.14);
   } catch (err) {}
 }
 
-export function stopAmbientDrone() {
-  if (!audioCtx || !droneGain) return;
+/**
+ * Fast 4-note arpeggio (C-E-G-C) on success calculation (~250ms)
+ */
+export function playSuccessSound() {
+  if (!isAudioEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
   try {
-    droneGain.gain.setValueAtTime(droneGain.gain.value, audioCtx.currentTime);
-    droneGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
-    setTimeout(() => {
-      if (droneOsc1) { droneOsc1.stop(); droneOsc1.disconnect(); droneOsc1 = null; }
-      if (droneOsc2) { droneOsc2.stop(); droneOsc2.disconnect(); droneOsc2 = null; }
-      if (droneGain) { droneGain.disconnect(); droneGain = null; }
-    }, 1200);
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.05);
+
+      gain.gain.setValueAtTime(0.05, ctx.currentTime + idx * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.05 + 0.1);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime + idx * 0.05);
+      osc.stop(ctx.currentTime + idx * 0.05 + 0.1);
+    });
+  } catch (err) {}
+}
+
+/**
+ * 8-Bit Fanfare sting (750ms) on level up / milestone
+ */
+export function playLevelUpSound() {
+  if (!isAudioEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  try {
+    const sequence = [
+      { freq: 440, time: 0 },
+      { freq: 554.37, time: 0.1 },
+      { freq: 659.25, time: 0.2 },
+      { freq: 880, time: 0.35 }
+    ];
+
+    sequence.forEach(({ freq, time }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+
+      gain.gain.setValueAtTime(0.06, ctx.currentTime + time);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + time + 0.25);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime + time);
+      osc.stop(ctx.currentTime + time + 0.25);
+    });
   } catch (err) {}
 }

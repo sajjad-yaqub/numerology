@@ -1,5 +1,5 @@
 /**
- * ASTRANUMERICS - CYBERPUNK GAME HUD MAIN ORCHESTRATOR
+ * ASTRANUMERICS - ARCADE CABINET GAME UI MAIN ORCHESTRATOR
  */
 
 import { initCosmicCanvas } from './components/CosmicBackground.js';
@@ -14,7 +14,7 @@ import { renderNameLabView } from './components/NameLabView.js';
 import { renderDailyForecastView } from './components/DailyForecastView.js';
 import { renderAddressPhoneView } from './components/AddressPhoneView.js';
 import { renderProfileVaultView } from './components/ProfileVaultView.js';
-import { playHoverSound, playClickSound, playTabSound } from './utils/soundEngine.js';
+import { playBlipSound, playConfirmSound, playErrorSound, playSuccessSound, playLevelUpSound } from './utils/soundEngine.js';
 
 // Application State
 const state = {
@@ -49,20 +49,34 @@ function registerServiceWorker() {
 }
 
 /**
- * Attach global game audio hover & click SFX to dynamic DOM elements
+ * Trigger Screen Shake + Red Flash on Error
+ */
+export function triggerArcadeError() {
+  playErrorSound();
+  const main = document.getElementById('app-container');
+  if (main) {
+    main.classList.remove('arcade-shake');
+    void main.offsetWidth; // Force reflow
+    main.classList.add('arcade-shake');
+    setTimeout(() => main.classList.remove('arcade-shake'), 300);
+  }
+}
+
+/**
+ * Attach 8-bit sound cues to dynamic DOM elements
  */
 function attachGameAudioTriggers() {
   document.querySelectorAll('button, input, select, .number-card, .loshu-cell, .vault-card').forEach(el => {
     if (!el.dataset.audioBound) {
       el.dataset.audioBound = 'true';
-      el.addEventListener('mouseenter', () => playHoverSound());
-      el.addEventListener('click', () => playClickSound());
+      el.addEventListener('mouseenter', () => playBlipSound());
+      el.addEventListener('click', () => playConfirmSound());
     }
   });
 }
 
 /**
- * Render Active Tab View
+ * Render Active Tab View (Game Screens)
  */
 function renderTabContent() {
   const { activeTab, activeProfile, activeSystem, savedProfiles } = state;
@@ -75,7 +89,7 @@ function renderTabContent() {
   const activePane = document.getElementById(`pane-${activeTab}`);
   if (activePane) activePane.classList.add('active');
 
-  // Render specific tab component
+  // Render specific game screen component
   switch (activeTab) {
     case 'reading':
       renderCoreReadingView('pane-reading', activeProfile, activeSystem);
@@ -102,7 +116,7 @@ function renderTabContent() {
         (profileToLoad) => {
           state.activeProfile = { ...profileToLoad };
           state.activeTab = 'reading';
-          playTabSound();
+          playLevelUpSound();
           renderAll();
         },
         (idxToDelete) => {
@@ -124,16 +138,17 @@ function renderTabContent() {
           state.savedProfiles = [...importedProfiles];
           saveVaultToStorage();
           renderAll();
+          playSuccessSound();
           alert(`Successfully imported ${importedProfiles.length} profiles into Vault.`);
         }
       );
       break;
   }
 
-  // Render Command Wheel Bottom Dial
+  // Render Command Reel Bottom Stage Selector
   renderAstrolabeNav('astrolabe-nav-container', state.activeTab, (selectedTab) => {
     if (selectedTab !== state.activeTab) {
-      playTabSound();
+      playConfirmSound();
       state.activeTab = selectedTab;
       renderTabContent();
     }
@@ -157,7 +172,7 @@ function renderAll() {
     state.savedProfiles.length,
     () => {
       state.activeTab = 'vault';
-      playTabSound();
+      playConfirmSound();
       renderTabContent();
     }
   );
@@ -168,7 +183,7 @@ function renderAll() {
     (updatedProfile) => {
       state.activeProfile = { ...updatedProfile };
       state.activeTab = 'reading';
-      playTabSound();
+      playSuccessSound();
       renderTabContent();
     },
     (profileToSave) => {
@@ -176,10 +191,12 @@ function renderAll() {
       if (!exists) {
         state.savedProfiles.push(profileToSave);
         saveVaultToStorage();
+        playLevelUpSound();
         renderAll();
-        alert(`Profile "${profileToSave.name}" saved to Codex Vault!`);
+        alert(`Profile "${profileToSave.name}" saved to Save Slot Vault!`);
       } else {
-        alert(`Profile "${profileToSave.name}" is already in your Codex Vault.`);
+        triggerArcadeError();
+        alert(`Profile "${profileToSave.name}" is already in your Save Slot Vault.`);
       }
     }
   );
