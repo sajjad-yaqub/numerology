@@ -1,6 +1,7 @@
 import { calculateAddressNumerology } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
 import { savePendingPaymentState } from '../main.js';
+import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderAddressPhoneView(containerId, system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
@@ -48,13 +49,14 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean', isUn
           <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
             Decode structural space energy, vehicle luck ratings, and ancient Shubh/Ashubh remedies.
           </p>
-          <div class="pay-button-container" style="display: flex; justify-content: center;">
-            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9gZgt7fSf8FR" async> </script> </form>
-          </div>
+          <div id="pay-btn-address" style="display: flex; justify-content: center; margin-top: 16px;"></div>
         </div>
       `;
+      const btnContainer = resultsDiv.querySelector('#pay-btn-address');
+      injectRazorpayButton(btnContainer, 'pl_Tf9gZgt7fSf8FR');
       return;
     }
+
 
     if (!addrVal && !phoneVal) {
       resultsDiv.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align:center;">Enter an address or phone number above to calculate vibration.</p>`;

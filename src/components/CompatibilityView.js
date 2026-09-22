@@ -1,6 +1,7 @@
 import { calculateSynastry } from '../utils/numerologyEngine.js';
 import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
 import { savePendingPaymentState } from '../main.js';
+import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
@@ -71,13 +72,14 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
           <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
             Reveal deep relationship compatibility status, soul urge clashes, karmic synergy, and export downloadable PDF report.
           </p>
-          <div class="pay-button-container" style="display: flex; justify-content: center;">
-            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9iPpPjF9mZD9" async> </script> </form>
-          </div>
+          <div id="pay-btn-synastry" style="display: flex; justify-content: center; margin-top: 16px;"></div>
         </div>
       `;
+      const btnContainer = resultsDiv.querySelector('#pay-btn-synastry');
+      injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9');
       return;
     }
+
 
     if (!p1.name || !p1.dob || !p2.name || !p2.dob) {
       resultsDiv.innerHTML = `<p class="text-secondary" style="text-align:center;">Enter both seeker profiles above to compute alignment.</p>`;

@@ -2,6 +2,7 @@ import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
 import { playChimeTap } from '../utils/soundEngine.js';
 import { savePendingPaymentState } from '../main.js';
+import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderNameLabView(containerId, initialName = '', system = 'pythagorean', isUnlocked = false) {
   const container = document.getElementById(containerId);
@@ -40,13 +41,14 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
           <p class="text-secondary mb-4" style="font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px auto; line-height: 1.5;">
             Transmute letter frequencies, balance planetary vibrations, and unlock lucky Chaldean name spelling adjustments.
           </p>
-          <div class="pay-button-container" style="display: flex; justify-content: center;">
-            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tf9QgdupaiZRzc" async> </script> </form>
-          </div>
+          <div id="pay-btn-namelab" style="display: flex; justify-content: center; margin-top: 16px;"></div>
         </div>
       `;
+      const btnContainer = resultsDiv.querySelector('#pay-btn-namelab');
+      injectRazorpayButton(btnContainer, 'pl_Tf9QgdupaiZRzc');
       return;
     }
+
 
     if (!text) {
       resultsDiv.innerHTML = `<p class="text-secondary" style="text-align:center;">Type a phrase above to begin energy analysis.</p>`;
