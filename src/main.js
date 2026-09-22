@@ -14,8 +14,6 @@ import { renderNameLabView } from './components/NameLabView.js';
 import { renderDailyForecastView } from './components/DailyForecastView.js';
 import { renderAddressPhoneView } from './components/AddressPhoneView.js';
 import { renderProfileVaultView } from './components/ProfileVaultView.js';
-import { renderFooter } from './components/Footer.js';
-import { checkAndHandlePaymentReturn } from './utils/paymentEngine.js';
 import {
   playChimeTap,
   playConfirmChime,
@@ -238,7 +236,6 @@ function renderAll() {
   );
 
   renderTabContent();
-  renderFooter('app-footer-container');
 }
 
 /**
@@ -248,18 +245,6 @@ function init() {
   registerServiceWorker();
   initCosmicCanvas('cosmic-canvas');
   initPWAInstallBanner();
-
-  // Check if returning from Razorpay Payment Link
-  const paymentReturn = checkAndHandlePaymentReturn();
-  if (paymentReturn.justReturned) {
-    if (paymentReturn.profile) {
-      state.activeProfile = { ...state.activeProfile, ...paymentReturn.profile };
-    }
-    if (paymentReturn.unlockedFeature) {
-      state.activeTab = paymentReturn.unlockedFeature;
-    }
-    setTimeout(() => playSuccessArpeggio(), 300);
-  }
 
   renderAll();
 }
