@@ -203,6 +203,11 @@ function renderTabContent() {
     pane.classList.remove('active');
   });
 
+  const heroSection = document.getElementById('hero-section');
+  if (heroSection) {
+    heroSection.style.display = (activeTab === 'reading') ? 'block' : 'none';
+  }
+
   const activePane = document.getElementById(`pane-${activeTab}`);
   if (activePane) activePane.classList.add('active');
 
