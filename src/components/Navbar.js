@@ -4,11 +4,22 @@
 
 import { toggleAudio, getAudioState, playConfirmChime, playChimeTap } from '../utils/soundEngine.js';
 
-export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault) {
+const CHAMBER_NAMES = {
+  reading: 'CHAMBER 1: CODEX',
+  loshu: 'CHAMBER 2: MATRIX',
+  synastry: 'CHAMBER 3: SYNASTRY',
+  namelab: 'CHAMBER 4: NAME LAB',
+  forecast: 'CHAMBER 5: DAILY VIBE',
+  address: 'CHAMBER 6: ADDRESS',
+  vault: 'CHAMBER 7: VAULT'
+};
+
+export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault, activeTab = 'reading') {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   const isAudioActive = getAudioState();
+  const chamberLabel = CHAMBER_NAMES[activeTab] || 'CHAMBER 1: CODEX';
 
   container.innerHTML = `
     <a href="#" class="header-brand" title="AstraNumerics Console">
@@ -17,10 +28,10 @@ export function renderNavbar(containerId, activeSystem, onSystemChange, savedCou
     </a>
 
     <div class="header-actions">
-      <!-- Artifact Status Badge -->
-      <div class="sys-status-badge" title="Ritual Console Status">
+      <!-- Dynamic Artifact Status Badge -->
+      <div class="sys-status-badge" title="Active Chamber Indicator">
         <span class="status-dot"></span>
-        <span>CHAMBER 1 // ACTIVE</span>
+        <span>${chamberLabel} // ACTIVE</span>
       </div>
 
       <!-- Metallic Chime Sound Toggler -->

@@ -160,6 +160,24 @@ function renderTabContent() {
       break;
   }
 
+  // Render Navbar with dynamic active chamber indicator
+  renderNavbar(
+    'app-header',
+    state.activeSystem,
+    (newSystem) => {
+      state.activeSystem = newSystem;
+      localStorage.setItem('astranumerics_system', newSystem);
+      renderAll();
+    },
+    state.savedProfiles.length,
+    () => {
+      state.activeTab = 'vault';
+      playConfirmChime();
+      renderTabContent();
+    },
+    state.activeTab
+  );
+
   // Render Chamber Reel Bottom Stage Selector
   renderAstrolabeNav('astrolabe-nav-container', state.activeTab, (selectedTab) => {
     if (selectedTab !== state.activeTab) {
@@ -189,7 +207,8 @@ function renderAll() {
       state.activeTab = 'vault';
       playConfirmChime();
       renderTabContent();
-    }
+    },
+    state.activeTab
   );
 
   renderCalculatorForm(
