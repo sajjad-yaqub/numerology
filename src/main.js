@@ -80,6 +80,7 @@ function checkPaymentRedirect() {
 
   // ONLY execute if explicitly returning from a payment with query parameters
   const isPaymentReturn = 
+    !!featureParam || 
     !!rzpPaymentId || 
     rzpLinkStatus === 'paid' || 
     !!rzpPaymentLinkId || 
