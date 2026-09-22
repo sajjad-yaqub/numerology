@@ -1,29 +1,29 @@
 /**
- * ASTRANUMERICS - ARCADE COMMAND REEL / STAGE SELECTOR NAVIGATION
+ * ASTRANUMERICS - SACRED ARTIFACT CHAMBER REEL NAVIGATION
  */
 
-import { playBlipSound, playConfirmSound } from '../utils/soundEngine.js';
+import { playChimeTap, playConfirmChime } from '../utils/soundEngine.js';
 
 export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   const realms = [
-    { id: 'reading', label: 'STAGE 1: CODEX', icon: '🔮' },
-    { id: 'loshu', label: 'STAGE 2: MATRIX', icon: '📐' },
-    { id: 'synastry', label: 'STAGE 3: VS MATCH', icon: '💕' },
-    { id: 'namelab', label: 'STAGE 4: NAME LAB', icon: '🧪' },
-    { id: 'forecast', label: 'STAGE 5: VIBE CYCLE', icon: '📅' },
-    { id: 'address', label: 'STAGE 6: ADDRESS', icon: '🏠' },
-    { id: 'vault', label: 'STAGE 7: SAVE VAULT', icon: '💾' }
+    { id: 'reading', label: 'CHAMBER 1: CODEX', icon: '🔮' },
+    { id: 'loshu', label: 'CHAMBER 2: MATRIX', icon: '📐' },
+    { id: 'synastry', label: 'CHAMBER 3: SYNASTRY', icon: '💕' },
+    { id: 'namelab', label: 'CHAMBER 4: NAME LAB', icon: '🧪' },
+    { id: 'forecast', label: 'CHAMBER 5: VIBE CYCLE', icon: '📅' },
+    { id: 'address', label: 'CHAMBER 6: ADDRESS', icon: '🏠' },
+    { id: 'vault', label: 'CHAMBER 7: SAVE VAULT', icon: '💾' }
   ];
 
   container.innerHTML = `
     <div class="astrolabe-dial-wrapper">
       <div class="astrolabe-ring-outer">
         <div class="astrolabe-ring-inner">
-          <div class="astrolabe-center-core" title="Arcade Stage Selector">
-            <span>[STAGE]</span>
+          <div class="astrolabe-center-core" title="Chamber Reel Selector">
+            <span>[CHAMBER]</span>
           </div>
 
           ${realms.map((r) => {
@@ -40,14 +40,14 @@ export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
     </div>
   `;
 
-  // Bind 8-Bit hover & click sound triggers
+  // Bind metallic sound triggers
   container.querySelectorAll('.astrolabe-node').forEach(node => {
-    node.addEventListener('mouseenter', () => playBlipSound());
+    node.addEventListener('mouseenter', () => playChimeTap());
 
     node.addEventListener('click', () => {
       const tab = node.getAttribute('data-tab');
 
-      playConfirmSound();
+      playConfirmChime();
 
       if (navigator.vibrate) {
         try { navigator.vibrate(15); } catch(e) {}

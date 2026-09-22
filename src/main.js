@@ -1,5 +1,5 @@
 /**
- * ASTRANUMERICS - ARCADE CABINET GAME UI MAIN ORCHESTRATOR
+ * ASTRANUMERICS - SACRED ARTIFACT GAME CONSOLE MAIN ORCHESTRATOR
  */
 
 import { initCosmicCanvas } from './components/CosmicBackground.js';
@@ -14,7 +14,15 @@ import { renderNameLabView } from './components/NameLabView.js';
 import { renderDailyForecastView } from './components/DailyForecastView.js';
 import { renderAddressPhoneView } from './components/AddressPhoneView.js';
 import { renderProfileVaultView } from './components/ProfileVaultView.js';
-import { playBlipSound, playConfirmSound, playErrorSound, playSuccessSound, playLevelUpSound } from './utils/soundEngine.js';
+import {
+  playChimeTap,
+  playConfirmChime,
+  playErrorThud,
+  playSuccessArpeggio,
+  playMilestoneGong,
+  startIdleHum,
+  stopIdleHum
+} from './utils/soundEngine.js';
 
 // Application State
 const state = {
@@ -49,10 +57,10 @@ function registerServiceWorker() {
 }
 
 /**
- * Trigger Screen Shake + Red Flash on Error
+ * Trigger Oxblood Screen Shake + Thud Sound on Error
  */
 export function triggerArcadeError() {
-  playErrorSound();
+  playErrorThud();
   const main = document.getElementById('app-container');
   if (main) {
     main.classList.remove('arcade-shake');
@@ -63,23 +71,30 @@ export function triggerArcadeError() {
 }
 
 /**
- * Attach 8-bit sound cues to dynamic DOM elements
+ * Attach metallic sound cues to dynamic DOM elements
  */
 function attachGameAudioTriggers() {
   document.querySelectorAll('button, input, select, .number-card, .loshu-cell, .vault-card').forEach(el => {
     if (!el.dataset.audioBound) {
       el.dataset.audioBound = 'true';
-      el.addEventListener('mouseenter', () => playBlipSound());
-      el.addEventListener('click', () => playConfirmSound());
+      el.addEventListener('mouseenter', () => playChimeTap());
+      el.addEventListener('click', () => playConfirmChime());
     }
   });
 }
 
 /**
- * Render Active Tab View (Game Screens)
+ * Render Active Tab View (Ritual Chambers)
  */
 function renderTabContent() {
   const { activeTab, activeProfile, activeSystem, savedProfiles } = state;
+
+  // Manage Idle Hum (hum ONLY on idle/home state, NOT during active reading screens)
+  if (activeTab === 'reading' && (!activeProfile.name || !activeProfile.dob)) {
+    startIdleHum();
+  } else {
+    stopIdleHum();
+  }
 
   // Update tab panes visibility
   document.querySelectorAll('.tab-pane').forEach(pane => {
@@ -89,7 +104,7 @@ function renderTabContent() {
   const activePane = document.getElementById(`pane-${activeTab}`);
   if (activePane) activePane.classList.add('active');
 
-  // Render specific game screen component
+  // Render specific chamber component
   switch (activeTab) {
     case 'reading':
       renderCoreReadingView('pane-reading', activeProfile, activeSystem);
@@ -116,7 +131,7 @@ function renderTabContent() {
         (profileToLoad) => {
           state.activeProfile = { ...profileToLoad };
           state.activeTab = 'reading';
-          playLevelUpSound();
+          playMilestoneGong();
           renderAll();
         },
         (idxToDelete) => {
@@ -138,17 +153,17 @@ function renderTabContent() {
           state.savedProfiles = [...importedProfiles];
           saveVaultToStorage();
           renderAll();
-          playSuccessSound();
+          playSuccessArpeggio();
           alert(`Successfully imported ${importedProfiles.length} profiles into Vault.`);
         }
       );
       break;
   }
 
-  // Render Command Reel Bottom Stage Selector
+  // Render Chamber Reel Bottom Stage Selector
   renderAstrolabeNav('astrolabe-nav-container', state.activeTab, (selectedTab) => {
     if (selectedTab !== state.activeTab) {
-      playConfirmSound();
+      playConfirmChime();
       state.activeTab = selectedTab;
       renderTabContent();
     }
@@ -172,7 +187,7 @@ function renderAll() {
     state.savedProfiles.length,
     () => {
       state.activeTab = 'vault';
-      playConfirmSound();
+      playConfirmChime();
       renderTabContent();
     }
   );
@@ -183,7 +198,7 @@ function renderAll() {
     (updatedProfile) => {
       state.activeProfile = { ...updatedProfile };
       state.activeTab = 'reading';
-      playSuccessSound();
+      playSuccessArpeggio();
       renderTabContent();
     },
     (profileToSave) => {
@@ -191,7 +206,7 @@ function renderAll() {
       if (!exists) {
         state.savedProfiles.push(profileToSave);
         saveVaultToStorage();
-        playLevelUpSound();
+        playMilestoneGong();
         renderAll();
         alert(`Profile "${profileToSave.name}" saved to Save Slot Vault!`);
       } else {

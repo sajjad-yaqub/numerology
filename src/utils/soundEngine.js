@@ -1,10 +1,12 @@
 /**
- * ASTRANUMERICS - 8-BIT ARCADE SYNTHESIZER SOUND ENGINE
- * Pure Web Audio API engine providing distinct 8-bit chiptune sound cues.
- * NO constant background drone loops!
+ * ASTRANUMERICS - METALLIC CHIME & GONG SOUND SYNTHESIZER
+ * Pure Web Audio API engine providing soft metallic chimes, low gong tones, and dull thuds.
+ * Ambient hum ONLY on idle state!
  */
 
 let audioCtx = null;
+let humOsc = null;
+let humGain = null;
 let isAudioEnabled = true;
 
 function getAudioContext() {
@@ -24,7 +26,9 @@ export function toggleAudio() {
   getAudioContext();
   isAudioEnabled = !isAudioEnabled;
   if (isAudioEnabled) {
-    playConfirmSound();
+    playConfirmChime();
+  } else {
+    stopIdleHum();
   }
   return isAudioEnabled;
 }
@@ -34,9 +38,9 @@ export function getAudioState() {
 }
 
 /**
- * 8-Bit Menu Blip (80ms) on hover or light interaction
+ * Soft metallic chime tap (60ms) on hover
  */
-export function playBlipSound() {
+export function playChimeTap() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -45,11 +49,10 @@ export function playBlipSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.setValueAtTime(1760, ctx.currentTime + 0.04);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1470, ctx.currentTime); // Metallic frequency
 
-    gain.gain.setValueAtTime(0.03, ctx.currentTime);
+    gain.gain.setValueAtTime(0.02, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
 
     osc.connect(gain);
@@ -61,9 +64,9 @@ export function playBlipSound() {
 }
 
 /**
- * Rising 2-note confirm chime (100ms) on button action / selection
+ * Low resonant metallic chime on confirm/button press
  */
-export function playConfirmSound() {
+export function playConfirmChime() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -72,25 +75,25 @@ export function playConfirmSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.05); // E5
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(432, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(864, ctx.currentTime + 0.12);
 
-    gain.gain.setValueAtTime(0.05, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.07, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start();
-    osc.stop(ctx.currentTime + 0.12);
+    osc.stop(ctx.currentTime + 0.15);
   } catch (err) {}
 }
 
 /**
- * Short low square buzz (120ms) on error or invalid input
+ * Short dull thud on error or invalid input
  */
-export function playErrorSound() {
+export function playErrorThud() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
@@ -99,11 +102,11 @@ export function playErrorSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(140, ctx.currentTime);
-    osc.frequency.setValueAtTime(90, ctx.currentTime + 0.06);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(110, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 0.12);
 
-    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.14);
 
     osc.connect(gain);
@@ -115,65 +118,99 @@ export function playErrorSound() {
 }
 
 /**
- * Fast 4-note arpeggio (C-E-G-C) on success calculation (~250ms)
+ * Rising bell arpeggio on success calculation (~250ms)
  */
-export function playSuccessSound() {
+export function playSuccessArpeggio() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
   try {
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    const notes = [528, 660, 792, 1056]; // Solfeggio bell frequencies
     notes.forEach((freq, idx) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
-      osc.type = 'triangle';
+      osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.05);
 
       gain.gain.setValueAtTime(0.05, ctx.currentTime + idx * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.05 + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.05 + 0.12);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(ctx.currentTime + idx * 0.05);
-      osc.stop(ctx.currentTime + idx * 0.05 + 0.1);
+      osc.stop(ctx.currentTime + idx * 0.05 + 0.12);
     });
   } catch (err) {}
 }
 
 /**
- * 8-Bit Fanfare sting (750ms) on level up / milestone
+ * Full resonant strike gong sting (800ms) on milestone / complete reading
  */
-export function playLevelUpSound() {
+export function playMilestoneGong() {
   if (!isAudioEnabled) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
   try {
-    const sequence = [
-      { freq: 440, time: 0 },
-      { freq: 554.37, time: 0.1 },
-      { freq: 659.25, time: 0.2 },
-      { freq: 880, time: 0.35 }
-    ];
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gain = ctx.createGain();
 
-    sequence.forEach(({ freq, time }) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(216, ctx.currentTime);
 
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(432, ctx.currentTime);
 
-      gain.gain.setValueAtTime(0.06, ctx.currentTime + time);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + time + 0.25);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.85);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+    osc1.connect(gain);
+    osc2.connect(gain);
+    gain.connect(ctx.destination);
 
-      osc.start(ctx.currentTime + time);
-      osc.stop(ctx.currentTime + time + 0.25);
-    });
+    osc1.start();
+    osc2.start();
+    osc1.stop(ctx.currentTime + 0.85);
+    osc2.stop(ctx.currentTime + 0.85);
+  } catch (err) {}
+}
+
+/**
+ * Idle state low hum (starts only on idle, stops during active reading)
+ */
+export function startIdleHum() {
+  if (!isAudioEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || humGain) return;
+
+  try {
+    humGain = ctx.createGain();
+    humGain.gain.setValueAtTime(0.001, ctx.currentTime);
+    humGain.gain.exponentialRampToValueAtTime(0.02, ctx.currentTime + 2);
+
+    humOsc = ctx.createOscillator();
+    humOsc.type = 'sine';
+    humOsc.frequency.setValueAtTime(108, ctx.currentTime);
+
+    humOsc.connect(humGain);
+    humGain.connect(ctx.destination);
+
+    humOsc.start();
+  } catch (err) {}
+}
+
+export function stopIdleHum() {
+  if (!audioCtx || !humGain) return;
+  try {
+    humGain.gain.setValueAtTime(humGain.gain.value, audioCtx.currentTime);
+    humGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+    setTimeout(() => {
+      if (humOsc) { humOsc.stop(); humOsc.disconnect(); humOsc = null; }
+      if (humGain) { humGain.disconnect(); humGain = null; }
+    }, 500);
   } catch (err) {}
 }

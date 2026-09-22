@@ -1,10 +1,10 @@
 /**
- * ASTRANUMERICS - ARCADE NAME TRANSMUTER LAB COMPONENT
+ * ASTRANUMERICS - SACRED ARTIFACT NAME TRANSMUTER LAB COMPONENT
  */
 
 import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
-import { playBlipSound } from '../utils/soundEngine.js';
+import { playChimeTap } from '../utils/soundEngine.js';
 
 export function renderNameLabView(containerId, initialName = '', system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -12,8 +12,8 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
 
   container.innerHTML = `
     <div class="namelab-container">
-      <h2 class="font-serif text-coral mb-4" style="text-align:center;">🧪 STAGE 4: NAME TRANSMUTER LAB</h2>
-      <p class="text-secondary" style="text-align:center; font-size:0.9rem; margin-bottom:24px;">
+      <h2 class="font-serif-carved text-oxblood mb-4" style="text-align:center;">🧪 CHAMBER 4: NAME TRANSMUTER LAB</h2>
+      <p class="text-secondary" style="text-align:center; font-size:0.95rem; margin-bottom:24px;">
         Type any name, business title, or alias to analyze instant frequency shifts.
       </p>
 
@@ -86,7 +86,7 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
   };
 
   input.addEventListener('input', () => {
-    playBlipSound();
+    playChimeTap();
     updateLab();
   });
 

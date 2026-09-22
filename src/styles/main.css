@@ -1,37 +1,40 @@
 /* ==========================================================================
-   ASTRANUMERICS - ARCADE CABINET RETRO-FUTURIST DESIGN SYSTEM (OPTION 2)
+   ASTRANUMERICS - SACRED GEOMETRY ARTIFACT CONSOLE DESIGN SYSTEM
+   Palette: Warm Parchment (#EDE6D6), Antique Brass (#9C6B1F),
+            Deep Oxblood (#7A2530), Near-Black Charcoal (#211D18)
    ========================================================================== */
 
 :root {
-  /* Option 2: Arcade Cabinet Color Palette */
-  --bg-navy-black: #12121a;
-  --bg-card-arcade: #1b1b26;
-  --bg-input-arcade: #0d0d14;
+  /* Sacred Artifact Color System */
+  --bg-parchment: #ede6d6;
+  --bg-card-parchment: #f5efe1;
+  --bg-input-parchment: #e4dccb;
+  --bg-dark-charcoal: #211d18;
 
-  --accent-hot-coral: #ff3b3b;
-  --accent-mustard-yellow: #f2c230;
-  --accent-electric-cyan: #00f0ff;
-  --accent-lime-green: #39ff6a;
+  --accent-brass: #9c6b1f;
+  --accent-brass-light: #c48c33;
+  --accent-oxblood: #7a2530;
+  --accent-slate-green: #5c6e5a;
 
-  --border-arcade-black: #000000;
-  --border-arcade-width: 3px;
+  --border-charcoal: #211d18;
+  --border-width: 3px;
 
-  --shadow-offset: 4px 4px 0px #000000;
-  --shadow-pressed: 0px 0px 0px #000000;
+  --shadow-offset: 4px 4px 0px #211d18;
+  --shadow-pressed: 0px 0px 0px #211d18;
 
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0b8;
-  --text-yellow: #f2c230;
-  --text-coral: #ff3b3b;
-  --text-cyan: #00f0ff;
+  --text-charcoal: #211d18;
+  --text-secondary: #5c5549;
+  --text-brass: #9c6b1f;
+  --text-oxblood: #7a2530;
+  --text-parchment: #ede6d6;
 
   /* Typography */
-  --font-arcade-display: 'VT323', monospace;
+  --font-serif-carved: 'Cinzel', serif;
   --font-header: 'Chakra Petch', sans-serif;
   --font-body: 'Rajdhani', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
 
-  --touch-target-min: 48px;
+  --touch-target-min: 44px;
 }
 
 *, *::before, *::after {
@@ -43,8 +46,8 @@
 html, body {
   width: 100%;
   min-height: 100%;
-  background-color: var(--bg-navy-black);
-  color: var(--text-primary);
+  background-color: var(--bg-parchment);
+  color: var(--text-charcoal);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
@@ -53,7 +56,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Background Canvas */
+/* Geometric Backdrop Canvas */
 #cosmic-canvas {
   position: fixed;
   top: 0;
@@ -72,9 +75,9 @@ html, body {
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 640px;
-  background: var(--accent-mustard-yellow);
-  color: #000000;
-  border: 3px solid #000000;
+  background: var(--accent-brass);
+  color: var(--text-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
   padding: 14px 20px;
   display: flex;
@@ -95,36 +98,33 @@ html, body {
 }
 
 .pwa-banner-icon {
-  width: 44px;
-  height: 44px;
+  width: clamp(36px, 8vw, 44px);
+  height: clamp(36px, 8vw, 44px);
 }
 
 .pwa-banner-text strong {
   display: block;
-  font-family: var(--font-arcade-display);
-  font-size: 1.3rem;
-  color: #000000;
+  font-family: var(--font-serif-carved);
+  font-size: 1.1rem;
   letter-spacing: 1px;
 }
 
 .pwa-banner-text span {
   font-size: 0.85rem;
-  font-weight: 600;
-  color: #12121a;
 }
 
-/* Header Arcade Bar */
+/* Header Artifact Bar */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 900;
-  background: #1b1b26;
-  border-bottom: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border-bottom: var(--border-width) solid var(--border-charcoal);
   padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 0px #000000;
+  box-shadow: 0 4px 0px var(--border-charcoal);
 }
 
 .header-brand {
@@ -135,76 +135,77 @@ html, body {
 }
 
 .brand-icon {
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 6vw, 40px);
+  height: clamp(32px, 6vw, 40px);
 }
 
 .brand-title {
-  font-family: var(--font-arcade-display);
-  font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--accent-mustard-yellow);
-  text-shadow: 2px 2px 0px #000000;
+  font-family: var(--font-serif-carved);
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--accent-brass);
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* Arcade Coin-Op Badge */
+/* Artifact Status Badge */
 .sys-status-badge {
-  font-family: var(--font-arcade-display);
-  font-size: 1.1rem;
-  color: var(--accent-lime-green);
-  background: #0d0d14;
-  border: 2px solid #000000;
-  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent-slate-green);
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
+  padding: 4px 10px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 2px 2px 0px #000000;
+  box-shadow: 2px 2px 0px var(--border-charcoal);
 }
 
 .status-dot {
   width: 8px;
   height: 8px;
-  background: var(--accent-lime-green);
-  box-shadow: 0 0 6px var(--accent-lime-green);
+  background: var(--accent-slate-green);
+  border-radius: 50%;
 }
 
 /* Audio SFX Toggle Button */
 .audio-toggle-btn {
-  background: var(--bg-card-arcade);
-  border: 2px solid #000000;
-  color: var(--accent-mustard-yellow);
-  font-family: var(--font-arcade-display);
-  font-size: 1.1rem;
-  padding: 4px 14px;
+  background: var(--bg-card-parchment);
+  border: 2px solid var(--border-charcoal);
+  color: var(--accent-brass);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  min-height: var(--touch-target-min);
   cursor: pointer;
-  box-shadow: 2px 2px 0px #000000;
-  transition: transform 0.05s ease;
+  box-shadow: 2px 2px 0px var(--border-charcoal);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
 
 .audio-toggle-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px #000000;
+  transform: translate(2px, 2px) scale(0.96);
+  box-shadow: var(--shadow-pressed);
 }
 
 .audio-toggle-btn.active {
-  background: var(--accent-mustard-yellow);
-  color: #000000;
+  background: var(--accent-brass);
+  color: var(--text-parchment);
 }
 
 /* System Selector Toggle Switches */
 .system-toggle {
   display: inline-flex;
-  background: #0d0d14;
-  border: 2px solid #000000;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
   padding: 2px;
-  box-shadow: 2px 2px 0px #000000;
+  box-shadow: 2px 2px 0px var(--border-charcoal);
 }
 
 .system-btn {
@@ -212,7 +213,7 @@ html, body {
   border: none;
   color: var(--text-secondary);
   font-family: var(--font-header);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   padding: 6px 12px;
   cursor: pointer;
@@ -220,8 +221,8 @@ html, body {
 }
 
 .system-btn.active {
-  background: var(--accent-hot-coral);
-  color: #ffffff;
+  background: var(--accent-oxblood);
+  color: var(--text-parchment);
 }
 
 /* Container & Layout */
@@ -231,12 +232,12 @@ html, body {
   padding: 24px 16px 140px 16px;
 }
 
-/* Hero Player Creation Section */
+/* Hero Credentials Terminal */
 .hero-section {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 32px 28px;
+  padding: clamp(20px, 4vw, 32px);
   margin-bottom: 32px;
   position: relative;
 }
@@ -247,18 +248,18 @@ html, body {
 }
 
 .hero-title {
-  font-family: var(--font-arcade-display);
-  font-size: 2.6rem;
-  letter-spacing: 2px;
-  color: var(--accent-hot-coral);
-  text-shadow: 3px 3px 0px #000000;
-  margin-bottom: 4px;
+  font-family: var(--font-serif-carved);
+  font-size: clamp(1.8rem, 5vw, 2.7rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--accent-oxblood);
+  margin-bottom: 6px;
 }
 
 .hero-subtitle {
-  color: var(--accent-mustard-yellow);
+  color: var(--accent-brass);
   font-family: var(--font-header);
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
   font-weight: 700;
 }
 
@@ -276,28 +277,29 @@ html, body {
 }
 
 .form-label {
-  font-family: var(--font-arcade-display);
-  font-size: 1.15rem;
-  color: var(--accent-mustard-yellow);
-  letter-spacing: 1px;
+  font-family: var(--font-serif-carved);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-brass);
+  letter-spacing: 0.5px;
 }
 
 .form-input {
   width: 100%;
   min-height: var(--touch-target-min);
-  background: var(--bg-input-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
   padding: 12px 16px;
-  color: #ffffff;
+  color: var(--text-charcoal);
   font-family: var(--font-mono);
   font-size: 1.05rem;
   outline: none;
-  box-shadow: inset 2px 2px 0px #000000;
+  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 .form-input:focus {
-  border-color: var(--accent-hot-coral);
-  background: #151522;
+  border-color: var(--accent-oxblood);
+  background: #ebe2cf;
 }
 
 .form-actions {
@@ -307,18 +309,19 @@ html, body {
   flex-wrap: wrap;
 }
 
-/* BUTTONS — VISIBLE RECTANGULAR PRESS & SPRING BACK */
+/* BUTTONS — VISIBLE SCALE TO 96% INSTANT ON TOUCH DOWN, SPRING BACK */
 .btn-primary {
   min-height: var(--touch-target-min);
-  background: var(--accent-hot-coral);
-  color: #ffffff;
-  font-family: var(--font-arcade-display);
-  font-size: 1.35rem;
+  background: var(--accent-brass);
+  color: var(--text-parchment);
+  font-family: var(--font-serif-carved);
+  font-weight: 900;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 3px solid #000000;
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 10px 28px;
+  padding: 10px 26px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -334,13 +337,14 @@ html, body {
 
 .btn-ghost {
   min-height: var(--touch-target-min);
-  background: var(--accent-mustard-yellow);
-  color: #000000;
-  font-family: var(--font-arcade-display);
-  font-size: 1.25rem;
+  background: var(--bg-input-parchment);
+  color: var(--text-charcoal);
+  font-family: var(--font-serif-carved);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 3px solid #000000;
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
   padding: 10px 20px;
   cursor: pointer;
@@ -357,12 +361,12 @@ html, body {
 }
 
 .btn-sm {
-  min-height: 38px;
+  min-height: 40px;
   padding: 6px 14px;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
-/* ASTROLABE / COMMAND REEL STAGE SELECTOR */
+/* COMMAND REEL CHAMBER SELECTOR */
 .astrolabe-dial-wrapper {
   position: fixed;
   bottom: 0;
@@ -379,13 +383,13 @@ html, body {
 .astrolabe-ring-outer {
   pointer-events: auto;
   width: 100%;
-  max-width: 860px;
+  max-width: 880px;
   height: 90px;
-  background: #1b1b26;
-  border-top: 4px solid #000000;
-  border-left: 3px solid #000000;
-  border-right: 3px solid #000000;
-  box-shadow: 0 -6px 0px #000000;
+  background: var(--bg-card-parchment);
+  border-top: 4px solid var(--border-charcoal);
+  border-left: var(--border-width) solid var(--border-charcoal);
+  border-right: var(--border-width) solid var(--border-charcoal);
+  box-shadow: 0 -6px 0px var(--border-charcoal);
   padding: 10px 16px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -405,19 +409,21 @@ html, body {
 }
 
 .astrolabe-center-core {
-  font-family: var(--font-arcade-display);
-  font-size: 1.4rem;
-  color: var(--accent-mustard-yellow);
+  font-family: var(--font-serif-carved);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--accent-brass);
 }
 
 .astrolabe-node {
-  background: #0d0d14;
-  border: 3px solid #000000;
-  box-shadow: 3px 3px 0px #000000;
+  background: var(--bg-input-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
+  box-shadow: 3px 3px 0px var(--border-charcoal);
   padding: 6px 14px;
-  color: var(--text-secondary);
-  font-family: var(--font-arcade-display);
-  font-size: 1.05rem;
+  color: var(--text-charcoal);
+  font-family: var(--font-serif-carved);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -429,15 +435,14 @@ html, body {
 
 .astrolabe-node:active {
   transform: translate(3px, 3px);
-  box-shadow: 0px 0px 0px #000000;
+  box-shadow: 0px 0px 0px var(--border-charcoal);
 }
 
 .astrolabe-node.active {
-  background: var(--accent-hot-coral);
-  color: #ffffff;
-  border-color: #000000;
+  background: var(--accent-oxblood);
+  color: var(--text-parchment);
   transform: translateY(-4px);
-  box-shadow: 4px 4px 0px #000000;
+  box-shadow: 4px 4px 0px var(--border-charcoal);
 }
 
 .node-icon {
@@ -448,7 +453,7 @@ html, body {
   white-space: nowrap;
 }
 
-/* HARD DIRECTIONAL SLOT-REEL TRANSITION WIPES (150ms - 250ms max) */
+/* HARD DIRECTIONAL SLOT-REEL TRANSITION WIPES (150ms - 250ms MAX) */
 .tab-pane {
   display: none;
 }
@@ -463,18 +468,18 @@ html, body {
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* RELIC CODEX CARDS (Core Reading) */
+/* RELIC CODEX CARDS */
 .reading-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 22px;
 }
 
 .number-card {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 24px;
+  padding: clamp(18px, 4vw, 26px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -484,75 +489,84 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 14px;
 }
 
 .card-tag {
-  font-family: var(--font-arcade-display);
-  font-size: 1.05rem;
+  font-family: var(--font-serif-carved);
+  font-size: 0.95rem;
+  font-weight: 700;
   letter-spacing: 1px;
-  color: #000000;
-  background: var(--accent-mustard-yellow);
-  padding: 3px 10px;
-  border: 2px solid #000000;
-  box-shadow: 2px 2px 0px #000000;
+  color: var(--text-parchment);
+  background: var(--accent-brass);
+  padding: 4px 12px;
+  border: 2px solid var(--border-charcoal);
+  box-shadow: 2px 2px 0px var(--border-charcoal);
 }
 
+/* COIN / MEDALLION-STYLED NUMERICAL BADGES */
 .number-badge-glow {
-  width: 68px;
-  height: 68px;
-  background: var(--accent-hot-coral);
-  border: 3px solid #000000;
-  box-shadow: 3px 3px 0px #000000;
+  width: clamp(52px, 12vw, 68px);
+  height: clamp(52px, 12vw, 68px);
+  background: var(--accent-brass);
+  border: 3px solid var(--border-charcoal);
+  box-shadow: 3px 3px 0px var(--border-charcoal);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-arcade-display);
-  font-size: 2.4rem;
-  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 900;
+  color: var(--text-parchment);
+  flex-shrink: 0;
 }
 
 .master-badge-glow {
-  background: var(--accent-mustard-yellow);
-  color: #000000;
+  background: var(--accent-oxblood);
+  color: var(--text-parchment);
 }
 
 .card-title {
-  font-family: var(--font-header);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-family: var(--font-serif-carved);
+  font-size: clamp(1.2rem, 3.5vw, 1.45rem);
+  font-weight: 900;
+  color: var(--text-charcoal);
   margin-bottom: 4px;
+  word-wrap: break-word;
 }
 
 .card-archetype {
-  font-family: var(--font-arcade-display);
-  font-size: 1.1rem;
-  color: var(--accent-mustard-yellow);
+  font-family: var(--font-header);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-brass);
   margin-bottom: 12px;
 }
 
 .card-summary {
   color: var(--text-secondary);
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.55;
   margin-bottom: 18px;
   flex: 1;
 }
 
-/* HP / XP METERS */
+/* ENGRAVED CALCULATION METERS */
 .hp-meter-box {
-  background: #0d0d14;
-  border: 2px solid #000000;
-  padding: 6px;
-  margin-top: 10px;
-  margin-bottom: 12px;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 14px;
 }
 
 .hp-meter-label {
-  font-family: var(--font-arcade-display);
-  font-size: 0.95rem;
-  color: var(--accent-mustard-yellow);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-brass);
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
@@ -560,32 +574,33 @@ html, body {
 
 .hp-meter-track {
   width: 100%;
-  height: 16px;
-  background: #252535;
-  border: 2px solid #000000;
+  height: 14px;
+  background: #d4caa8;
+  border: 2px solid var(--border-charcoal);
   position: relative;
   overflow: hidden;
 }
 
 .hp-meter-fill {
   height: 100%;
-  background: var(--accent-hot-coral);
+  background: var(--accent-brass);
   transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card-details-accordion {
-  border-top: 3px solid #000000;
+  border-top: var(--border-width) solid var(--border-charcoal);
   padding-top: 12px;
   margin-top: auto;
 }
 
 .accordion-toggle {
-  background: var(--bg-input-arcade);
-  border: 2px solid #000000;
-  color: var(--accent-mustard-yellow);
-  font-family: var(--font-arcade-display);
-  font-size: 1.1rem;
-  padding: 6px 12px;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
+  color: var(--text-charcoal);
+  font-family: var(--font-serif-carved);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 8px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -596,7 +611,7 @@ html, body {
 .accordion-content {
   display: none;
   padding-top: 12px;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
 }
 
@@ -612,32 +627,26 @@ html, body {
 }
 
 .trait-pill {
-  background: #0d0d14;
-  border: 2px solid #000000;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
   padding: 3px 8px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--accent-mustard-yellow);
+  color: var(--accent-brass);
 }
 
-/* Lo Shu 3x3 Power Grid */
+/* Lo Shu Matrix Grid */
 .loshu-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
 }
 
-@media (max-width: 768px) {
-  .loshu-container {
-    grid-template-columns: 1fr;
-  }
-}
-
 .loshu-square {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 24px;
+  padding: clamp(18px, 4vw, 24px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -646,7 +655,7 @@ html, body {
 .loshu-grid-matrix {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 12px;
   width: 100%;
   max-width: 380px;
   aspect-ratio: 1;
@@ -654,9 +663,9 @@ html, body {
 }
 
 .loshu-cell {
-  background: #0d0d14;
-  border: 3px solid #000000;
-  box-shadow: 3px 3px 0px #000000;
+  background: var(--bg-input-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
+  box-shadow: 3px 3px 0px var(--border-charcoal);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -665,18 +674,18 @@ html, body {
 }
 
 .loshu-cell.present {
-  background: var(--accent-mustard-yellow);
-  color: #000000;
+  background: var(--accent-brass);
+  color: var(--text-parchment);
 }
 
 .loshu-cell-num {
-  font-family: var(--font-arcade-display);
-  font-size: 2.2rem;
-  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  color: var(--text-secondary);
 }
 
 .loshu-cell.present .loshu-cell-num {
-  color: #000000;
+  color: var(--text-parchment);
 }
 
 .loshu-count-badge {
@@ -686,37 +695,37 @@ html, body {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  background: var(--accent-hot-coral);
-  color: #ffffff;
-  border: 2px solid #000000;
+  background: var(--accent-oxblood);
+  color: var(--text-parchment);
+  border: 1px solid var(--border-charcoal);
   padding: 1px 5px;
 }
 
 .loshu-planes-card {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 24px;
+  padding: clamp(18px, 4vw, 24px);
 }
 
 .arrow-item {
-  background: #0d0d14;
-  border: 2px solid #000000;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
   padding: 12px;
   margin-bottom: 12px;
 }
 
 .arrow-item.active-strength {
-  border-color: var(--accent-lime-green);
-  background: rgba(57, 255, 106, 0.15);
+  border-color: var(--accent-slate-green);
+  background: rgba(92, 110, 90, 0.18);
 }
 
 .arrow-item.active-weakness {
-  border-color: var(--accent-hot-coral);
-  background: rgba(255, 59, 59, 0.15);
+  border-color: var(--accent-oxblood);
+  background: rgba(122, 37, 48, 0.18);
 }
 
-/* VERSUS MODE / SYNASTRY SCREEN */
+/* SYNASTRY ALIGNMENT CHAMBER */
 .synastry-layout {
   display: flex;
   flex-direction: column;
@@ -724,19 +733,20 @@ html, body {
 }
 
 .synastry-score-box {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 36px 24px;
+  padding: clamp(24px, 5vw, 36px) 24px;
   text-align: center;
 }
 
 .synastry-score-ring {
-  width: 150px;
-  height: 150px;
-  background: var(--accent-hot-coral);
-  border: 4px solid #000000;
-  box-shadow: 4px 4px 0px #000000;
+  width: clamp(120px, 25vw, 150px);
+  height: clamp(120px, 25vw, 150px);
+  background: var(--accent-oxblood);
+  border: 4px solid var(--border-charcoal);
+  box-shadow: 4px 4px 0px var(--border-charcoal);
+  border-radius: 50%;
   margin: 18px auto;
   display: flex;
   flex-direction: column;
@@ -745,24 +755,24 @@ html, body {
 }
 
 .score-value {
-  font-family: var(--font-arcade-display);
-  font-size: 3.4rem;
-  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  color: var(--text-parchment);
   line-height: 1;
 }
 
 .score-percent {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--text-parchment);
 }
 
 /* Name Lab Energy Transmuter */
 .namelab-container {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
-  padding: 28px;
+  padding: clamp(20px, 4vw, 28px);
 }
 
 .letter-breakdown-grid {
@@ -776,22 +786,23 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0d0d14;
-  border: 2px solid #000000;
-  box-shadow: 2px 2px 0px #000000;
+  background: var(--bg-input-parchment);
+  border: 2px solid var(--border-charcoal);
+  box-shadow: 2px 2px 0px var(--border-charcoal);
   padding: 8px 12px;
   min-width: 44px;
 }
 
 .letter-tag.vowel {
-  border-color: var(--accent-mustard-yellow);
-  background: var(--accent-mustard-yellow);
-  color: #000000;
+  border-color: var(--accent-brass);
+  background: var(--accent-brass);
+  color: var(--text-parchment);
 }
 
 .letter-char {
-  font-family: var(--font-arcade-display);
-  font-size: 1.5rem;
+  font-family: var(--font-serif-carved);
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .letter-val {
@@ -799,7 +810,7 @@ html, body {
   font-size: 0.8rem;
 }
 
-/* Codex Vault Save Slots */
+/* Save Slot Vault */
 .vault-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -808,8 +819,8 @@ html, body {
 }
 
 .vault-card {
-  background: var(--bg-card-arcade);
-  border: 3px solid #000000;
+  background: var(--bg-card-parchment);
+  border: var(--border-width) solid var(--border-charcoal);
   box-shadow: var(--shadow-offset);
   padding: 16px;
   display: flex;
@@ -824,12 +835,12 @@ html, body {
   box-shadow: var(--shadow-pressed);
 }
 
-/* SCREEN SHAKE ANIMATION ON ERROR */
+/* OXBLOOD ERROR SCREEN SHAKE */
 .arcade-shake {
-  animation: arcadeShake 0.25s ease-in-out;
+  animation: oxbloodShake 0.25s ease-in-out;
 }
 
-@keyframes arcadeShake {
+@keyframes oxbloodShake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-8px); }
   40% { transform: translateX(8px); }
@@ -840,8 +851,8 @@ html, body {
 .app-footer {
   text-align: center;
   padding: 24px 16px;
-  color: var(--text-muted);
-  font-family: var(--font-arcade-display);
-  font-size: 1.1rem;
-  border-top: 3px solid #000000;
+  color: var(--text-secondary);
+  font-family: var(--font-serif-carved);
+  font-size: 1rem;
+  border-top: var(--border-width) solid var(--border-charcoal);
 }

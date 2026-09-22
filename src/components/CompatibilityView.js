@@ -1,9 +1,9 @@
 /**
- * ASTRANUMERICS - ARCADE VERSUS MODE / SYNASTRY SCREEN
+ * ASTRANUMERICS - SACRED ARTIFACT SYNASTRY ALIGNMENT CHAMBER
  */
 
 import { calculateSynastry } from '../utils/numerologyEngine.js';
-import { playConfirmSound, playBlipSound } from '../utils/soundEngine.js';
+import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean') {
   const container = document.getElementById(containerId);
@@ -13,41 +13,41 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
     <div class="synastry-layout">
       <!-- Input Card for Player 2 -->
       <div class="hero-section">
-        <h2 class="font-serif text-coral mb-4" style="text-align:center;">🎮 STAGE 3: VERSUS SYNASTRY MATCH</h2>
-        <p class="text-secondary" style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-          Match your energetic stats against a companion, partner, or rival in 2-Player VS Mode.
+        <h2 class="font-serif-carved text-oxblood mb-4" style="text-align:center;">🔮 CHAMBER 3: SYNASTRY ALIGNMENT</h2>
+        <p class="text-secondary" style="text-align:center; font-size:0.95rem; margin-bottom:20px;">
+          Match your energetic frequencies against a companion, partner, or rival in the Synastry Chamber.
         </p>
 
         <form id="synastry-form">
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">PLAYER 1 NAME</label>
-              <input type="text" id="syn-p1-name" class="form-input" value="${primaryProfile.name || ''}" placeholder="Player 1 Name" required />
+              <label class="form-label">SEEKER 1 NAME</label>
+              <input type="text" id="syn-p1-name" class="form-input" value="${primaryProfile.name || ''}" placeholder="Seeker 1 Name" required />
             </div>
             <div class="form-group">
-              <label class="form-label">PLAYER 1 DOB</label>
+              <label class="form-label">SEEKER 1 DOB</label>
               <input type="date" id="syn-p1-dob" class="form-input" value="${primaryProfile.dob || '1995-07-21'}" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label">PLAYER 2 NAME</label>
+              <label class="form-label">SEEKER 2 NAME</label>
               <input type="text" id="syn-p2-name" class="form-input" placeholder="e.g. Elena Vance" required />
             </div>
             <div class="form-group">
-              <label class="form-label">PLAYER 2 DOB</label>
+              <label class="form-label">SEEKER 2 DOB</label>
               <input type="date" id="syn-p2-dob" class="form-input" value="1993-11-12" required />
             </div>
           </div>
 
           <div style="text-align:center; margin-top:16px;">
             <button type="submit" class="btn-primary">
-              <span>⚔️ CALCULATE VS SYNASTRY</span>
+              <span>⚔️ CALCULATE SYNASTRY MATCH</span>
             </button>
           </div>
         </form>
       </div>
 
-      <!-- VS Match Results -->
+      <!-- Match Results -->
       <div id="synastry-results"></div>
     </div>
   `;
@@ -63,13 +63,13 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
         <span class="card-tag">PARTY ALIGNMENT INDEX</span>
         <div class="synastry-score-ring">
           <span class="score-value">${res.score}</span>
-          <span class="score-percent">/ 100 HP</span>
+          <span class="score-percent">/ 100</span>
         </div>
-        <h2 class="font-serif text-yellow" style="font-size:2.2rem; margin-top:8px;">${res.status}</h2>
+        <h2 class="font-serif-carved text-brass" style="font-size:2.2rem; margin-top:8px;">${res.status}</h2>
 
         <div class="hp-meter-box" style="max-width:500px; margin: 16px auto;">
           <div class="hp-meter-label">
-            <span>PLAYER 1 [LP ${res.profileA.lp}] vs PLAYER 2 [LP ${res.profileB.lp}]</span>
+            <span>SEEKER 1 [LP ${res.profileA.lp}] vs SEEKER 2 [LP ${res.profileB.lp}]</span>
             <span>${res.score}% SYNERGY</span>
           </div>
           <div class="hp-meter-track">
@@ -87,7 +87,7 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    playConfirmSound();
+    playSuccessArpeggio();
     const p1 = {
       name: form.querySelector('#syn-p1-name').value.trim(),
       dob: form.querySelector('#syn-p1-dob').value
@@ -103,7 +103,7 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
 
   // Sound triggers
   container.querySelectorAll('button, input').forEach(el => {
-    el.addEventListener('mouseenter', () => playBlipSound());
+    el.addEventListener('mouseenter', () => playChimeTap());
   });
 
   if (primaryProfile.name && primaryProfile.dob) {

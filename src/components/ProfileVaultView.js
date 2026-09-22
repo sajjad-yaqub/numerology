@@ -1,8 +1,8 @@
 /**
- * ASTRANUMERICS - ARCADE SAVE SLOT VAULT COMPONENT
+ * ASTRANUMERICS - SACRED ARTIFACT SAVE VAULT COMPONENT
  */
 
-import { playConfirmSound, playBlipSound } from '../utils/soundEngine.js';
+import { playConfirmChime, playChimeTap, playMilestoneGong } from '../utils/soundEngine.js';
 
 export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile, onDeleteProfile, onExportVault, onImportVault) {
   const container = document.getElementById(containerId);
@@ -12,8 +12,8 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
     <div class="namelab-container">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:20px;">
         <div>
-          <h2 class="font-serif text-yellow">💾 STAGE 7: CODEX SAVE VAULT</h2>
-          <p class="text-secondary" style="font-size:0.9rem;">Manage your saved personal, family, or client game slots.</p>
+          <h2 class="font-serif-carved text-oxblood">💾 CHAMBER 7: CODEX SAVE VAULT</h2>
+          <p class="text-secondary" style="font-size:0.95rem;">Manage your saved personal, family, or client game slots.</p>
         </div>
 
         <div style="display:flex; gap:10px;">
@@ -37,11 +37,11 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
             <div class="vault-card" data-idx="${idx}">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span class="card-tag">SAVE SLOT ${idx + 1}</span>
-                <button class="btn-primary btn-sm delete-profile-btn" data-idx="${idx}" style="background:var(--accent-hot-coral); color:#fff; min-height:28px; padding:2px 8px;" title="Delete Slot">✕</button>
+                <button class="btn-primary btn-sm delete-profile-btn" data-idx="${idx}" style="background:var(--accent-oxblood); color:#fff; min-height:28px; padding:2px 8px;" title="Delete Slot">✕</button>
               </div>
-              <strong style="color:var(--accent-mustard-yellow); font-family:var(--font-header); font-size:1.2rem; margin-top:4px;">${p.name}</strong>
-              <span style="font-size:0.85rem; color:var(--text-secondary); font-family:var(--font-mono);">DOB: ${p.dob}</span>
-              ${p.alias ? `<span style="font-size:0.8rem; color:var(--accent-electric-cyan); font-family:var(--font-mono);">ALIAS: ${p.alias}</span>` : ''}
+              <strong style="color:var(--accent-brass); font-family:var(--font-serif-carved); font-size:1.3rem; margin-top:4px;">${p.name}</strong>
+              <span style="font-size:0.88rem; color:var(--text-secondary); font-family:var(--font-mono);">DOB: ${p.dob}</span>
+              ${p.alias ? `<span style="font-size:0.85rem; color:var(--accent-slate-green); font-family:var(--font-mono);">ALIAS: ${p.alias}</span>` : ''}
               <button class="btn-ghost btn-sm load-profile-btn" data-idx="${idx}" style="margin-top:8px;">
                 <span>✨ LOAD SLOT</span>
               </button>
@@ -54,14 +54,14 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
 
   // Sound triggers
   container.querySelectorAll('button, input, .vault-card').forEach(el => {
-    el.addEventListener('mouseenter', () => playBlipSound());
+    el.addEventListener('mouseenter', () => playChimeTap());
   });
 
   // Bind export
   const exportBtn = container.querySelector('#vault-export-btn');
   if (exportBtn) {
     exportBtn.addEventListener('click', () => {
-      playConfirmSound();
+      playConfirmChime();
       onExportVault();
     });
   }
@@ -70,7 +70,7 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
   const importInput = container.querySelector('#vault-import-input');
   if (importInput) {
     importInput.addEventListener('change', (e) => {
-      playConfirmSound();
+      playConfirmChime();
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -95,7 +95,7 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
   container.querySelectorAll('.load-profile-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      playConfirmSound();
+      playMilestoneGong();
       const idx = parseInt(btn.getAttribute('data-idx'), 10);
       onLoadProfile(savedProfiles[idx]);
     });
@@ -104,7 +104,7 @@ export function renderProfileVaultView(containerId, savedProfiles, onLoadProfile
   container.querySelectorAll('.delete-profile-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      playConfirmSound();
+      playConfirmChime();
       const idx = parseInt(btn.getAttribute('data-idx'), 10);
       if (confirm(`Delete save slot "${savedProfiles[idx].name}" from Vault?`)) {
         onDeleteProfile(idx);
