@@ -168,3 +168,45 @@ export const DAILY_THEMES = {
   8: { focus: "Empowerment, Abundance & Executive Mastery", affirmation: "I step into my power and manifest abundant results." },
   9: { focus: "Compassionate Closure & Universal Reflection", affirmation: "I release what no longer serves and bless the cycle." }
 };
+
+export const COMBINATORIAL_RULES = {
+  ELEMENT_MAP: {
+    1: "Fire", 2: "Water", 3: "Air", 4: "Earth", 5: "Ether",
+    6: "Earth", 7: "Water", 8: "Earth", 9: "Fire",
+    11: "Air", 22: "Earth", 33: "Fire"
+  },
+
+  ELEMENTAL_SYNERGY: {
+    "Fire-Fire": "Dual Ignition — High intensity, rapid creation, and unyielding ambition. Balance with grounding practices.",
+    "Fire-Air": "Cosmic Spark — Air fans your fiery creative vision, generating swift ideas and magnetic leadership.",
+    "Fire-Water": "Steam Alchemy — Intense emotional depth meets passionate action. Transforms challenges into spiritual mastery.",
+    "Fire-Earth": "Lava Form — Fire provides the spark while Earth builds enduring, practical monuments.",
+    "Water-Water": "Deep Abyss — Extraordinary psychic sensitivity and empathy. Guard boundaries against emotional exhaustion.",
+    "Water-Air": "Mist & Intellect — Blends intuitive emotional perception with sharp conceptual communication.",
+    "Water-Earth": "Fertile Soil — Deeply nurturing and stabilizing; translates emotional wisdom into tangible harmony.",
+    "Air-Air": "Superconductor — Brilliant mental speed, innovation, and abstract vision. Channel thoughts into structured work.",
+    "Air-Earth": "Mountain Wind — Air brings fresh perspective to Earth's steadfast foundations, encouraging flexible growth.",
+    "Earth-Earth": "Fortress Peak — Unshakable reliability, structural endurance, and pragmatic realism."
+  },
+
+  SYNERGY_TYPES: {
+    UNIFIED: {
+      tag: "PERFECT UNIFIED RESONANCE",
+      desc: "Your birth mission (Life Path) and outward talent spectrum (Expression) share the exact same numeric frequency. You experience singular focus and direct alignment with your life purpose."
+    },
+    COMPLEMENTARY: {
+      tag: "SYNERGISTIC FLOW",
+      desc: "Your birth mission and expression spectrum complement each other naturally. Your name energy acts as an empowering catalyst to fulfill your birth blueprint with ease."
+    },
+    CATALYST: {
+      tag: "DYNAMIC FRICTION ALCHEMY",
+      desc: "Your birth mission and expression spectrum operate on contrasting frequencies. This creates productive creative friction—forcing you to master dual skill sets and achieve versatile growth."
+    }
+  },
+
+  INNER_OUTER_DYNAMICS: {
+    ALIGNED: "Harmonious Outer Shield: Your inner heart's desire aligns effortlessly with the outer impression you project to the world.",
+    CONTRASTING: "Multifaceted Mask: Your inner heart's desire is deep and private, contrasting with a surprisingly distinct outer persona. People discover intriguing depth as they get to know you."
+  }
+};
+

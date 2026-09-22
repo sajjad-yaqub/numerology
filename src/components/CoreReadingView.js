@@ -6,7 +6,8 @@ import {
   calculateLifePath,
   calculateNameNumbers,
   calculateAttitudeNumber,
-  calculateMaturityNumber
+  calculateMaturityNumber,
+  composeCombinatorialSynthesis
 } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS } from '../data/numerologyData.js';
 import { playChimeTap, playConfirmChime } from '../utils/soundEngine.js';
@@ -29,6 +30,7 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
   const nameNums = calculateNameNumbers(profile.name, system);
   const attitude = calculateAttitudeNumber(profile.dob);
   const maturity = calculateMaturityNumber(lifePath.reduced, nameNums.expression.reduced);
+  const synthesis = composeCombinatorialSynthesis(profile.dob, profile.name, system);
 
   const cardsData = [
     {
@@ -75,7 +77,52 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
     }
   ];
 
-  let html = `<div class="reading-grid">`;
+  let html = '';
+
+  if (synthesis) {
+    html += `
+      <div class="number-card synthesis-nexus-card mb-6" style="border-color: var(--accent-brass); background: rgba(156, 107, 31, 0.04);">
+        <div class="card-header-badge">
+          <span class="card-tag">COMBINATORIAL SYNTHESIS NEXUS</span>
+          <div class="number-badge-glow master-badge-glow" title="Synthesis Medallion">
+            ${synthesis.lpNum}⚡${synthesis.expNum}
+          </div>
+        </div>
+
+        <h2 class="card-title font-serif-carved" style="color: var(--accent-brass); margin-top: 0.5rem;">
+          ${synthesis.synergyTag}
+        </h2>
+        
+        <p class="card-summary" style="font-size: 1rem; line-height: 1.5; margin-bottom: 1rem;">
+          ${synthesis.synergyDesc}
+        </p>
+
+        <div class="arrow-grid mb-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem;">
+          <div class="arrow-item active-strength">
+            <strong>🔥 ELEMENTAL FUSION (${synthesis.lpElem} + ${synthesis.expElem})</strong>
+            <p style="font-size:0.85rem; margin-top:4px;">${synthesis.elementalSummary}</p>
+          </div>
+
+          <div class="arrow-item active-strength">
+            <strong>🛡️ HEART vs. MASK FREQUENCY</strong>
+            <p style="font-size:0.85rem; margin-top:4px;">${synthesis.innerOuterText}</p>
+          </div>
+
+          <div class="arrow-item ${synthesis.karmicDebts.length ? 'active-weakness' : 'active-strength'}">
+            <strong>📜 KARMIC & GRID SPECTRUM</strong>
+            <p style="font-size:0.85rem; margin-top:4px;">
+              ${synthesis.karmicDebts.length 
+                ? `Active Debt Lessons: ${synthesis.karmicDebts.map(d => d.name).join(', ')}`
+                : `Clean Karmic Flow • Grid: ${synthesis.activeArrows}`}
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  html += `<div class="reading-grid">`;
+
 
   cardsData.forEach((card, idx) => {
     const isMaster = card.meta.isMaster;

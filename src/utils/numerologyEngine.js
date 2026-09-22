@@ -4,6 +4,8 @@
  * Pythagorean and Chaldean numerology systems.
  */
 
+import { COMBINATORIAL_RULES } from '../data/numerologyData.js';
+
 // Pythagorean Letter Value Map (A=1 ... Z=8)
 export const PYTHAGOREAN_MAP = {
   a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9,
@@ -292,3 +294,67 @@ export function calculateAddressNumerology(inputStr, system = 'pythagorean') {
 
   return reduceNumber(sum);
 }
+
+/**
+ * Compose a multi-layered Combinatorial Algorithmic Synthesis.
+ * Blends Life Path, Expression, Soul Urge, Personality, Karmic Debts, and Elemental Resonances.
+ */
+export function composeCombinatorialSynthesis(dobString, fullName, system = 'pythagorean') {
+  if (!dobString || !fullName) return null;
+
+  const lifePath = calculateLifePath(dobString);
+  const nameNums = calculateNameNumbers(fullName, system);
+  const loShu = calculateLoShuGrid(dobString);
+
+  const lpNum = lifePath.reduced;
+  const expNum = nameNums.expression.reduced;
+  const soulNum = nameNums.soulUrge.reduced;
+  const persNum = nameNums.personality.reduced;
+
+  // 1. Evaluate Synergy Type (Unified, Complementary, or Catalyst)
+  let synergy = COMBINATORIAL_RULES.SYNERGY_TYPES.CATALYST;
+  if (lpNum === expNum) {
+    synergy = COMBINATORIAL_RULES.SYNERGY_TYPES.UNIFIED;
+  } else if (Math.abs(lpNum - expNum) % 2 === 0 || lpNum === 11 || expNum === 11 || lpNum === 22 || expNum === 22) {
+    synergy = COMBINATORIAL_RULES.SYNERGY_TYPES.COMPLEMENTARY;
+  }
+
+  // 2. Elemental Pairing
+  const lpElem = COMBINATORIAL_RULES.ELEMENT_MAP[lpNum] || "Ether";
+  const expElem = COMBINATORIAL_RULES.ELEMENT_MAP[expNum] || "Ether";
+  const pairKey = `${lpElem}-${expElem}`;
+  const reversePairKey = `${expElem}-${lpElem}`;
+  const elementalSummary = COMBINATORIAL_RULES.ELEMENTAL_SYNERGY[pairKey] ||
+    COMBINATORIAL_RULES.ELEMENTAL_SYNERGY[reversePairKey] ||
+    `${lpElem} meets ${expElem} in cosmic equilibrium.`;
+
+  // 3. Soul Urge vs. Personality
+  const isAligned = (soulNum === persNum) || Math.abs(soulNum - persNum) === 2;
+  const innerOuterText = isAligned ? COMBINATORIAL_RULES.INNER_OUTER_DYNAMICS.ALIGNED : COMBINATORIAL_RULES.INNER_OUTER_DYNAMICS.CONTRASTING;
+
+  // 4. Karmic Debt Collection
+  const karmicDebts = [];
+  if (lifePath.karmicDebt) karmicDebts.push(lifePath.karmicDebt);
+  if (nameNums.expression.karmicDebt) karmicDebts.push(nameNums.expression.karmicDebt);
+  if (nameNums.soulUrge.karmicDebt) karmicDebts.push(nameNums.soulUrge.karmicDebt);
+
+  // 5. Lo Shu Grid Active Strength/Weakness
+  const activeArrows = loShu.arrows.map(a => a.name).join(", ");
+
+  return {
+    lpNum,
+    expNum,
+    soulNum,
+    persNum,
+    synergyTag: synergy.tag,
+    synergyDesc: synergy.desc,
+    lpElem,
+    expElem,
+    elementalSummary,
+    innerOuterText,
+    karmicDebts,
+    activeArrows: activeArrows || "Balanced Grid (No Complete Arrows)",
+    isMasterVoltage: lifePath.isMaster || nameNums.expression.isMaster
+  };
+}
+
