@@ -1,6 +1,6 @@
 import { calculateSynastry } from '../utils/numerologyEngine.js';
 import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
-import { savePendingPaymentState } from '../main.js';
+import { savePendingPaymentState, unlockSpecificFeature } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean', isUnlocked = false) {
@@ -76,7 +76,7 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-synastry');
-      injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9');
+      injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9', 'synastry', (feat) => unlockSpecificFeature(feat));
       return;
     }
 

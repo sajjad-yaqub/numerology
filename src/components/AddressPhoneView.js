@@ -1,6 +1,6 @@
 import { calculateAddressNumerology } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
-import { savePendingPaymentState } from '../main.js';
+import { savePendingPaymentState, unlockSpecificFeature } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderAddressPhoneView(containerId, system = 'pythagorean', isUnlocked = false) {
@@ -53,7 +53,7 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean', isUn
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-address');
-      injectRazorpayButton(btnContainer, 'pl_Tf9gZgt7fSf8FR');
+      injectRazorpayButton(btnContainer, 'pl_Tf9gZgt7fSf8FR', 'address', (feat) => unlockSpecificFeature(feat));
       return;
     }
 

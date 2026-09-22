@@ -51,15 +51,17 @@ export function savePendingPaymentState(feature, extraData = {}) {
 }
 
 /**
- * Unlock a specific feature
+ * Unlock a specific feature (strictly single-feature)
  */
 export function unlockSpecificFeature(feature) {
-  if (!feature) return;
+  if (!feature || !['namelab', 'address', 'synastry'].includes(feature)) return;
   state.unlockedFeatures = {
     ...state.unlockedFeatures,
     [feature]: true
   };
   localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
+  state.activeTab = feature;
+  playConfirmChime();
   playSuccessArpeggio();
   renderAll();
 }
@@ -74,6 +76,21 @@ function checkPaymentRedirect() {
   const rzpPaymentId = urlParams.get('razorpay_payment_id');
   const rzpLinkStatus = urlParams.get('razorpay_payment_link_status');
   const rzpPaymentLinkId = urlParams.get('razorpay_payment_link_id');
+  const fullSearch = window.location.search;
+
+  // ONLY execute if explicitly returning from a payment with query parameters
+  const isPaymentReturn = 
+    !!rzpPaymentId || 
+    rzpLinkStatus === 'paid' || 
+    !!rzpPaymentLinkId || 
+    statusParam === 'success' || 
+    statusParam === '1' ||
+    fullSearch.includes('razorpay') ||
+    fullSearch.includes('paid');
+
+  if (!isPaymentReturn) {
+    return;
+  }
 
   const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
   let pending = null;
@@ -85,29 +102,34 @@ function checkPaymentRedirect() {
     }
   }
 
-  const isRecentPending = pending && pending.timestamp && (Date.now() - pending.timestamp < 20 * 60 * 1000);
+  // Determine ONLY the exact single feature that was paid for:
+  // 1. Precise Razorpay Payment Link / Button ID match in URL
+  let targetFeature = null;
+  if (fullSearch.includes('Tf9QgdupaiZRzc') || rzpPaymentLinkId?.includes('Tf9QgdupaiZRzc')) {
+    targetFeature = 'namelab';
+  } else if (fullSearch.includes('Tf9gZgt7fSf8FR') || rzpPaymentLinkId?.includes('Tf9gZgt7fSf8FR')) {
+    targetFeature = 'address';
+  } else if (fullSearch.includes('Tf9iPpPjF9mZD9') || rzpPaymentLinkId?.includes('Tf9iPpPjF9mZD9')) {
+    targetFeature = 'synastry';
+  }
 
-  const isPaymentReturn = 
-    rzpPaymentId || 
-    rzpLinkStatus === 'paid' || 
-    rzpPaymentLinkId || 
-    statusParam === 'success' || 
-    statusParam === '1' ||
-    window.location.search.includes('success') ||
-    window.location.search.includes('paid') ||
-    window.location.search.includes('razorpay') ||
-    isRecentPending;
+  // 2. Explicit query param ?feature=...
+  if (!targetFeature && featureParam && ['namelab', 'address', 'synastry'].includes(featureParam)) {
+    targetFeature = featureParam;
+  }
 
-  if (isPaymentReturn) {
-    let targetFeature = featureParam;
-    if (!targetFeature && pending && pending.feature) {
-      targetFeature = pending.feature;
-    }
-    if (!targetFeature) {
-      targetFeature = 'namelab';
-    }
+  // 3. Pending localStorage feature
+  if (!targetFeature && pending && pending.feature) {
+    targetFeature = pending.feature;
+  }
 
-    // UNLOCK ONLY THE SPECIFIC FEATURE THAT WAS PAID FOR
+  // 4. Current activeTab if paid feature
+  if (!targetFeature && ['namelab', 'address', 'synastry'].includes(state.activeTab)) {
+    targetFeature = state.activeTab;
+  }
+
+  if (targetFeature && ['namelab', 'address', 'synastry'].includes(targetFeature)) {
+    // STRICTLY UNLOCK ONLY THIS SPECIFIC FEATURE - DO NOT UNLOCK ALL PAID CHAMBERS
     state.unlockedFeatures = {
       ...state.unlockedFeatures,
       [targetFeature]: true
@@ -124,7 +146,7 @@ function checkPaymentRedirect() {
     // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB
     state.activeTab = targetFeature;
 
-    // Clear pending state so it does not re-trigger on manual page refresh
+    // Clear pending state
     localStorage.removeItem('astranumerics_pending_payment');
 
     playConfirmChime();
@@ -134,7 +156,49 @@ function checkPaymentRedirect() {
     if (window.location.search) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
+
+    // IMMEDIATELY RE-RENDER DOM SO PAGE UNLOCKS AUTOMATICALLY WITHOUT REFRESH!
+    renderAll();
   }
+}
+
+/**
+ * Initialize listeners for automatic unlock without requiring manual page refresh
+ */
+function initPaymentAutoUnlockListeners() {
+  // PostMessage listener for Razorpay modal completion
+  window.addEventListener('message', (event) => {
+    try {
+      let data = event.data;
+      if (typeof data === 'string' && data.startsWith('{')) {
+        data = JSON.parse(data);
+      }
+      if (data && (data.razorpay_payment_id || data.event === 'payment.success' || data.status === 'paid')) {
+        const pendingRaw = localStorage.getItem('astranumerics_pending_payment');
+        if (pendingRaw) {
+          const pending = JSON.parse(pendingRaw);
+          if (pending && pending.feature) {
+            unlockSpecificFeature(pending.feature);
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore non-JSON postMessage events
+    }
+  });
+
+  // Tab focus / visibilitychange listener for mobile app return
+  const handleTabReturn = () => {
+    checkPaymentRedirect();
+  };
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      handleTabReturn();
+    }
+  });
+
+  window.addEventListener('focus', handleTabReturn);
 }
 
 /**
@@ -353,6 +417,7 @@ function init() {
   registerServiceWorker();
   initCosmicCanvas('cosmic-canvas');
   initPWAInstallBanner();
+  initPaymentAutoUnlockListeners();
   checkPaymentRedirect();
 
   renderAll();

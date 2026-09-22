@@ -1,7 +1,7 @@
 import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
 import { playChimeTap } from '../utils/soundEngine.js';
-import { savePendingPaymentState } from '../main.js';
+import { savePendingPaymentState, unlockSpecificFeature } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderNameLabView(containerId, initialName = '', system = 'pythagorean', isUnlocked = false) {
@@ -45,7 +45,7 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-namelab');
-      injectRazorpayButton(btnContainer, 'pl_Tf9QgdupaiZRzc');
+      injectRazorpayButton(btnContainer, 'pl_Tf9QgdupaiZRzc', 'namelab', (feat) => unlockSpecificFeature(feat));
       return;
     }
 
