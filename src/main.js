@@ -51,14 +51,13 @@ export function savePendingPaymentState(feature, extraData = {}) {
 }
 
 /**
- * Unlock all features (fail-safe for paid users)
+ * Unlock a specific feature
  */
-export function unlockAllFeatures() {
+export function unlockSpecificFeature(feature) {
+  if (!feature) return;
   state.unlockedFeatures = {
     ...state.unlockedFeatures,
-    namelab: true,
-    address: true,
-    synastry: true
+    [feature]: true
   };
   localStorage.setItem('astranumerics_unlocked_features', JSON.stringify(state.unlockedFeatures));
   playSuccessArpeggio();
@@ -66,7 +65,7 @@ export function unlockAllFeatures() {
 }
 
 /**
- * Handle redirect back from Razorpay Payment Button (https://www.astranumerics.com/?status=success&feature=...)
+ * Handle redirect back from Razorpay Payment Button
  */
 function checkPaymentRedirect() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -86,7 +85,8 @@ function checkPaymentRedirect() {
     }
   }
 
-  // Check if this is a payment return from Razorpay
+  const isRecentPending = pending && pending.timestamp && (Date.now() - pending.timestamp < 20 * 60 * 1000);
+
   const isPaymentReturn = 
     rzpPaymentId || 
     rzpLinkStatus === 'paid' || 
@@ -95,7 +95,8 @@ function checkPaymentRedirect() {
     statusParam === '1' ||
     window.location.search.includes('success') ||
     window.location.search.includes('paid') ||
-    window.location.search.includes('razorpay');
+    window.location.search.includes('razorpay') ||
+    isRecentPending;
 
   if (isPaymentReturn) {
     let targetFeature = featureParam;
@@ -106,12 +107,10 @@ function checkPaymentRedirect() {
       targetFeature = 'namelab';
     }
 
-    // ALWAYS UNLOCK ALL PAID FEATURES UPON PAYMENT RETURN
+    // UNLOCK ONLY THE SPECIFIC FEATURE THAT WAS PAID FOR
     state.unlockedFeatures = {
       ...state.unlockedFeatures,
-      namelab: true,
-      address: true,
-      synastry: true
+      [targetFeature]: true
     };
 
     // Save unlocked status permanently in localStorage
@@ -125,7 +124,7 @@ function checkPaymentRedirect() {
     // NAVIGATE DIRECTLY TO THE UNLOCKED CHAMBER TAB
     state.activeTab = targetFeature;
 
-    // Clear pending state
+    // Clear pending state so it does not re-trigger on manual page refresh
     localStorage.removeItem('astranumerics_pending_payment');
 
     playConfirmChime();
@@ -205,7 +204,8 @@ function renderTabContent() {
 
   const heroSection = document.getElementById('hero-section');
   if (heroSection) {
-    heroSection.style.display = (activeTab === 'reading') ? 'block' : 'none';
+    const showHero = ['reading', 'loshu', 'forecast'].includes(activeTab);
+    heroSection.style.display = showHero ? 'block' : 'none';
   }
 
   const activePane = document.getElementById(`pane-${activeTab}`);

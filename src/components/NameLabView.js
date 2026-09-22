@@ -1,7 +1,7 @@
 import { calculateNameNumbers } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
 import { playChimeTap } from '../utils/soundEngine.js';
-import { savePendingPaymentState, unlockAllFeatures } from '../main.js';
+import { savePendingPaymentState } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderNameLabView(containerId, initialName = '', system = 'pythagorean', isUnlocked = false) {
@@ -42,21 +42,10 @@ export function renderNameLabView(containerId, initialName = '', system = 'pytha
             Transmute letter frequencies, balance planetary vibrations, and unlock lucky Chaldean name spelling adjustments.
           </p>
           <div id="pay-btn-namelab" style="display: flex; justify-content: center; margin-top: 16px;"></div>
-          <p style="font-size:0.8rem; margin-top:16px;" class="text-secondary">
-            Already completed payment? <a href="#" id="restore-namelab" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
-          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-namelab');
       injectRazorpayButton(btnContainer, 'pl_Tf9QgdupaiZRzc');
-      
-      const restoreBtn = resultsDiv.querySelector('#restore-namelab');
-      if (restoreBtn) {
-        restoreBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          unlockAllFeatures();
-        });
-      }
       return;
     }
 

@@ -1,6 +1,6 @@
 import { calculateSynastry } from '../utils/numerologyEngine.js';
 import { playConfirmChime, playChimeTap, playSuccessArpeggio } from '../utils/soundEngine.js';
-import { savePendingPaymentState, unlockAllFeatures } from '../main.js';
+import { savePendingPaymentState } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderCompatibilityView(containerId, primaryProfile, system = 'pythagorean', isUnlocked = false) {
@@ -73,21 +73,10 @@ export function renderCompatibilityView(containerId, primaryProfile, system = 'p
             Reveal deep relationship compatibility status, soul urge clashes, karmic synergy, and export downloadable PDF report.
           </p>
           <div id="pay-btn-synastry" style="display: flex; justify-content: center; margin-top: 16px;"></div>
-          <p style="font-size:0.8rem; margin-top:16px;" class="text-secondary">
-            Already completed payment? <a href="#" id="restore-synastry" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
-          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-synastry');
       injectRazorpayButton(btnContainer, 'pl_Tf9iPpPjF9mZD9');
-
-      const restoreBtn = resultsDiv.querySelector('#restore-synastry');
-      if (restoreBtn) {
-        restoreBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          unlockAllFeatures();
-        });
-      }
       return;
     }
 

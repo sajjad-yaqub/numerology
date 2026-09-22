@@ -1,6 +1,6 @@
 import { calculateAddressNumerology } from '../utils/numerologyEngine.js';
 import { CORE_INTERPRETATIONS } from '../data/numerologyData.js';
-import { savePendingPaymentState, unlockAllFeatures } from '../main.js';
+import { savePendingPaymentState } from '../main.js';
 import { injectRazorpayButton } from '../utils/paymentEngine.js';
 
 export function renderAddressPhoneView(containerId, system = 'pythagorean', isUnlocked = false) {
@@ -50,21 +50,10 @@ export function renderAddressPhoneView(containerId, system = 'pythagorean', isUn
             Decode structural space energy, vehicle luck ratings, and ancient Shubh/Ashubh remedies.
           </p>
           <div id="pay-btn-address" style="display: flex; justify-content: center; margin-top: 16px;"></div>
-          <p style="font-size:0.8rem; margin-top:16px;" class="text-secondary">
-            Already completed payment? <a href="#" id="restore-address" style="color:var(--accent-brass); text-decoration:underline;">Click to restore reading access instantly</a>
-          </p>
         </div>
       `;
       const btnContainer = resultsDiv.querySelector('#pay-btn-address');
       injectRazorpayButton(btnContainer, 'pl_Tf9gZgt7fSf8FR');
-
-      const restoreBtn = resultsDiv.querySelector('#restore-address');
-      if (restoreBtn) {
-        restoreBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          unlockAllFeatures();
-        });
-      }
       return;
     }
 
