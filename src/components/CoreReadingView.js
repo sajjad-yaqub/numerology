@@ -9,15 +9,12 @@ import {
   calculateMaturityNumber,
   composeCombinatorialSynthesis
 } from '../utils/numerologyEngine.js';
-import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS, NAVAGRAHA_MAP, getCoreInterpretation } from '../data/numerologyData.js';
+import { CORE_INTERPRETATIONS, KARMIC_DEBT_DETAILS } from '../data/numerologyData.js';
 import { playChimeTap, playConfirmChime } from '../utils/soundEngine.js';
-import { t, getLanguage } from '../utils/i18n.js';
 
 export function renderCoreReadingView(containerId, profile, system = 'pythagorean') {
   const container = document.getElementById(containerId);
   if (!container) return;
-
-  const currentLang = getLanguage();
 
   if (!profile.name || !profile.dob) {
     container.innerHTML = `
@@ -37,96 +34,82 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
 
   const cardsData = [
     {
-      title: t('cards.lifePath', 'Life Path Rank'),
-      tag: t('tags.primary', 'PRIMARY CLASS'),
+      title: "Life Path Rank",
+      tag: "PRIMARY CLASS",
       number: lifePath.reduced,
       meta: lifePath,
-      interp: getCoreInterpretation(lifePath.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[lifePath.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: t('cards.expression', 'Expression Destiny'),
-      tag: t('tags.skill', 'SKILL SPECTRUM'),
+      title: "Expression Destiny",
+      tag: "SKILL SPECTRUM",
       number: nameNums.expression.reduced,
       meta: nameNums.expression,
-      interp: getCoreInterpretation(nameNums.expression.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[nameNums.expression.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: t('cards.soulUrge', 'Soul Urge Frequency'),
-      tag: t('tags.vowels', 'VOWEL AFFINITY'),
+      title: "Soul Urge Frequency",
+      tag: "VOWEL AFFINITY",
       number: nameNums.soulUrge.reduced,
       meta: nameNums.soulUrge,
-      interp: getCoreInterpretation(nameNums.soulUrge.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[nameNums.soulUrge.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: t('cards.personality', 'Personality Shield'),
-      tag: t('tags.shield', 'OUTER SHIELD'),
+      title: "Personality Shield",
+      tag: "OUTER SHIELD",
       number: nameNums.personality.reduced,
       meta: nameNums.personality,
-      interp: getCoreInterpretation(nameNums.personality.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[nameNums.personality.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: t('cards.attitude', 'Attitude Sun Rank'),
-      tag: t('tags.firstReaction', 'FIRST REACTION'),
+      title: "Attitude Sun Rank",
+      tag: "FIRST REACTION",
       number: attitude.reduced,
       meta: attitude,
-      interp: getCoreInterpretation(attitude.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[attitude.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: t('cards.maturity', 'Maturity Power Rank'),
-      tag: t('tags.endgame', 'END-GAME UNLOCK'),
+      title: "Maturity Power Rank",
+      tag: "END-GAME UNLOCK",
       number: maturity.reduced,
       meta: maturity,
-      interp: getCoreInterpretation(maturity.reduced, currentLang)
+      interp: CORE_INTERPRETATIONS[maturity.reduced] || CORE_INTERPRETATIONS[1]
     }
   ];
 
   let html = '';
 
   if (synthesis) {
-    let localizedSynergyTag = synthesis.synergyTag;
-    let localizedSynergyDesc = synthesis.synergyDesc;
-
-    if (synthesis.lpNum === synthesis.expNum) {
-      localizedSynergyTag = t('synthesis.unified', synthesis.synergyTag);
-      localizedSynergyDesc = t('synthesis.unifiedDesc', synthesis.synergyDesc);
-    } else if (Math.abs(synthesis.lpNum - synthesis.expNum) % 2 === 0 || synthesis.lpNum === 11 || synthesis.expNum === 11 || synthesis.lpNum === 22 || synthesis.expNum === 22) {
-      localizedSynergyTag = t('synthesis.complementary', synthesis.synergyTag);
-      localizedSynergyDesc = t('synthesis.complementaryDesc', synthesis.synergyDesc);
-    } else {
-      localizedSynergyTag = t('synthesis.catalyst', synthesis.synergyTag);
-      localizedSynergyDesc = t('synthesis.catalystDesc', synthesis.synergyDesc);
-    }
-
     html += `
       <div class="number-card synthesis-nexus-card mb-6" style="border-color: var(--accent-brass); background: rgba(156, 107, 31, 0.04);">
         <div class="card-header-badge">
-          <span class="card-tag">${t('synthesis.nexus', 'COMBINATORIAL SYNTHESIS NEXUS')}</span>
+          <span class="card-tag">COMBINATORIAL SYNTHESIS NEXUS</span>
           <div class="number-badge-glow master-badge-glow" title="Synthesis Medallion">
             ${synthesis.lpNum}⚡${synthesis.expNum}
           </div>
         </div>
 
         <h2 class="card-title font-serif-carved" style="color: var(--accent-brass); margin-top: 0.5rem;">
-          ${localizedSynergyTag}
+          ${synthesis.synergyTag}
         </h2>
         
         <p class="card-summary" style="font-size: 1rem; line-height: 1.5; margin-bottom: 1rem;">
-          ${localizedSynergyDesc}
+          ${synthesis.synergyDesc}
         </p>
 
         <div class="arrow-grid mb-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem;">
           <div class="arrow-item active-strength">
-            <strong>🔥 ${t('synthesis.elemental', 'ELEMENTAL FUSION')} (${synthesis.lpElem} + ${synthesis.expElem})</strong>
+            <strong>🔥 ELEMENTAL FUSION (${synthesis.lpElem} + ${synthesis.expElem})</strong>
             <p style="font-size:0.85rem; margin-top:4px;">${synthesis.elementalSummary}</p>
           </div>
 
           <div class="arrow-item active-strength">
-            <strong>🛡️ ${t('synthesis.heartVsMask', 'HEART vs. MASK FREQUENCY')}</strong>
+            <strong>🛡️ HEART vs. MASK FREQUENCY</strong>
             <p style="font-size:0.85rem; margin-top:4px;">${synthesis.innerOuterText}</p>
           </div>
 
           <div class="arrow-item ${synthesis.karmicDebts.length ? 'active-weakness' : 'active-strength'}">
-            <strong>📜 ${t('synthesis.karmicGrid', 'KARMIC & GRID SPECTRUM')}</strong>
+            <strong>📜 KARMIC & GRID SPECTRUM</strong>
             <p style="font-size:0.85rem; margin-top:4px;">
               ${synthesis.karmicDebts.length 
                 ? `Active Debt Lessons: ${synthesis.karmicDebts.map(d => d.name).join(', ')}`
@@ -138,14 +121,13 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
     `;
   }
 
-
   html += `<div class="reading-grid">`;
+
 
   cardsData.forEach((card, idx) => {
     const isMaster = card.meta.isMaster;
     const debt = card.meta.karmicDebt;
     const statPct = Math.min(100, Math.max(20, (card.number / 9) * 100));
-    const navagraha = NAVAGRAHA_MAP[card.number];
 
     html += `
       <div class="number-card" id="card-${idx}">
@@ -158,15 +140,6 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
 
         <h2 class="card-title">${card.title}</h2>
         <div class="card-archetype">${card.interp.archetype || ''} • ${card.interp.element || ''}</div>
-
-        ${navagraha ? `
-          <div class="arrow-item active-strength mb-3" style="background: rgba(156, 107, 31, 0.08); border-color: var(--accent-brass); padding: 8px 12px;">
-            <strong style="color: var(--accent-brass);">🔱 VEDIC NAVAGRAHA: ${navagraha.deity}</strong>
-            <p style="font-size:0.82rem; margin-top:2px;">
-              ${navagraha.quality} • <em>Mantra: ${navagraha.mantra}</em>
-            </p>
-          </div>
-        ` : ''}
 
         <p class="card-summary">${card.interp.summary}</p>
 
