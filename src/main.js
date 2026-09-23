@@ -419,6 +419,7 @@ function renderAll() {
       navigateTo(getPathFromTab('reading'));
       playSuccessArpeggio();
       renderTabContent();
+      triggerCosmicReadingReveal();
     },
     (profileToSave) => {
       const exists = state.savedProfiles.some(p => p.name === profileToSave.name && p.dob === profileToSave.dob);
@@ -436,6 +437,39 @@ function renderAll() {
   );
 
   renderTabContent();
+}
+
+/**
+ * Trigger smooth auto-scroll & visual animation when cosmic reading is generated
+ */
+export function triggerCosmicReadingReveal() {
+  setTimeout(() => {
+    const pane = document.getElementById('pane-reading');
+    if (pane) {
+      // 1. Smooth Auto-Scroll down to results with header offset
+      const headerOffset = 70;
+      const elementPosition = pane.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // 2. Add Cosmic Pulse Reveal animation class
+      pane.classList.remove('cosmic-reveal-active');
+      void pane.offsetWidth; // Force reflow
+      pane.classList.add('cosmic-reveal-active');
+
+      // 3. Stagger animate reading cards
+      pane.querySelectorAll('.number-card').forEach((card, idx) => {
+        card.classList.remove('cosmic-card-cascade');
+        card.style.animationDelay = `${idx * 0.08}s`;
+        void card.offsetWidth;
+        card.classList.add('cosmic-card-cascade');
+      });
+    }
+  }, 60);
 }
 
 /**

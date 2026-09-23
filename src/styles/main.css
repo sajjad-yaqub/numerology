@@ -866,6 +866,58 @@ html, body {
   80% { transform: translateX(5px); }
 }
 
+/* COSMIC GENERATION REVEAL ANIMATIONS */
+.reading-banner-status {
+  background: var(--accent-brass);
+  color: var(--text-parchment);
+  border: 2px solid var(--border-charcoal);
+  box-shadow: 2px 2px 0px var(--border-charcoal);
+  padding: 10px 16px;
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cosmic-reveal-active {
+  animation: cosmicPulseGlow 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cosmicPulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(156, 107, 31, 0), inset 0 0 0 0 rgba(122, 37, 48, 0);
+    transform: scale(0.99);
+  }
+  30% {
+    box-shadow: 0 0 40px 10px rgba(156, 107, 31, 0.4), inset 0 0 30px rgba(122, 37, 48, 0.15);
+    transform: scale(1.008);
+  }
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+}
+
+.cosmic-card-cascade {
+  animation: cosmicCardCascade 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes cosmicCardCascade {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .app-footer {
   text-align: center;
   padding: 24px 16px;

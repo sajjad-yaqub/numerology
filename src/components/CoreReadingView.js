@@ -77,7 +77,12 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
     }
   ];
 
-  let html = '';
+  let html = `
+    <div class="reading-banner-status">
+      <span>✨</span>
+      <span>COSMIC VIBRATION MATRIX ALIGNED FOR <strong>${profile.name.toUpperCase()}</strong></span>
+    </div>
+  `;
 
   if (synthesis) {
     html += `
