@@ -5,155 +5,155 @@
 
 export const CORE_INTERPRETATIONS = {
   1: {
-    title: "The Pioneer & Originator",
-    archetype: "The Sovereign Leader",
+    title: "1. BORN LEADER & TRAILBLAZER",
+    archetype: "The Pioneer",
     element: "Fire / Sun",
     gemstone: "Ruby & Red Garnet",
     tarot: "I. The Magician",
-    summary: "Life Path 1 carries the primal seed of creation, independence, and pioneering leadership. You are here to carve original pathways, stand firmly in self-reliance, and initiate bold visionary projects.",
-    strengths: ["Originality", "Courageous Initiative", "Unwavering Independence", "Visionary Drive"],
-    challenges: ["Willfulness", "Fear of Vulnerability", "Impatient Dominance"],
-    advice: "Lead with empathy rather than force. True authority stems from empowering others to discover their own sovereignty."
+    summary: "You are built to start new things, take charge, and lead from the front. You trust your instincts and thrive when in control of your destiny.",
+    strengths: ["Bold Initiative", "Independent Drive", "Original Thinking"],
+    challenges: ["Impatience", "Over-controlling"],
+    advice: "Lead with empathy. Empower others to win alongside you."
   },
   2: {
-    title: "The Diplomat & Peacemaker",
-    archetype: "The Intuitive Harmonizer",
+    title: "2. PEACEKEMPER & INTUITIVE",
+    archetype: "The Harmonizer",
     element: "Water / Moon",
     gemstone: "Moonstone & Pearl",
     tarot: "II. The High Priestess",
-    summary: "Life Path 2 embodies gentle sensitivity, partnership, and profound psychic intuition. You possess a masterful capacity for peacemaking, subtle diplomacy, and nurturing energetic balance.",
-    strengths: ["Empathetic Intuition", "Diplomatic Tact", "Deep Listening", "Synergistic Collaboration"],
-    challenges: ["Over-sensitivity", "Self-Effacing Passivity", "Conflict Avoidance"],
-    advice: "Protect your emotional boundaries. Harmony must never cost your authentic truth."
+    summary: "You read people instantly and bring harmony to chaos. You shine when collaborating and building trusted relationships.",
+    strengths: ["Deep Intuition", "Diplomatic Tact", "Relationship Synergy"],
+    challenges: ["Over-sensitivity", "Avoiding Conflict"],
+    advice: "Set healthy boundaries; peace should never cost your voice."
   },
   3: {
-    title: "The Expressive Catalyst",
-    archetype: "The Sacred Creator",
+    title: "3. CREATIVE & COMMUNICATOR",
+    archetype: "The Catalyst",
     element: "Air / Jupiter",
     gemstone: "Yellow Sapphire & Citrine",
     tarot: "III. The Empress",
-    summary: "Life Path 3 is the radiant flame of artistic expression, joy, and charismatic communication. You inspire through words, music, performance, and uplifting creative optimism.",
-    strengths: ["Radiant Eloquence", "Artistic Genius", "Magnetism", "Playful Optimism"],
-    challenges: ["Scattered Focus", "Superficiality", "Emotional Extravagance"],
-    advice: "Channel your creative energy into dedicated focus; true mastery requires grounding your spark."
+    summary: "Your words, ideas, and energy light up any room. You excel at storytelling, art, and inspiring others with optimism.",
+    strengths: ["Magnetic Charisma", "Creative Eloquence", "Uplifting Vibe"],
+    challenges: ["Scattered Focus", "Restlessness"],
+    advice: "Focus your spark into one project at a time to build lasting impact."
   },
   4: {
-    title: "The Master Architect",
-    archetype: "The Foundation Builder",
-    element: "Earth / Uranus & Saturn",
-    gemstone: "Emerald & Green Tourmaline",
+    title: "4. BUILDER & STRATEGIST",
+    archetype: "The Architect",
+    element: "Earth / Saturn",
+    gemstone: "Emerald & Tourmaline",
     tarot: "IV. The Emperor",
-    summary: "Life Path 4 brings solid stability, disciplined order, and practical manifestation. You build enduring structures, systems, and legacies designed to withstand tests of time.",
-    strengths: ["Unshakable Reliability", "Methodical Mastery", "Systematic Logic", "Dedication"],
-    challenges: ["Rigidity", "Stubborn Resistance to Change", "Over-work"],
-    advice: "Allow flexibility in your blueprints. Rigidity breaks under heavy cosmic shifts; adaptability preserves strength."
+    summary: "You bring logic, structure, and rock-solid discipline. You turn messy ideas into organized, reliable systems that last.",
+    strengths: ["Rock-solid Discipline", "Systematic Logic", "Reliable Mastery"],
+    challenges: ["Rigidity", "Stubbornness"],
+    advice: "Stay adaptable. Flexibility keeps strong foundations unbreakable."
   },
   5: {
-    title: "The Free Spirit & Explorer",
-    archetype: "The Cosmic Alchemist",
+    title: "5. EXPLORER & CATALYST",
+    archetype: "The Free Spirit",
     element: "Ether / Mercury",
     gemstone: "Aquamarine & Turquoise",
-    tarot: "V. The Hierophant / The Chariot",
-    summary: "Life Path 5 represents dynamic freedom, sensory exploration, and adventurous transformation. You thrive on change, multi-faceted versatility, and breaking archaic constraints.",
-    strengths: ["Boundless Versatility", "Adaptability", "Charismatic Freedom", "Quick Perception"],
-    challenges: ["Restlessness", "Impulsive Distraction", "Fear of Commitment"],
-    advice: "True freedom comes from internal mastery, not just escaping routine."
+    tarot: "V. The Chariot",
+    summary: "You thrive on freedom, speed, and new opportunities. You adapt fast, hate routine, and spark positive change.",
+    strengths: ["High Adaptability", "Speed & Versatility", "Bold Curiosity"],
+    challenges: ["Impulsive Distraction", "Fear of Routine"],
+    advice: "True freedom comes from inner focus, not just escaping routine."
   },
   6: {
-    title: "The Nurturing Guardian",
-    archetype: "The Cosmic Caretaker",
+    title: "6. GUARDIAN & CARETAKER",
+    archetype: "The Protector",
     element: "Earth / Venus",
-    gemstone: "Rose Quartz & Lapis Lazuli",
+    gemstone: "Rose Quartz & Lapis",
     tarot: "VI. The Lovers",
-    summary: "Life Path 6 vibrates with unconditional love, healing protection, domestic harmony, and service. You hold space for family, community, and aesthetic beauty.",
-    strengths: ["Compassionate Healing", "Protective Devotion", "Artistic Aesthetics", "Responsibility"],
-    challenges: ["Martyrdom", "Intrusive Control", "Perfectionist Expectations"],
-    advice: "Remember to nurture yourself with the same fervor you offer to the world."
+    summary: "You protect and lift up your family and team. You create beautiful spaces and lead with loyalty and heart.",
+    strengths: ["Compassionate Leadership", "Protective Loyalty", "Harmonious Aesthetics"],
+    challenges: ["Over-working", "Perfectionism"],
+    advice: "Nurture yourself with the same care you give to everyone else."
   },
   7: {
-    title: "The Mystic Seeker",
-    archetype: "The Cosmic Truth Finder",
+    title: "7. ANALYST & THINKER",
+    archetype: "The Truth Seeker",
     element: "Water / Neptune",
     gemstone: "Amethyst & Fluorite",
     tarot: "VII. The Hermit",
-    summary: "Life Path 7 is the sacred path of the analytical mystic, philosopher, and spiritual researcher. You seek deep metaphysical truths beyond surface appearance.",
-    strengths: ["Profound Analytical Depth", "Spiritual Intuition", "Discernment", "Contemplative Wisdom"],
-    challenges: ["Isolation", "Intellectual Cynicism", "Emotional Detachment"],
-    advice: "Share your inner treasures with trusted souls; solitude is a temple, not a prison."
+    summary: "You look beneath the surface to find hidden truths. You have a sharp mind and a natural gift for strategy and research.",
+    strengths: ["Analytical Depth", "Sharp Intuition", "Strategic Vision"],
+    challenges: ["Over-thinking", "Over-isolation"],
+    advice: "Share your knowledge with trusted allies; don't isolate."
   },
   8: {
-    title: "The Sovereign Manifestor",
-    archetype: "The Power & Abundance Ruler",
+    title: "8. POWERHOUSE & PRODUCER",
+    archetype: "The Manifestor",
     element: "Earth / Saturn",
-    gemstone: "Diamond & Black Onyx",
-    tarot: "VIII. Strength / Justice",
-    summary: "Life Path 8 governs material empowerment, financial mastery, executive authority, and karmic balance. You possess the drive to organize large-scale enterprises.",
-    strengths: ["Executive Authority", "Financial Vision", "Resilience", "Strategic Empowerment"],
-    challenges: ["Materialistic Obsession", "Authoritarian Impulse", "Karmic Overreach"],
-    advice: "Align material success with spiritual integrity. Wealth is energy for global upliftment."
+    gemstone: "Diamond & Onyx",
+    tarot: "VIII. Strength & Justice",
+    summary: "You are driven by ambition, wealth creation, and big-picture results. You handle power and business with natural authority.",
+    strengths: ["Financial Vision", "Executive Authority", "Resilient Mastery"],
+    challenges: ["Workaholism", "Authoritarian Impulse"],
+    advice: "Combine financial success with integrity for long-term power."
   },
   9: {
-    title: "The Universal Humanitarian",
-    archetype: "The Enlightened Sage",
-    element: "Fire & Water / Mars",
+    title: "9. HUMANITARIAN & VISIONARY",
+    archetype: "The Sage",
+    element: "Fire / Mars",
     gemstone: "Fire Opal & Bloodstone",
-    tarot: "IX. The Hermit / The Sun",
-    summary: "Life Path 9 marks the culmination of cosmic wisdom, universal empathy, and selfless service. You hold the wisdom of all previous cycles and inspire global healing.",
-    strengths: ["Universal Empathy", "Artistic Vision", "Cosmic Wisdom", "Generous Spirit"],
-    challenges: ["Difficulty Releasing the Past", "Emotional Drama", "Savior Complex"],
-    advice: "Practice detached compassion. Release what has run its course to allow new cycles to emerge."
+    tarot: "IX. The Sun",
+    summary: "You care about real impact and higher purpose. You lead with empathy, finish big cycles, and inspire people.",
+    strengths: ["Big-Picture Vision", "Universal Empathy", "Inspiring Wisdom"],
+    challenges: ["Holding onto the Past", "Emotional Overload"],
+    advice: "Release old cycles cleanly to let new growth emerge."
   },
   11: {
-    title: "Master Number 11 - The Illuminated Messenger",
-    archetype: "The High Intuitive",
-    element: "High-Vibration Light / Neptune",
+    title: "11. INTUITIVE VISIONARY (MASTER)",
+    archetype: "The Illuminator",
+    element: "High-Vibration Light",
     gemstone: "Clear Quartz & Moldavite",
-    tarot: "XI. Justice / Star",
-    summary: "Master Number 11 carries intense spiritual illumination, psychic sensitivity, and prophetic insight. You bridge higher spiritual realms with earthly consciousness.",
-    strengths: ["Psychic Perception", "Inspirational Leadership", "Electric Intuition", "Visionary Insight"],
-    challenges: ["Nervous Energy Tension", "Imposter Syndrome", "Hypersensitivity"],
-    advice: "Ground your nervous system through nature and meditation so your light shines without burning out."
+    tarot: "XI. The Star",
+    summary: "Electric intuition and prophetic vision. You bridge higher inspiration with real-world leadership.",
+    strengths: ["Electric Intuition", "Inspirational Insight"],
+    challenges: ["Nervous Tension", "Self-Doubt"],
+    advice: "Stay grounded in nature to channel your insight without burnout."
   },
   22: {
-    title: "Master Number 22 - The Master Architect",
-    archetype: "The World Builder",
-    element: "Crystalline Earth / Pluto",
+    title: "22. MASTER BUILDER (MASTER)",
+    archetype: "The World Architect",
+    element: "Crystalline Earth",
     gemstone: "Sapphire & Moldavite",
     tarot: "XXII. The World",
-    summary: "Master Number 22 translates cosmic ideals into tangible worldwide structures. Combining the intuition of 11 with the discipline of 4, you can build monumental legacies.",
-    strengths: ["Monumental Vision", "Pragmatic Genius", "Global Impact", "Unmatched Capacity"],
-    challenges: ["Crushing Pressure", "Fear of Failure", "Overwhelming Ambition"],
-    advice: "Patience and steady pacing are required. Build step-by-step; the universe supports your vision."
+    summary: "Turns massive dreams into large-scale real-world legacies. Combines high vision with unstoppable execution.",
+    strengths: ["Global Impact", "Unstoppable Execution"],
+    challenges: ["Heavy Pressure", "Over-ambition"],
+    advice: "Build step-by-step; steady pacing creates global legacies."
   },
   33: {
-    title: "Master Number 33 - The Master Teacher",
-    archetype: "The Cosmic Healer",
-    element: "Universal Cosmic Fire",
+    title: "33. MASTER TEACHER (MASTER)",
+    archetype: "The Master Healer",
+    element: "Cosmic Fire",
     gemstone: "Tanzanite & Diamond",
-    tarot: "XIX. The Sun / Empress",
-    summary: "Master Number 33 represents the highest octave of unconditional love, spiritual teaching, and planetary service. You uplift humanity through pure devotion.",
-    strengths: ["Unconditional Love", "Transformative Teaching", "Selfless Devotion", "Spiritual Alchemy"],
-    challenges: ["Cosmic Burden", "Excessive Sacrifice", "High Sensitivity"],
-    advice: "Anchor yourself in self-compassion first. A master light requires a strong vessel."
+    tarot: "XIX. The Sun",
+    summary: "Heals and uplifts humanity through pure devotion, guidance, and transformative compassion.",
+    strengths: ["Transformative Guidance", "Selfless Devotion"],
+    challenges: ["Excessive Burden", "Over-sacrifice"],
+    advice: "Keep yourself grounded and whole first to teach effectively."
   }
 };
 
 export const KARMIC_DEBT_DETAILS = {
   13: {
-    title: "Karmic Debt 13/4 - The Debt of Discipline",
-    lesson: "In past cycles, energy was lost through procrastination or cutting corners. In this life, fulfillment comes from hard work, focus, and overcoming obstacles with patience."
+    title: "Karmic Debt 13/4 - Focus & Discipline",
+    lesson: "Overcome past procrastination with steady focus, discipline, and practical execution."
   },
   14: {
-    title: "Karmic Debt 14/5 - The Debt of Freedom & Modesty",
-    lesson: "In past cycles, freedom was abused through excess or sensory indulgence. In this life, you learn temperance, healthy boundaries, and constructive change."
+    title: "Karmic Debt 14/5 - Freedom & Balance",
+    lesson: "Master healthy boundaries and balance freedom with responsibility to unlock progress."
   },
   16: {
-    title: "Karmic Debt 16/7 - The Debt of Rebirth & Ego Awakening",
-    lesson: "In past cycles, false pride or superficial illusions dominated. In this life, old ego structures break down to make way for genuine spiritual awakening."
+    title: "Karmic Debt 16/7 - Rebirth & True Ego",
+    lesson: "Shed old ego illusions to step into authentic self-worth and deeper truth."
   },
   19: {
-    title: "Karmic Debt 19/1 - The Debt of Independence",
-    lesson: "In past cycles, power was exerted selfishly or independence was resisted. In this life, you learn standing strong on your own feet while seeking mutual wisdom."
+    title: "Karmic Debt 19/1 - Self-Reliance & Power",
+    lesson: "Learn to stand strong on your own two feet without isolating yourself from allies."
   }
 };
 

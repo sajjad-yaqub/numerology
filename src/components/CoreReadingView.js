@@ -34,43 +34,43 @@ export function renderCoreReadingView(containerId, profile, system = 'pythagorea
 
   const cardsData = [
     {
-      title: "Life Path Rank",
-      tag: "PRIMARY CLASS",
+      title: "Life Path",
+      tag: "CORE PATH",
       number: lifePath.reduced,
       meta: lifePath,
       interp: CORE_INTERPRETATIONS[lifePath.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
       title: "Expression Destiny",
-      tag: "SKILL SPECTRUM",
+      tag: "DESTINY NUM",
       number: nameNums.expression.reduced,
       meta: nameNums.expression,
       interp: CORE_INTERPRETATIONS[nameNums.expression.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: "Soul Urge Frequency",
-      tag: "VOWEL AFFINITY",
+      title: "Soul Urge",
+      tag: "HEART DESIRE",
       number: nameNums.soulUrge.reduced,
       meta: nameNums.soulUrge,
       interp: CORE_INTERPRETATIONS[nameNums.soulUrge.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: "Personality Shield",
-      tag: "OUTER SHIELD",
+      title: "Personality",
+      tag: "OUTER MASK",
       number: nameNums.personality.reduced,
       meta: nameNums.personality,
       interp: CORE_INTERPRETATIONS[nameNums.personality.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: "Attitude Sun Rank",
-      tag: "FIRST REACTION",
+      title: "Attitude",
+      tag: "FIRST IMPRESSION",
       number: attitude.reduced,
       meta: attitude,
       interp: CORE_INTERPRETATIONS[attitude.reduced] || CORE_INTERPRETATIONS[1]
     },
     {
-      title: "Maturity Power Rank",
-      tag: "END-GAME UNLOCK",
+      title: "Maturity Power",
+      tag: "PEAK POWER",
       number: maturity.reduced,
       meta: maturity,
       interp: CORE_INTERPRETATIONS[maturity.reduced] || CORE_INTERPRETATIONS[1]

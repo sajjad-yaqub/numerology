@@ -5,13 +5,13 @@
 import { toggleAudio, getAudioState, playConfirmChime, playChimeTap } from '../utils/soundEngine.js';
 
 const CHAMBER_NAMES = {
-  reading: 'CHAMBER 1: CODEX',
-  loshu: 'CHAMBER 2: MATRIX',
-  synastry: 'CHAMBER 3: SYNASTRY',
-  namelab: 'CHAMBER 4: NAME LAB',
-  forecast: 'CHAMBER 5: DAILY VIBE',
-  address: 'CHAMBER 6: ADDRESS',
-  vault: 'CHAMBER 7: VAULT'
+  reading: '1. CODEX',
+  loshu: '2. MATRIX',
+  synastry: '3. PAIR MATCH',
+  namelab: '4. NAME LAB',
+  forecast: '5. DAILY VIBE',
+  address: '6. SPACE & PLATE',
+  vault: '7. VAULT'
 };
 
 export function renderNavbar(containerId, activeSystem, onSystemChange, savedCount, onOpenVault, activeTab = 'reading') {

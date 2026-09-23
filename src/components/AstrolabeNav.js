@@ -11,10 +11,10 @@ export function renderAstrolabeNav(containerId, activeTab, onTabSelect) {
   const realms = [
     { id: 'reading', label: '1. CODEX', icon: '🔮' },
     { id: 'loshu', label: '2. MATRIX', icon: '📐' },
-    { id: 'synastry', label: '3. SYNASTRY', icon: '💕' },
+    { id: 'synastry', label: '3. PAIR MATCH', icon: '💕' },
     { id: 'namelab', label: '4. NAME LAB', icon: '🧪' },
     { id: 'forecast', label: '5. DAILY VIBE', icon: '📅' },
-    { id: 'address', label: '6. ADDRESS', icon: '🏠' },
+    { id: 'address', label: '6. SPACE & PLATE', icon: '🏠' },
     { id: 'vault', label: '7. VAULT', icon: '💾' }
   ];
 
