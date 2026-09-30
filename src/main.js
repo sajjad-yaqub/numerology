@@ -477,7 +477,14 @@ export function triggerCosmicReadingReveal() {
  */
 function init() {
   registerServiceWorker();
-  initCosmicCanvas('cosmic-canvas');
+
+  // Defer canvas animation to idle callback to keep initial DOM paint & TTI < 100ms
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => initCosmicCanvas('cosmic-canvas'));
+  } else {
+    setTimeout(() => initCosmicCanvas('cosmic-canvas'), 150);
+  }
+
   initPWAInstallBanner();
   initPaymentAutoUnlockListeners();
 

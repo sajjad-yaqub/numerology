@@ -16,12 +16,55 @@
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
   <link rel="apple-touch-icon" href="/icons/icon.svg">
 
-  <!-- Carved Serif & Tech Google Fonts -->
+  <!-- Carved Serif & Tech Google Fonts (Non-Blocking Async) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Chakra+Petch:wght@500;700&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Chakra+Petch:wght@500;700&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Chakra+Petch:wght@500;700&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  </noscript>
 
   <link rel="stylesheet" href="/src/styles/main.css">
+
+  <!-- Critical Inline CSS Shell for Instant < 100ms First Contentful Paint -->
+  <style>
+    body {
+      background-color: #090a10;
+      color: #e2e8ff;
+      font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: rgba(15, 18, 29, 0.85);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      min-height: 52px;
+    }
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: #f3ce6d;
+      letter-spacing: 2px;
+    }
+    .hero-section {
+      max-width: 900px;
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      background: rgba(18, 22, 36, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 8px;
+    }
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      color: #f3ce6d;
+      font-size: 1.8rem;
+      margin-top: 0;
+    }
+  </style>
 
   <!-- Microsoft Clarity Visitor Tracking -->
   <script type="text/javascript">
@@ -51,13 +94,67 @@
     </div>
   </div>
 
-  <!-- Header Navigation -->
-  <header class="app-header" id="app-header"></header>
+  <!-- Header Navigation (Pre-rendered for Instant Paint) -->
+  <header class="app-header" id="app-header">
+    <a href="#" class="header-brand" title="AstraNumerics Console">
+      <img src="/icons/icon.svg" alt="AstraNumerics" class="brand-icon" />
+      <span class="brand-title">ASTRANUMERICS</span>
+    </a>
+    <div class="header-actions">
+      <div class="sys-status-badge" title="Active Chamber Indicator">
+        <span class="status-dot"></span>
+        <span>1. CODEX // ACTIVE</span>
+      </div>
+      <button id="nav-audio-btn" class="audio-toggle-btn active" title="Toggle Metallic Sound FX">
+        <span>🔔 CHIME SOUND</span>
+      </button>
+      <div class="system-toggle" title="Switch Calculation Engine">
+        <button class="system-btn active" data-system="pythagorean">Pythagorean</button>
+        <button class="system-btn" data-system="chaldean">Chaldean</button>
+      </div>
+      <button id="nav-vault-btn" class="btn-ghost btn-sm" title="Saved Codex Vault">
+        💾 <span class="vault-badge-count">0</span>
+      </button>
+    </div>
+  </header>
 
   <!-- Main Content Container -->
   <main class="app-container" id="app-container">
-    <!-- Hero / Seeker Credentials Section (Codex, Matrix & Daily Vibe) -->
-    <section id="hero-section" class="hero-section"></section>
+    <!-- Hero / Seeker Credentials Section (Pre-rendered Skeleton Shell) -->
+    <section id="hero-section" class="hero-section">
+      <div class="hero-header">
+        <h1 class="hero-title">Sacred Numerology &amp; Cosmic Chart</h1>
+        <p class="hero-subtitle">Enter your birth credentials to generate your complete core reading, Lo Shu matrix, &amp; synastry chart.</p>
+      </div>
+
+      <form id="numerology-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="full-name">Full Birth Name</label>
+            <input type="text" id="full-name" class="form-input" placeholder="e.g. Alexander William Sterling" value="Alexander Sterling" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dob">Date of Birth</label>
+            <input type="date" id="dob" class="form-input" value="1990-05-15" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="current-alias">Current Name / Preferred Alias (Optional)</label>
+            <input type="text" id="current-alias" class="form-input" placeholder="e.g. Alex Sterling" value="Alex" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">
+            <span>✨ Generate Cosmic Reading</span>
+          </button>
+          <button type="button" id="save-profile-btn" class="btn-ghost">
+            <span>💾 Save to Profile Vault</span>
+          </button>
+        </div>
+      </form>
+    </section>
 
     <!-- Tab Content Panes (Ritual Chambers) -->
     <div class="tab-content" id="tab-content">
